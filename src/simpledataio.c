@@ -266,6 +266,9 @@ void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, voi
 	else {
 		switch (svar->type){
 			case (SDATIO_INT):
+				DEBUG_MESS("Writing an integer\n");
+				if ((retval = nc_put_var_int(sfile->nc_file_id, svar->nc_id, address))) ERR(retval);
+				break;
 			case (SDATIO_DOUBLE):
 				DEBUG_MESS("Writing a double\n");
 				if ((retval = nc_put_var_double(sfile->nc_file_id, svar->nc_id, address))) ERR(retval);
