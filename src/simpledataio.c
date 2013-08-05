@@ -116,7 +116,7 @@ void sdatio_increment_start(struct sdatio_file * sfile, char * dimension_name){
 		sdim = sfile->dimensions[j];
 		if (!strcmp(sdim->name, dimension_name)){
 			if (sdim->size != SDATIO_UNLIMITED) {
-				printf("Dimension %s does not have unlimited size.", dimension_name);
+				printf("Dimension %s does not have unlimited size.\n", dimension_name);
 				abort();
 			}		
 			found = 1;
