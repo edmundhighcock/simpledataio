@@ -10,8 +10,10 @@ int main (int argc, char * argv){
 
 	sdatio_add_dimension(&sdatfile, "x", 5, "The x coordinate", "m");
 	sdatio_add_dimension(&sdatfile, "y", 2, "The y coordinate", "m");
-
 	sdatio_print_dimensions(&sdatfile);
+
+	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "phi", "xy", "Some potential", "Vm");
+
 
 	sdatio_free(&sdatfile);
 

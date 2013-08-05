@@ -2,10 +2,21 @@
 #include <stdlib.h>
 #include <netcdf.h>
 
+#define SDATIO_INT 0
+#define SDATIO_DOUBLE 1
+#define SDATIO_COMPLEX_DOUBLE 2
+
+
 struct sdatio_dimension {
 	char * name;
 	int size;
 	int nc_id;
+};
+
+struct sdatio_variable {
+	char * name;
+	int nc_id;
+	int * dimension_list;
 };
 
 
@@ -38,3 +49,13 @@ void sdatio_print_dimensions(struct sdatio_file * sfile);
 
 /* Free all memory associated with sfile*/
 void sdatio_free(struct sdatio_file * sfile);
+
+/* Define a variable in the given file. Dimension list 
+ * is a character string listing (in order) the dimension names
+ * (which are all single characters) e.g. "xyx".*/
+void sdatio_create_variable(struct sdatio_file * sfile,
+														int variable_type,
+														char * variable_name,
+														char * dimension_list,
+														char * description,
+														char * units);

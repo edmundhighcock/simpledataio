@@ -1,4 +1,5 @@
 #include "simpledataio.h"
+#include "string.h"
 
 #define ERRCODE 2
 #define ERR(e) {printf("Error: %s\n", nc_strerror(e)); exit(ERRCODE);}
@@ -28,6 +29,15 @@ void sdatio_createfile(struct sdatio_file * sfile, char * fname)  {
 	sfile->is_parallel = 0;
 	sdatio_end_definitions(sfile);
 }
+
+
+
+/***********************************************************
+ *
+ * Handling Dimensions
+ *
+ **********************************************************/
+
 
 /* Private */
 void sdatio_append_dimension(struct sdatio_file * sfile, struct sdatio_dimension * sdim){
@@ -90,8 +100,7 @@ void sdatio_print_dimensions(struct sdatio_file * sfile){
 	struct sdatio_dimension * sdim;
 	for (i=0;i<sfile->n_dimensions;i++){
 		sdim = sfile->dimensions[i];
-		printf("Dimension %s, size %d\n", sdim->name, sdim->size);
-		
+		printf("Dimension %s, size %d, has id %d\n", sdim->name, sdim->size, sdim->nc_id);
 	}
 }
 
@@ -100,6 +109,7 @@ void sdatio_free_dimension(struct sdatio_dimension * sdim){
 	free(sdim->name);
 	free(sdim);
 }
+
 
 void sdatio_free(struct sdatio_file * sfile){
 	int i;
@@ -110,3 +120,79 @@ void sdatio_free(struct sdatio_file * sfile){
 
 }
 
+/***************************************************
+ *
+ * Handling Variables
+ *
+ * ***********************************************/
+
+int sdatio_netcdf_variable_type(int type){
+	switch (type){
+		case SDATIO_INT:
+			return NC_INT;
+		case SDATIO_DOUBLE:
+			return NC_DOUBLE;
+		case SDATIO_COMPLEX_DOUBLE:
+			printf("Can't do complex yet\n");
+			abort();
+		default:
+			printf("Unknown data type for simple data io\n");
+			abort();
+	}
+}
+
+void sdatio_get_dimension_ids(struct sdatio_file * sfile, char * dimension_list, int ** dimension_ids){
+	int ndims;
+	int i,j;
+	char dim_name[2];
+	ndims  = strlen(dimension_list);
+	DEBUG_MESS("ndims %d\n", ndims);
+	*dimension_ids = (int *) malloc(sizeof(int)*ndims);
+	for (i=0;i<ndims;i++){
+		dim_name[0] = dimension_list[i];
+		dim_name[1] = dimension_list[ndims];
+		DEBUG_MESS("i %d\n", i);
+		DEBUG_MESS("Getting id for dim %s\n", dim_name);
+		(*dimension_ids)[i] = -1;
+		for (j=0;j<sfile->n_dimensions;j++){
+			DEBUG_MESS("j %d\n", j);
+			if (!strcmp(dim_name, sfile->dimensions[j]->name)) 
+				(*dimension_ids)[i] = sfile->dimensions[j]->nc_id;
+		}
+		if ((*dimension_ids)[i]==-1){
+			printf("Dimension %s is undefined!\n", dim_name);
+			abort();
+		}
+		DEBUG_MESS("Finished loop\n");
+		DEBUG_MESS("dim %s has id %d \n", dim_name, (*dimension_ids)[i]);
+	}
+
+
+}
+
+void sdatio_create_variable(struct sdatio_file * sfile,
+														int variable_type,
+														char * variable_name,
+														char * dimension_list,
+														char * description,
+														char * units){
+	int ndims;
+	struct sdatio_variable  * svar;
+	int retval;
+	int ** dimension_ids;
+
+	dimension_ids = (int **)malloc(sizeof(int*));
+
+	sdatio_get_dimension_ids(sfile, dimension_list, dimension_ids);
+
+	svar = (struct sdatio_variable *) malloc(sizeof(struct sdatio_variable));
+
+	ndims = strlen(dimension_list);
+
+	sdatio_recommence_definitions(sfile);
+	if (sfile->is_parallel){}
+	else {
+		if ((retval = nc_def_var(sfile->nc_file_id, variable_name, sdatio_netcdf_variable_type(variable_type), ndims, *dimension_ids, &(svar->nc_id)))) ERR(retval);
+	}
+	sdatio_end_definitions(sfile);
+}
