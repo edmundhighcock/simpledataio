@@ -18,4 +18,5 @@ testprog: simpledataio.o
 clean: 
 	rm testprog
 	rm simpledataio.o
+	rm testfile.cdf
 

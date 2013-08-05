@@ -16,15 +16,19 @@ struct sdatio_dimension {
 struct sdatio_variable {
 	char * name;
 	int nc_id;
-	int * dimension_list;
+	int type;
+	char * dimension_list;
+	int * dimension_ids;
 };
 
 
 struct sdatio_file {
 	int nc_file_id;
-	int n_dimensions;
 	int is_parallel;
+	int n_dimensions;
 	struct sdatio_dimension ** dimensions;
+	int n_variables;
+	struct sdatio_variable ** variables;
 };
 
 
@@ -47,8 +51,8 @@ void sdatio_add_dimension(struct sdatio_file * sfile,
 void sdatio_print_dimensions(struct sdatio_file * sfile);
 
 
-/* Free all memory associated with sfile*/
-void sdatio_free(struct sdatio_file * sfile);
+/* Close the file and free all memory associated with sfile*/
+void sdatio_close(struct sdatio_file * sfile);
 
 /* Define a variable in the given file. Dimension list 
  * is a character string listing (in order) the dimension names
@@ -59,3 +63,6 @@ void sdatio_create_variable(struct sdatio_file * sfile,
 														char * dimension_list,
 														char * description,
 														char * units);
+
+/* Print out a nice list of all the variables defined so far*/
+void sdatio_print_variables(struct sdatio_file * sfile);
