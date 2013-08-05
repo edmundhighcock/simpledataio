@@ -13,10 +13,12 @@ int main (int argc, char * argv){
 
 	sdatio_add_dimension(&sdatfile, "x", 3, "The x coordinate", "m");
 	sdatio_add_dimension(&sdatfile, "y", 2, "The y coordinate", "m");
+	sdatio_add_dimension(&sdatfile, "t", SDATIO_UNLIMITED, "The time coordinate", "s");
 	sdatio_print_dimensions(&sdatfile);
 
 	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "phi", "xy", "Some potential", "Vm");
 	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "y", "y", "Values of the y coordinate", "m");
+	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "t", "t", "Values of the time coordinate", "m");
 	sdatio_create_variable(&sdatfile, SDATIO_INT, "iky", "y", "y index values", "(none)");
 
 
