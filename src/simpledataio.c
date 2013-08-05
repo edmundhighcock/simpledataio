@@ -92,6 +92,7 @@ void sdatio_add_dimension(struct sdatio_file * sfile,
 	}
 	sdim->name = (char *)malloc(sizeof(char)*2);
 	strcpy(sdim->name, dimension_name);
+	sdim->start = 0;
 	sdatio_append_dimension(sfile, sdim);
 
 }
@@ -102,6 +103,29 @@ void sdatio_print_dimensions(struct sdatio_file * sfile){
 	for (i=0;i<sfile->n_dimensions;i++){
 		sdim = sfile->dimensions[i];
 		printf("Dimension %s, size %d, has id %d\n", sdim->name, sdim->size, sdim->nc_id);
+	}
+}
+
+void sdatio_increment_start(struct sdatio_file * sfile, char * dimension_name){
+
+	int found, j;
+	struct sdatio_dimension * sdim;
+
+	found = 0;
+	for (j=0;j<sfile->n_dimensions;j++){
+		sdim = sfile->dimensions[j];
+		if (!strcmp(sdim->name, dimension_name)){
+			if (sdim->size != SDATIO_UNLIMITED) {
+				printf("Dimension %s does not have unlimited size.", dimension_name);
+				abort();
+			}		
+			found = 1;
+			(sdim->start)++;
+		}
+	}
+	if (!found) {
+		printf("Couldn't find dimension %s in sdatio_increment_count\n", dimension_name);
+		abort();
 	}
 }
 
@@ -244,10 +268,34 @@ void sdatio_print_variables(struct sdatio_file * sfile){
 	}
 }
 
+/* Private */
+void sdatio_get_counts_and_starts(struct sdatio_file * sfile, struct sdatio_variable * svar, size_t * counts, size_t * starts){
+	struct sdatio_dimension * sdim;
+	int i,j;
+	int found;
+	for (i=0;i<strlen(svar->dimension_list);i++){
+		found = 0;
+		for (j=0;j<sfile->n_dimensions;j++){
+			sdim = sfile->dimensions[j];
+			if (sdim->nc_id == svar->dimension_ids[i]){
+				starts[i] = sdim->start;
+				found = 1;
+				if (sdim->size == SDATIO_UNLIMITED) counts[i] = 1; 
+				else counts[i] = sdim->size;
+			}
+		}
+		if (!found) {
+			printf("Couldn't find dimension in sdatio_get_counts_and_starts\n");
+			abort();
+		}
+	}
+}
+
 void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, void * address){
-	int i, variable_number, retval;
+	int i, variable_number, retval, ndims;
 	struct sdatio_variable * svar;
 	double * double_array;
+	size_t * counts, * starts;
 
 	variable_number = -1;
 
@@ -261,8 +309,14 @@ void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, voi
 		printf("Couldn't find variable %s\n", variable_name);
 		abort();
 	}
-	
 	svar = sfile->variables[variable_number];
+	
+
+	ndims = strlen(svar->dimension_list);
+	counts = (size_t*)malloc(sizeof(size_t)*ndims); 
+	starts = (size_t*)malloc(sizeof(size_t)*ndims); 
+
+	sdatio_get_counts_and_starts(sfile, svar, counts, starts);
 
 	if (sfile->is_parallel){}
 	else {
@@ -273,7 +327,8 @@ void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, voi
 				break;
 			case (SDATIO_DOUBLE):
 				DEBUG_MESS("Writing a double\n");
-				if ((retval = nc_put_var_double(sfile->nc_file_id, svar->nc_id, address))) ERR(retval);
+				/*if ((retval = nc_put_var_double(sfile->nc_file_id, svar->nc_id, address))) ERR(retval);*/
+				if ((retval = nc_put_vara_double(sfile->nc_file_id, svar->nc_id, starts, counts, address))) ERR(retval);
 				break;
 		}
 		

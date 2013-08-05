@@ -13,6 +13,7 @@ struct sdatio_dimension {
 	char * name;
 	int size;
 	int nc_id;
+	int start;
 };
 
 struct sdatio_variable {
@@ -68,3 +69,6 @@ void sdatio_create_variable(struct sdatio_file * sfile,
 
 /* Print out a nice list of all the variables defined so far*/
 void sdatio_print_variables(struct sdatio_file * sfile);
+
+/* Increment the start of the specified infinite dimension */
+void sdatio_increment_start(struct sdatio_file * sfile, char * dimension_name);
