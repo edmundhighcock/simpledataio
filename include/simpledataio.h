@@ -67,6 +67,9 @@ void sdatio_create_variable(struct sdatio_file * sfile,
 														char * description,
 														char * units);
 
+/* Write to the given variable. address should be the address of the start of the array */
+void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, void * address);
+
 /* Print out a nice list of all the variables defined so far*/
 void sdatio_print_variables(struct sdatio_file * sfile);
 

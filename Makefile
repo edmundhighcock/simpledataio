@@ -14,9 +14,15 @@ simpledataio.o: src/simpledataio.c include/simpledataio.h
 testprog: simpledataio.o
 	$(CC)  test/test.c -o $@ $< $(CFLAGS) $(LDFLAGS)
 
+cuda: testprog_cuda
+	./testprog_cuda
+
+testprog_cuda: simpledataio.o
+	$(CC)  test/test.cu -o $@ $< $(CFLAGS) $(LDFLAGS)
 
 clean: 
 	rm testprog
 	rm simpledataio.o
 	rm testfile.cdf
+
 
