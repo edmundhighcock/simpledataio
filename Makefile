@@ -1,16 +1,18 @@
 
 CC=gcc
+CFLAGS= -I include/ -I /usr/include
+LDFLAGS= -lnetcdf
 
 .PHONY: all
 
 all: testprog 
 	./testprog
 
-simpledataio.o: 
-	$(CC) -c src/simpledataio.c -o  $@
+simpledataio.o: src/simpledataio.c include/simpledataio.h
+	$(CC) -c src/simpledataio.c -o  $@  $(CFLAGS)
 
 testprog: simpledataio.o
-	$(CC)  test/test.c -o $@ $<
+	$(CC)  test/test.c -o $@ $< $(CFLAGS) $(LDFLAGS)
 
 
 clean: 
