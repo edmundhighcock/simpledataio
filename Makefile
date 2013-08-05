@@ -1,6 +1,6 @@
 
-CC=gcc
-CFLAGS= -I include/ -I /usr/include
+CC?=gcc
+CFLAGS= -I include/ -I /usr/include $(NETCDF)
 LDFLAGS= -lnetcdf
 
 .PHONY: all
