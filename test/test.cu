@@ -13,7 +13,7 @@ int main (int argc, char * argv){
 
 	cuDoubleComplex compvar[3];
 
-	sdatio_debug = 1;
+	sdatio_debug = 0;
 
 	sdatio_createfile(&sdatfile, "testfile.cdf");
 
@@ -39,6 +39,7 @@ int main (int argc, char * argv){
 		sdatio_write_variable(&sdatfile, "t", &t);
 		sdatio_write_variable(&sdatfile, "phi_t", &phi_tvar);
 		sdatio_increment_start(&sdatfile, "t");
+		//if (i>2) abort();
 	}
 
 	sdatio_write_variable(&sdatfile, "y", &yvar[0]);
