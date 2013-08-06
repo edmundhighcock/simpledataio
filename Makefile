@@ -30,6 +30,9 @@ clean:
 commit: clean
 	git commit -av
 
+push: commit
+	git push
+
 
 
 
