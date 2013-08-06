@@ -14,11 +14,14 @@ simpledataio.o: src/simpledataio.c include/simpledataio.h
 testprog: simpledataio.o
 	$(CC)  test/test.c -o $@ $< $(CFLAGS) $(LDFLAGS)
 
-cuda: testprog_cuda
+cuda: testprog_cuda 
 	./testprog_cuda
 
-testprog_cuda: simpledataio.o
-	$(CC)  test/test.cu -o $@ $< $(CFLAGS) $(LDFLAGS)
+testprog_cuda: testprog_cuda.o simpledataio.o
+	$(CC)  -o $@ $< simpledataio.o $(CFLAGS) $(LDFLAGS)
+
+testprog_cuda.o: test/test.cu simpledataio.o 
+	$(CC)  -c $< -o $@  $(CFLAGS) $(LDFLAGS)
 
 clean: 
 	rm testprog
