@@ -24,8 +24,12 @@ testprog_cuda.o: test/test.cu simpledataio.o
 	$(CC)  -c $< -o $@  $(CFLAGS) $(LDFLAGS)
 
 clean: 
-	rm testprog
-	rm simpledataio.o
-	rm testfile.cdf
+	rm -f testprog testprog_cuda simpledataio.o  testfile.cdf
+
+
+commit: clean
+	git commit -av
+
+
 
 

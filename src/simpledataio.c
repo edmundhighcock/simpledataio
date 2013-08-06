@@ -36,7 +36,7 @@ void sdatio_recommence_definitions(struct sdatio_file * sfile){
 }
 
 void sdatio_createfile(struct sdatio_file * sfile, char * fname)  {
-	printf("called\n");
+	/*printf("called\n");*/
 	int retval;
 	/*if (0){}*/
 	/*else {*/
@@ -340,7 +340,7 @@ void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, voi
 		switch (svar->type){
 			case (SDATIO_INT):
 				DEBUG_MESS("Writing an integer\n");
-				if ((retval = nc_put_var_int(sfile->nc_file_id, svar->nc_id, address))) ERR(retval);
+				if ((retval = nc_put_vara_int(sfile->nc_file_id, svar->nc_id, starts, counts, address))) ERR(retval);
 				break;
 			case (SDATIO_DOUBLE):
 				DEBUG_MESS("Writing a double\n");
@@ -350,6 +350,7 @@ void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, voi
 		}
 		
 	}
+	sdatio_sync(sfile);
 }
 
 /* Private*/
@@ -377,5 +378,17 @@ void sdatio_close(struct sdatio_file * sfile){
 		sdatio_free_variable(sfile->variables[i]);
 	}
 	free(sfile->variables);
+
+}
+
+void sdatio_sync(struct sdatio_file * sfile){
+	int i, retval;
+
+	if (sfile->is_parallel){}
+	else {
+
+		if ((retval = nc_sync(sfile->nc_file_id))) ERR(retval);
+	}
+
 
 }

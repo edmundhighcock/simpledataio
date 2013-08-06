@@ -10,13 +10,14 @@ int main (int argc, char * argv){
 	double phi_tvar[2];
 	int i;
 
-	sdatio_debug = 1;
+	sdatio_debug = 0;
 
 	sdatio_createfile(&sdatfile, "testfile.cdf");
 
 	sdatio_add_dimension(&sdatfile, "x", 3, "The x coordinate", "m");
 	sdatio_add_dimension(&sdatfile, "y", 2, "The y coordinate", "m");
 	sdatio_add_dimension(&sdatfile, "t", SDATIO_UNLIMITED, "The time coordinate", "s");
+
 	sdatio_print_dimensions(&sdatfile);
 
 	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "phi", "xy", "Some potential", "Vm");
@@ -24,8 +25,13 @@ int main (int argc, char * argv){
 	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "y", "y", "Values of the y coordinate", "m");
 	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "t", "t", "Values of the time coordinate", "m");
 	sdatio_create_variable(&sdatfile, SDATIO_INT, "iky", "y", "y index values", "(none)");
+
 	sdatio_print_variables(&sdatfile);
 
+
+	sdatio_write_variable(&sdatfile, "y", &yvar[0]);
+	sdatio_write_variable(&sdatfile, "iky", &iy[0]);
+	sdatio_write_variable(&sdatfile, "phi", &phivar[0]);
 
 	for (i=0;i<6;i++){
 		t = 0.3 + i;
@@ -34,11 +40,10 @@ int main (int argc, char * argv){
 		sdatio_write_variable(&sdatfile, "t", &t);
 		sdatio_write_variable(&sdatfile, "phi_t", &phi_tvar);
 		sdatio_increment_start(&sdatfile, "t");
+		/*if (i>2) abort();*/
 	}
 
-	sdatio_write_variable(&sdatfile, "y", &yvar[0]);
-	sdatio_write_variable(&sdatfile, "iky", &iy[0]);
-	sdatio_write_variable(&sdatfile, "phi", &phivar[0]);
+
 
 
 

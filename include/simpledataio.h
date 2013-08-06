@@ -57,6 +57,9 @@ void sdatio_print_dimensions(struct sdatio_file * sfile);
 /* Close the file and free all memory associated with sfile*/
 void sdatio_close(struct sdatio_file * sfile);
 
+/* Ensure all variables are written to disk in case of crashes*/
+void sdatio_sync(struct sdatio_file * sfile);
+
 /* Define a variable in the given file. Dimension list 
  * is a character string listing (in order) the dimension names
  * (which are all single characters) e.g. "xyx".*/
