@@ -1,3 +1,20 @@
+/******************************************************
+ * Simple Data I/O
+ *
+ * A wrapper that provides a simplified interface to
+ * software packages such as netcdf. It makes certain
+ * assumptions about the write calls, specifically that
+ * you are always writing the whole of non-infinite 
+ * dimensions and only one element of infinite dimensions.
+ * This is often the case!
+ *
+ * This is free software released under GPLv2
+ *
+ * Authors:
+ * 			Edmund Highcock (edmund.highcock@users.sourceforge.net)
+ *
+ ********************************************************/
+
 #include "simpledataio.h"
 #include "string.h"
 
