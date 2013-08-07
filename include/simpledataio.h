@@ -1,10 +1,12 @@
+#include "string.h"
 #include "stdio.h"
 #include <stdlib.h>
 #include <netcdf.h>
 
 #define SDATIO_INT 0
-#define SDATIO_DOUBLE 1
-#define SDATIO_COMPLEX_DOUBLE 2
+#define SDATIO_FLOAT 1
+#define SDATIO_DOUBLE 2
+#define SDATIO_COMPLEX_DOUBLE 3
 
 #define SDATIO_UNLIMITED NC_UNLIMITED
 

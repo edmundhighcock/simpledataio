@@ -16,7 +16,6 @@
  ********************************************************/
 
 #include "simpledataio.h"
-#include "string.h"
 
 #define ERRCODE 2
 #define ERR(e) {printf("Error: %s\n", nc_strerror(e)); exit(ERRCODE);}
@@ -164,6 +163,8 @@ int sdatio_netcdf_variable_type(int type){
 	switch (type){
 		case SDATIO_INT:
 			return NC_INT;
+		case SDATIO_FLOAT:
+			return NC_FLOAT;
 		case SDATIO_DOUBLE:
 			return NC_DOUBLE;
 		case SDATIO_COMPLEX_DOUBLE:
@@ -341,6 +342,11 @@ void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, voi
 			case (SDATIO_INT):
 				DEBUG_MESS("Writing an integer\n");
 				if ((retval = nc_put_vara_int(sfile->nc_file_id, svar->nc_id, starts, counts, address))) ERR(retval);
+				break;
+			case (SDATIO_FLOAT):
+				DEBUG_MESS("Writing a float\n");
+				/*if ((retval = nc_put_var_double(sfile->nc_file_id, svar->nc_id, address))) ERR(retval);*/
+				if ((retval = nc_put_vara_float(sfile->nc_file_id, svar->nc_id, starts, counts, address))) ERR(retval);
 				break;
 			case (SDATIO_DOUBLE):
 				DEBUG_MESS("Writing a double\n");

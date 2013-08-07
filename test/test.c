@@ -4,6 +4,7 @@
 int main (int argc, char * argv){
 	struct sdatio_file sdatfile;
 	double yvar[2] = {0.1,0.3};
+	float floatvar[2] = {0.1,0.3};
 	int iy[2] = {1,2};
 	double phivar[3][2] = {{0.1,0.3}, {2.0, 4.0}, {-1.0, 3.6}};
 	double t;
@@ -21,6 +22,7 @@ int main (int argc, char * argv){
 	sdatio_print_dimensions(&sdatfile);
 
 	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "phi", "xy", "Some potential", "Vm");
+	sdatio_create_variable(&sdatfile, SDATIO_FLOAT, "floatvar", "y", "A single precision variable.", "Vm");
 	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "phi_t", "ty", "Some potential as a function of y and time", "Vm");
 	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "y", "y", "Values of the y coordinate", "m");
 	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "t", "t", "Values of the time coordinate", "m");
@@ -32,6 +34,7 @@ int main (int argc, char * argv){
 	sdatio_write_variable(&sdatfile, "y", &yvar[0]);
 	sdatio_write_variable(&sdatfile, "iky", &iy[0]);
 	sdatio_write_variable(&sdatfile, "phi", &phivar[0]);
+	sdatio_write_variable(&sdatfile, "floatvar", &floatvar[0]);
 
 	for (i=0;i<6;i++){
 		t = 0.3 + i;
