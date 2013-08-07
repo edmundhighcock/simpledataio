@@ -9,6 +9,7 @@ int main (int argc, char * argv){
 	double phivar[3][2] = {{0.1,0.3}, {2.0, 4.0}, {-1.0, 3.6}};
 	double t;
 	double phi_tvar[2];
+	double parameter = 0.5;
 	int i;
 
 	sdatio_debug = 0;
@@ -22,6 +23,7 @@ int main (int argc, char * argv){
 	sdatio_print_dimensions(&sdatfile);
 
 	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "phi", "xy", "Some potential", "Vm");
+	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "parameter", "", "A scalar parameter", "(none)");
 	sdatio_create_variable(&sdatfile, SDATIO_FLOAT, "floatvar", "y", "A single precision variable.", "Vm");
 	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "phi_t", "ty", "Some potential as a function of y and time", "Vm");
 	sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "y", "y", "Values of the y coordinate", "m");
@@ -32,6 +34,7 @@ int main (int argc, char * argv){
 
 
 	sdatio_write_variable(&sdatfile, "y", &yvar[0]);
+	sdatio_write_variable(&sdatfile, "parameter", &parameter);
 	sdatio_write_variable(&sdatfile, "iky", &iy[0]);
 	sdatio_write_variable(&sdatfile, "phi", &phivar[0]);
 	sdatio_write_variable(&sdatfile, "floatvar", &floatvar[0]);
