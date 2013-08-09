@@ -31,6 +31,8 @@ void sdatio_end_definitions(struct sdatio_file * sfile){
 /* Private */
 void sdatio_recommence_definitions(struct sdatio_file * sfile){
 	int retval;
+	if (sfile->data_written) 
+		printf("Warning: adding more variables or dimensions after writing data can slow performance\n");
 	if ((retval = nc_redef(sfile->nc_file_id))) ERR(retval);
 }
 
@@ -44,6 +46,7 @@ void sdatio_createfile(struct sdatio_file * sfile, char * fname)  {
 	sfile->n_dimensions = 0;
 	sfile->n_variables = 0;
 	sfile->is_parallel = 0;
+	sfile->data_written = 0;
 	sdatio_end_definitions(sfile);
 }
 
@@ -356,6 +359,7 @@ void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, voi
 		}
 		
 	}
+	sfile->data_written = 1;
 	sdatio_sync(sfile);
 }
 

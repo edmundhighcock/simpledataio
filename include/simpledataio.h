@@ -34,6 +34,7 @@ struct sdatio_file {
 	struct sdatio_dimension ** dimensions;
 	int n_variables;
 	struct sdatio_variable ** variables;
+	int data_written;
 };
 
 
