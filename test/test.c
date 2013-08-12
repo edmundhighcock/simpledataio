@@ -1,7 +1,7 @@
 #include "stdio.h"
 #include "simpledataio.h"
 
-int main (int argc, char * argv){
+int main (int argc, char ** argv){
 	struct sdatio_file sdatfile;
 	double yvar[2] = {0.1,0.3};
 	float floatvar[2] = {0.1,0.3};
