@@ -76,6 +76,13 @@ void sdatio_create_variable(struct sdatio_file * sfile,
 /* Write to the given variable. address should be the address of the start of the array */
 void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, void * address);
 
+/* Write to the given variable. address should be the address of the start of the array. Indexes should be an array the same size as the number of dimensions of the variable. Using the second form is quicker as the first form requires a search for the variable at every write*/
+void sdatio_write_variable_at_index(struct sdatio_file * sfile, char * variable_name, int * indexes, void * address);
+void sdatio_write_variable_at_index_fast(struct sdatio_file * sfile, struct sdatio_variable * svar, int * indexes, void * address);
+
+/* Return a pointer the struct containing all the metadata of the given variable */
+struct sdatio_variable * sdatio_find_variable(struct sdatio_file * sfile, char * variable_name);
+
 /* Print out a nice list of all the variables defined so far*/
 void sdatio_print_variables(struct sdatio_file * sfile);
 

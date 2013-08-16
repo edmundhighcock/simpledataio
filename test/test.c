@@ -11,6 +11,7 @@ int main (int argc, char ** argv){
 	double phi_tvar[2];
 	double parameter = 0.5;
 	int i;
+	int j = 4;
 
 	sdatio_debug = 0;
 
@@ -52,6 +53,18 @@ int main (int argc, char ** argv){
 		sdatio_increment_start(&sdatfile, "t");
 		/*if (i>2) abort();*/
 	}
+
+	int idxs[2] = {j,1};
+	int idxs2[2] = {2,1};
+	double val = 32.9;
+
+	sdatio_write_variable_at_index(&sdatfile, "phi_t", idxs, &val);
+	sdatio_write_variable_at_index_fast(&sdatfile, sdatio_find_variable(&sdatfile, "phi_t"), idxs2, &val);
+	sdatio_sync(&sdatfile);
+
+	struct sdatio_variable * svar;
+	svar = sdatio_find_variable(&sdatfile, "floatvar");
+	printf("The name of floatvar is %s\n", svar->name);
 
 
 

@@ -312,33 +312,8 @@ void sdatio_get_counts_and_starts(struct sdatio_file * sfile, struct sdatio_vari
 	}
 }
 
-void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, void * address){
-	int i, variable_number, retval, ndims;
-	struct sdatio_variable * svar;
-	double * double_array;
-	size_t * counts, * starts;
-
-	variable_number = -1;
-
-	DEBUG_MESS("Finding variable...\n");
-
-	for (i=0;i<sfile->n_variables;i++)
-		if (!strcmp(sfile->variables[i]->name, variable_name))
-			variable_number = i;
-
-	if (variable_number==-1){
-		printf("Couldn't find variable %s\n", variable_name);
-		abort();
-	}
-	svar = sfile->variables[variable_number];
-	
-
-	ndims = strlen(svar->dimension_list);
-	counts = (size_t*)malloc(sizeof(size_t)*ndims); 
-	starts = (size_t*)malloc(sizeof(size_t)*ndims); 
-
-	sdatio_get_counts_and_starts(sfile, svar, counts, starts);
-
+void sdatio_write_variable_private(struct sdatio_file * sfile, struct sdatio_variable * svar, size_t * counts, size_t * starts, void * address){
+	int retval;
 	if (sfile->is_parallel){}
 	else {
 		switch (svar->type){
@@ -360,9 +335,81 @@ void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, voi
 		
 	}
 	sfile->data_written = 1;
-	sdatio_sync(sfile);
 }
 
+
+struct sdatio_variable * sdatio_find_variable(struct sdatio_file * sfile, char * variable_name){
+	int i, variable_number;
+	variable_number = -1;
+
+	DEBUG_MESS("Finding variable...\n");
+
+	for (i=0;i<sfile->n_variables;i++)
+		if (!strcmp(sfile->variables[i]->name, variable_name))
+			variable_number = i;
+
+	if (variable_number==-1){
+		printf("Couldn't find variable %s\n", variable_name);
+		abort();
+	}
+	return sfile->variables[variable_number];
+}
+
+void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, void * address){
+	int  ndims;
+	struct sdatio_variable * svar;
+	double * double_array;
+	size_t * counts, * starts;
+
+	
+	svar = sdatio_find_variable(sfile, variable_name);
+
+	ndims = strlen(svar->dimension_list);
+	counts = (size_t*)malloc(sizeof(size_t)*ndims); 
+	starts = (size_t*)malloc(sizeof(size_t)*ndims); 
+
+	sdatio_get_counts_and_starts(sfile, svar, counts, starts);
+
+	sdatio_write_variable_private(sfile, svar, counts, starts, address);
+
+	sdatio_sync(sfile);
+
+	free(counts);
+	free(starts);
+
+}
+
+
+void sdatio_write_variable_at_index(struct sdatio_file * sfile, char * variable_name, int * indexes, void * address){
+	struct sdatio_variable * svar;
+	svar = sdatio_find_variable(sfile, variable_name);
+	sdatio_write_variable_at_index_fast(sfile, svar, indexes, address);
+}
+
+void sdatio_write_variable_at_index_fast(struct sdatio_file * sfile, struct sdatio_variable * svar, int * indexes, void * address){
+	int i, ndims;
+	double * double_array;
+	size_t * counts, * starts;
+
+
+	
+
+	ndims = strlen(svar->dimension_list);
+	counts = (size_t*)malloc(sizeof(size_t)*ndims); 
+	starts = (size_t*)malloc(sizeof(size_t)*ndims); 
+
+	for (i=0;i<ndims;i++){
+		counts[i] = 1;
+		starts[i] = indexes[i];
+	}
+
+	/*sdatio_get_counts_and_starts(sfile, svar, counts, starts);*/
+
+	sdatio_write_variable_private(sfile, svar, counts, starts, address);
+
+	free(counts);
+	free(starts);
+}
 /* Private*/
 void sdatio_free_variable(struct sdatio_variable * svar){
 	free(svar->name);
