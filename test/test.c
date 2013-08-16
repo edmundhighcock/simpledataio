@@ -66,6 +66,10 @@ int main (int argc, char ** argv){
 	svar = sdatio_find_variable(&sdatfile, "floatvar");
 	printf("The name of floatvar is %s\n", svar->name);
 
+	struct sdatio_dimension * sdim;
+	sdim = sdatio_find_dimension(&sdatfile, "t");
+	printf("The name of t is %s\n", sdim->name);
+
 
 
 

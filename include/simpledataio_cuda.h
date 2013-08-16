@@ -23,6 +23,7 @@ struct sdatio_variable {
 	int type;
 	char * dimension_list;
 	int * dimension_ids;
+	int type_size;
 };
 
 
@@ -59,6 +60,9 @@ extern "C" void sdatio_print_dimensions(struct sdatio_file * sfile);
 /* Close the file and free all memory associated with sfile*/
 extern "C" void sdatio_close(struct sdatio_file * sfile);
 
+/* Ensure all variables are written to disk in case of crashes*/
+extern "C" void sdatio_sync(struct sdatio_file * sfile);
+
 /* Define a variable in the given file. Dimension list 
  * is a character string listing (in order) the dimension names
  * (which are all single characters) e.g. "xyx".*/
@@ -81,6 +85,9 @@ extern "C" void sdatio_print_variables(struct sdatio_file * sfile);
 
 /* Return a pointer the struct containing all the metadata of the given variable */
 extern "C" struct sdatio_variable * sdatio_find_variable(struct sdatio_file * sfile, char * variable_name);
+
+/* Return a pointer the struct containing all the metadata of the given dimension */
+extern "C" struct sdatio_dimension * sdatio_find_dimension(struct sdatio_file * sfile, char * dimension_name);
 
 /* Increment the start of the specified infinite dimension */
 extern "C" void sdatio_increment_start(struct sdatio_file * sfile, char * dimension_name);

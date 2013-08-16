@@ -179,6 +179,7 @@ int sdatio_netcdf_variable_type(int type){
 	}
 }
 
+
 void sdatio_get_dimension_ids(struct sdatio_file * sfile, char * dimension_list, struct sdatio_variable * svar){
 	int ndims;
 	int i,j;
@@ -269,6 +270,21 @@ void sdatio_create_variable(struct sdatio_file * sfile,
 		if ((retval = nc_put_att_text(sfile->nc_file_id, svar->nc_id, "Description", strlen(description), description))) ERR(retval);
 		if ((retval = nc_put_att_text(sfile->nc_file_id, svar->nc_id, "Units", strlen(units), units))) ERR(retval);
 	}
+	switch (variable_type){
+		case SDATIO_INT:
+			svar->type_size = sizeof(int);
+			break;
+		case SDATIO_FLOAT:
+			svar->type_size = sizeof(float);
+			break;
+		case SDATIO_DOUBLE:
+			svar->type_size = sizeof(double);
+			break;
+		default:
+			printf("Unknown type in sdatio_create_variable\n");
+			abort();
+	}
+
 	sdatio_end_definitions(sfile);
 	
 	svar->type = variable_type;
@@ -337,6 +353,23 @@ void sdatio_write_variable_private(struct sdatio_file * sfile, struct sdatio_var
 	sfile->data_written = 1;
 }
 
+
+struct sdatio_dimension * sdatio_find_dimension(struct sdatio_file * sfile, char * dimension_name){
+	int i, dimension_number;
+	dimension_number = -1;
+
+	DEBUG_MESS("Finding dimension...\n");
+
+	for (i=0;i<sfile->n_dimensions;i++)
+		if (!strcmp(sfile->dimensions[i]->name, dimension_name))
+			dimension_number = i;
+
+	if (dimension_number==-1){
+		printf("Couldn't find dimension %s\n", dimension_name);
+		abort();
+	}
+	return sfile->dimensions[dimension_number];
+}
 
 struct sdatio_variable * sdatio_find_variable(struct sdatio_file * sfile, char * variable_name){
 	int i, variable_number;

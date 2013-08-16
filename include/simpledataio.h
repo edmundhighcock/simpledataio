@@ -24,6 +24,7 @@ struct sdatio_variable {
 	int type;
 	char * dimension_list;
 	int * dimension_ids;
+	int type_size;
 };
 
 
@@ -82,6 +83,8 @@ void sdatio_write_variable_at_index_fast(struct sdatio_file * sfile, struct sdat
 
 /* Return a pointer the struct containing all the metadata of the given variable */
 struct sdatio_variable * sdatio_find_variable(struct sdatio_file * sfile, char * variable_name);
+/* Return a pointer the struct containing all the metadata of the given dimension */
+struct sdatio_dimension * sdatio_find_dimension(struct sdatio_file * sfile, char * dimension_name);
 
 /* Print out a nice list of all the variables defined so far*/
 void sdatio_print_variables(struct sdatio_file * sfile);
