@@ -97,6 +97,7 @@ void sdatio_add_dimension(struct sdatio_file * sfile,
 
 	struct sdatio_dimension  * sdim;
 	int retval;
+	/*printf("Dimension inputs: %s, %d, %s, %s\n", dimension_name, size, description, units);*/
 	sdim = (struct sdatio_dimension *) malloc(sizeof(struct sdatio_dimension));
 	sdatio_recommence_definitions(sfile);
 	if (sfile->is_parallel){}
