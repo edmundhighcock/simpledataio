@@ -25,6 +25,8 @@ struct sdatio_variable {
 	char * dimension_list;
 	int * dimension_ids;
 	int type_size;
+	int * manual_counts;
+	int * manual_starts;
 };
 
 

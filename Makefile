@@ -1,10 +1,18 @@
-
+ifdef PARALLEL
+CC?=mpicc
+FC=mpif90
+CFLAGS?= -I include/ -I /usr/include $(NETCDF) -DPARALLEL -I /usr/lib/openmpi/include/ 
+FFLAGS?= -I include/ -I /usr/include $(NETCDF) -DPARALLEL -I /usr/lib/openmpi/include/ -cpp
+LDFLAGS?= -lnetcdf -L lib/ -lsimpledataio -lhdf5
+LDFFLAGS?= -lsimpledataiof -lnetcdff -lhdf5 -lnetcdf
+else
 CC?=gcc
 FC=gfortran
 CFLAGS?= -I include/ -I /usr/include $(NETCDF)
 FFLAGS?= -I include/ -I /usr/include $(NETCDF)
 LDFLAGS?= -lnetcdf -L lib/ -lsimpledataio
 LDFFLAGS?= -lsimpledataiof -lnetcdff
+endif
 
 
 
@@ -38,6 +46,9 @@ testprog_cuda: testprog_cuda.o lib
 testprog_cuda.o: test/test.cu simpledataio.o 
 	$(CC)  -c $< -o $@  $(CFLAGS) $(LDFLAGS)
 
+test/test_parallel_f95.o: test/test_parallel.f95 simpledataio_f95.o simpledataio_write_f95.o
+	$(FC) -c $< -o $@ $(FFLAGS) 
+
 test/test_f95.o: test/test.f95 simpledataio_f95.o simpledataio_write_f95.o
 	$(FC) -c $< -o $@ $(FFLAGS) 
 
@@ -49,6 +60,9 @@ libsimpledataiof.a: simpledataio_f95.o simpledataio_write_f95.o
 libf: libsimpledataiof.a
 
 testprog_fortran: test/test_f95.o  lib libf
+	$(FC) -o $@ $<   $(LDFFLAGS) $(LDFLAGS)
+
+testprog_fortran_parallel: test/test_parallel_f95.o  lib libf
 	$(FC) -o $@ $<   $(LDFFLAGS) $(LDFLAGS)
 
 simpledataio_f95.o: src/simpledataio.f95
@@ -65,8 +79,11 @@ simpledataio_write_f95.o: src/simpledataio_write.f95
 fortran: testprog_fortran
 	./testprog_fortran
 
+parallel_fortran: testprog_fortran_parallel
+	mpirun -np 2 testprog_fortran_parallel
+
 clean: 
-	rm -f testprog testprog_cuda simpledataio.o  testfile.cdf testprog_fortran test.cdf 
+	rm -f testprog testprog_cuda simpledataio.o  testfile.cdf testprog_fortran test.cdf  simpledataio_f95.o testprog_fortran_parallel test_parallel.cdf
 
 distclean: clean
 	rm -f include/simpledataio.mod

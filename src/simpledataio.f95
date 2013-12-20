@@ -44,6 +44,8 @@ type :: sdatio_variable
   type(c_ptr) :: dimension_list
   type(c_ptr) :: dimension_ids
 	integer :: type_size
+  type(c_ptr) :: manual_counts
+  type(c_ptr) :: manual_starts
 end type
 
 
@@ -95,6 +97,24 @@ contains
      end interface
      call sdatio_createfile(sfile, fname//c_null_char)
    end subroutine createfile
+
+#ifdef PARALLEL 
+  subroutine createfile_parallel(sfile, fname, comm)
+     type(sdatio_file), intent(out) :: sfile
+     character(*), intent(in) :: fname
+     integer, intent(in) :: comm
+     interface
+       subroutine sdatio_createfile_parallel(sfile, fname, comm) bind(c, name='sdatio_createfile_parallel')
+         use iso_c_binding
+         import sdatio_file
+         type(sdatio_file) :: sfile
+         character(c_char) :: fname(*)
+         integer(c_int),value :: comm
+       end subroutine sdatio_createfile_parallel
+     end interface
+     call sdatio_createfile_parallel(sfile, fname//c_null_char, comm)
+   end subroutine createfile_parallel
+#endif
 
 !/* Create a new dimension in the file sfile. Dimension names must
  !* be a single letter. */
@@ -203,7 +223,7 @@ contains
      do i = 1,len(dimension_list)
        dimension_list_reversed(i:i) = dimension_list(len(dimension_list)-i+1:len(dimension_list)-i+1)
      end do
-   write (*,*) 'dimension_list ', dimension_list, ' dimension_list_reversed ', dimension_list_reversed
+   !write (*,*) 'dimension_list ', dimension_list, ' dimension_list_reversed ', dimension_list_reversed
    call sdatio_create_variable(sfile, variable_type,&
      variable_name//c_null_char, dimension_list_reversed//c_null_char, description//c_null_char, units//c_null_char)
    !else 
@@ -282,6 +302,46 @@ contains
    !call c_f_pointer(sdatio_find_variable(sfile, variable_name//c_null_char), find_variable)
  !end function find_variable
 
+ subroutine set_count(sfile, variable_name, dimension_name, count)
+   type(sdatio_file), intent(in) :: sfile
+   character(*), intent(in) :: variable_name
+   character(*), intent(in) :: dimension_name
+   integer, intent(in) :: count
+   interface
+       subroutine sdatio_set_count(sfile, variable_name, dimension_name, count) &
+            bind(c, name='sdatio_set_count')
+         use iso_c_binding
+         import sdatio_file
+         type(sdatio_file) :: sfile
+         integer(c_int) :: count
+         character(c_char) :: variable_name(*)
+         character(c_char) :: dimension_name(*)
+       end subroutine sdatio_set_count
+   end interface 
+   call sdatio_set_count(sfile, variable_name//c_null_char, &
+                            dimension_name//c_null_char, count)
+ end subroutine set_count
+
+ subroutine set_start(sfile, variable_name, dimension_name, start)
+   type(sdatio_file), intent(in) :: sfile
+   character(*), intent(in) :: variable_name
+   character(*), intent(in) :: dimension_name
+   integer, intent(in) :: start
+   interface
+       subroutine sdatio_set_start(sfile, variable_name, dimension_name, start) &
+            bind(c, name='sdatio_set_start')
+         use iso_c_binding
+         import sdatio_file
+         type(sdatio_file) :: sfile
+         integer(c_int) :: start
+         character(c_char) :: variable_name(*)
+         character(c_char) :: dimension_name(*)
+       end subroutine sdatio_set_start
+   end interface 
+   call sdatio_set_start(sfile, variable_name//c_null_char, &
+                            dimension_name//c_null_char, start)
+ end subroutine set_start
+
  subroutine number_of_unlimited_dimensions(sfile, variable_name, n)
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
@@ -331,7 +391,7 @@ contains
      !starts(i) = starts_c(i)+1
    end do
    
-   write (*,*) 'sc', starts, counts, ' n', n
+   write (*,*) variable_name, '  sc', starts, counts, ' n', n
 
    deallocate(counts_c, starts_c)
 

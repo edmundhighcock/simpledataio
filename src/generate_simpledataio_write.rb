@@ -12,6 +12,9 @@ class Generator
 	def procedure_name
 		"write_variable_#{@type.gsub(' ', '_')}_#{@dimsize}"
 	end
+	def val_get
+		"val(#{@dimsize.times.map{|i| "starts(#{i+1}):"}.join(",")})"
+	end
 	def function_string
 		string = <<EOF
  subroutine #{procedure_name}(sfile, variable_name, val)
@@ -27,7 +30,8 @@ class Generator
    allocate(starts(n+#@dimsize))
    allocate(counts(n+#@dimsize))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts)
-   status =  nf90_put_var(fileid, varid+1, #{@dimsize == 0 ? "(/val/)" : "val"}, start=starts, count=counts)
+   status =  nf90_put_var(fileid, varid+1, &
+		   #{@dimsize == 0 ? "(/val/)" : val_get}, start=starts, count=counts)
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', variable_name, ', ',  nf90_strerror(status)
 
 
