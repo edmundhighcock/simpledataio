@@ -1,7 +1,6 @@
 program test
   use simpledataio
   use simpledataio_write
-  use get_c_address
   implicit none
   type (sdatio_file) :: sdatfile
   type (sdatio_variable), pointer :: svar
@@ -12,7 +11,13 @@ program test
 	integer, dimension(2) :: iy = (/1,2/)
 	!double precision, dimension(3,2) ::  phivar = (/(/0.1,0.3/), (/2.0, 4.0/), (/-1.0, 3.6/)/);
 	double precision, dimension(3,2) ::  phivar = reshape((/0.1d0,2.0d0,-1.0d0, 0.3d0,4.0d0, 3.6d0/), (/3,2/))
-  write (*, *) 'phivar', phivar(2,1)
+  double precision, dimension(2) :: phi_tvar
+  !write (*, *) 'phivar', phivar(2,1)
+  integer :: i
+  double precision :: t
+	integer, dimension(2) ::  idxs
+	integer, dimension(2) :: idxs2 = (/2,1/)
+	double precision ::  val = 32.9
 
   call createfile(sdatfile, "test.cdf")
 	call add_dimension(sdatfile, "x", 3, "The x coordinate", "m")
@@ -36,6 +41,16 @@ program test
 	call write_variable(sdatfile, "iky", iy)
 	call write_variable(sdatfile, "phi", phivar)
 	call write_variable(sdatfile, "floatvar", floatvar)
+
+  do i = 1,6
+		t = 0.3 + real(i);
+		phi_tvar(0) = 4 + real(i)/2.0;
+		phi_tvar(1) = 6 + real(i)*3.0; 
+		call write_variable(sdatfile, "t", t);
+		call write_variable(sdatfile, "phi_t", phi_tvar);
+		call increment_start(sdatfile, "t");
+		! if (i>2) stop
+  end do
 
 
   write (*,*) 'y', yvar

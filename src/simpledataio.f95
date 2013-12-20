@@ -355,5 +355,18 @@ contains
 
 !/* Increment the start of the specified infinite dimension */
 !void sdatio_increment_start(struct sdatio_file * sfile, char * dimension_name)
+  subroutine increment_start(sfile, dimension_name)
+   type(sdatio_file), intent(in) :: sfile
+   character(*), intent(in) :: dimension_name
+   interface
+     subroutine sdatio_increment_start(sfile, dimension_name) bind(c, name='sdatio_increment_start')
+       use iso_c_binding
+       import sdatio_file
+       type(sdatio_file) :: sfile
+       character(c_char) :: dimension_name
+     end subroutine sdatio_increment_start
+   end interface
+   call sdatio_increment_start(sfile, dimension_name//c_null_char)
+  end subroutine increment_start
 
 end module simpledataio
