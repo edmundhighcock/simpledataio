@@ -4,6 +4,7 @@ FC=gfortran
 CFLAGS?= -I include/ -I /usr/include $(NETCDF)
 FFLAGS?= -I include/ -I /usr/include $(NETCDF)
 LDFLAGS?= -lnetcdf -L lib/ -lsimpledataio
+LDFFLAGS?= -lsimpledataiof -lnetcdff
 
 
 
@@ -37,31 +38,39 @@ testprog_cuda: testprog_cuda.o lib
 testprog_cuda.o: test/test.cu simpledataio.o 
 	$(CC)  -c $< -o $@  $(CFLAGS) $(LDFLAGS)
 
-test/test_f95.o: test/test.f95 simpledataio_f95.o
+test/test_f95.o: test/test.f95 simpledataio_f95.o simpledataio_write_f95.o
 	$(FC) -c $< -o $@ $(FFLAGS) 
 
-libsimpledataiof.a: simpledataio_f95.o
+libsimpledataiof.a: simpledataio_f95.o simpledataio_write_f95.o
 	mkdir -p lib
-	ar cr lib/$@ $<
+	ar cr lib/$@ $< simpledataio_write_f95.o
 	ranlib lib/$@
 
 libf: libsimpledataiof.a
 
 testprog_fortran: test/test_f95.o  lib libf
-	$(FC) -o $@ $<   -lsimpledataiof $(LDFLAGS)
+	$(FC) -o $@ $<   $(LDFFLAGS) $(LDFLAGS)
 
 simpledataio_f95.o: src/simpledataio.f95
 	$(FC) -c $< -o $@ $(FFLAGS)
 	mv simpledataio.mod include/.
+
+src/simpledataio_write.f95: src/generate_simpledataio_write.rb
+	ruby $< > $@
+
+simpledataio_write_f95.o: src/simpledataio_write.f95
+	$(FC) -c $< -o $@ $(FFLAGS)
+	mv simpledataio_write.mod include/.
 	
 fortran: testprog_fortran
 	./testprog_fortran
 
 clean: 
-	rm -f testprog testprog_cuda simpledataio.o  testfile.cdf testprog_fortran test.cdf
+	rm -f testprog testprog_cuda simpledataio.o  testfile.cdf testprog_fortran test.cdf 
 
 distclean: clean
 	rm -f include/simpledataio.mod
+	rm -f include/simpledataio_write.mod
 	rm -f lib/libsimpledataio.a
 	rm -f lib/libsimpledataiof.a
 

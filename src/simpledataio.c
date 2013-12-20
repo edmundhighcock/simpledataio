@@ -258,6 +258,7 @@ void sdatio_create_variable(struct sdatio_file * sfile,
 	/*dimension_ids = (int **)malloc(sizeof(int*));*/
 
 
+	printf("dimension_list is %s\n", dimension_list);
 	svar = (struct sdatio_variable *) malloc(sizeof(struct sdatio_variable));
 	sdatio_get_dimension_ids(sfile, dimension_list, svar);
 	/*svar->dimension_ids = dimension_ids;*/
@@ -329,6 +330,38 @@ void sdatio_get_counts_and_starts(struct sdatio_file * sfile, struct sdatio_vari
 	}
 }
 
+void sdatio_number_of_unlimited_dimensions(struct sdatio_file * sfile, char * variable_name, int * n){
+	struct sdatio_variable * svar = sdatio_find_variable(sfile, variable_name);
+	struct sdatio_dimension * sdim;
+	int i,j;
+	int found;
+	*n = 0;
+	for (i=0;i<strlen(svar->dimension_list);i++){
+		found = 0;
+		for (j=0;j<sfile->n_dimensions;j++){
+			sdim = sfile->dimensions[j];
+			if (sdim->nc_id == svar->dimension_ids[i]){
+				found = 1;
+				if (sdim->size == SDATIO_UNLIMITED) (*n)++; 
+			}
+		}
+		if (!found) {
+			printf("Couldn't find dimension in sdatio_get_counts_and_starts\n");
+			abort();
+		}
+	}
+	printf("n unlimited was %d\n", *n);
+}
+
+void sdatio_netcdf_inputs(struct sdatio_file * sfile, char * variable_name, int * fileid, int * varid, size_t * starts, size_t * counts){
+	struct sdatio_variable * svar = sdatio_find_variable(sfile, variable_name);
+	sdatio_get_counts_and_starts(sfile, svar, counts, starts);
+	*fileid = sfile->nc_file_id;
+	*varid = svar->nc_id;
+	printf("varname %s, fileid %d, varid %d, starts[0] %d \n", variable_name, *fileid, *varid, starts[0]);	
+}
+
+
 void sdatio_write_variable_private(struct sdatio_file * sfile, struct sdatio_variable * svar, size_t * counts, size_t * starts, void * address){
 	int retval;
 	if (sfile->is_parallel){}
@@ -389,11 +422,22 @@ struct sdatio_variable * sdatio_find_variable(struct sdatio_file * sfile, char *
 	return sfile->variables[variable_number];
 }
 
+
+void sdatio_write_variable_fortran_convert(struct sdatio_file * sfile, char * variable_name, void ** address){
+	printf("address2 is %d\n", address);
+	printf("address3 is %d\n", *address);
+	printf("address4 is %d\n", &address);
+	sdatio_write_variable(sfile, variable_name, *address);
+}
+
 void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, void * address){
 	int  ndims;
 	struct sdatio_variable * svar;
 	double * double_array;
 	size_t * counts, * starts;
+
+	printf("address is %d\n", address);
+	printf("value is %f\n", *((float*)address));
 
 	
 	svar = sdatio_find_variable(sfile, variable_name);
