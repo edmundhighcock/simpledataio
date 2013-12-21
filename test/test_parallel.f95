@@ -49,8 +49,12 @@ program test
 
 	if (mpi_rank == 0) call write_variable(sdatfile, "y", yvar)
 	call write_variable(sdatfile, "iky", iy)
-	!call write_variable(sdatfile, "phi", phivar)
-	!call write_variable(sdatfile, "floatvar", floatvar)
+  call set_start(sdatfile, "phi", "y", mpi_rank)
+  call set_count(sdatfile, "phi", "y", 1)
+  call set_start(sdatfile, "phi", "x", mpi_rank)
+  call set_count(sdatfile, "phi", "x", 2)
+	call write_variable(sdatfile, "phi", phivar)
+	call write_variable(sdatfile, "floatvar", floatvar)
 
   !do i = 1,6
 		!t = 0.3 + real(i);

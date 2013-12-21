@@ -377,21 +377,22 @@ void sdatio_set_start(struct sdatio_file * sfile, char * variable_name, char * d
 
 	
 
+  found = 0;
 	for (i=0;i<strlen(svar->dimension_list);i++){
-		found = 0;
 		for (j=0;j<sfile->n_dimensions;j++){
 			sdim = sfile->dimensions[j];
-			if (sdim->nc_id == svar->dimension_ids[i] && !strcmp(sdim->name, dimension_name)){
+			printf("sdim %s, comp %d\n", sdim->name, !(strcmp(sdim->name, dimension_name)));
+			if ((sdim->nc_id == svar->dimension_ids[i]) && !strcmp(sdim->name, dimension_name)){
 				found = 1;
 				sdim_found = sdim;
 				ndim = i;
 			}
 		}
+	}
 		if (!found) {
-			printf("Couldn't find dimension in sdatio_set_start\n");
+			printf("Couldn't find dimension %s for variable %s in sdatio_set_start\n", dimension_name, svar->name);
 			abort();
 		}
-	}
 	printf("Start is %d\n", svar->manual_starts[ndim]);
 	svar->manual_starts[ndim] = *start;
 	printf("Start is %d\n", svar->manual_starts[ndim]);
@@ -408,8 +409,8 @@ void sdatio_set_count(struct sdatio_file * sfile, char * variable_name, char * d
 
 	
 
-	for (i=0;i<strlen(svar->dimension_list);i++){
 		found = 0;
+	for (i=0;i<strlen(svar->dimension_list);i++){
 		for (j=0;j<sfile->n_dimensions;j++){
 			sdim = sfile->dimensions[j];
 			if (sdim->nc_id == svar->dimension_ids[i] && !strcmp(sdim->name, dimension_name)){
@@ -418,11 +419,11 @@ void sdatio_set_count(struct sdatio_file * sfile, char * variable_name, char * d
 				ndim = i;
 			}
 		}
+	}
 		if (!found) {
 			printf("Couldn't find dimension in sdatio_set_count\n");
 			abort();
 		}
-	}
 	printf("count is %d\n", svar->manual_counts[ndim]);
 	svar->manual_counts[ndim] = *count;
 	printf("count is %d\n", svar->manual_counts[ndim]);
