@@ -339,7 +339,9 @@ contains
        end subroutine sdatio_set_start
    end interface 
    call sdatio_set_start(sfile, variable_name//c_null_char, &
-                            dimension_name//c_null_char, start)
+                            dimension_name//c_null_char, start-1) 
+       ! convert from 1-based to 0-based
+                     
  end subroutine set_start
 
  subroutine number_of_unlimited_dimensions(sfile, variable_name, n)

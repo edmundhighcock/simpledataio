@@ -44,27 +44,31 @@ program test
 	call print_variables(sdatfile)
 	call create_variable(sdatfile, SDATIO_INT, "iky", "y", "y index values", "(none)")
 
-  call set_start(sdatfile, "iky", "y", mpi_rank)
+  call set_start(sdatfile, "iky", "y", mpi_rank+1)
   call set_count(sdatfile, "iky", "y", 1)
 
 	if (mpi_rank == 0) call write_variable(sdatfile, "y", yvar)
 	call write_variable(sdatfile, "iky", iy)
-  call set_start(sdatfile, "phi", "y", mpi_rank)
+  call set_start(sdatfile, "phi", "y", mpi_rank+1)
   call set_count(sdatfile, "phi", "y", 1)
-  call set_start(sdatfile, "phi", "x", mpi_rank)
+  call set_start(sdatfile, "phi", "x", mpi_rank+1)
   call set_count(sdatfile, "phi", "x", 2)
 	call write_variable(sdatfile, "phi", phivar)
 	call write_variable(sdatfile, "floatvar", floatvar)
 
-  !do i = 1,6
-		!t = 0.3 + real(i);
-		!phi_tvar(0) = 4 + real(i)/2.0;
-		!phi_tvar(1) = 6 + real(i)*3.0; 
-		!call write_variable(sdatfile, "t", t);
-		!call write_variable(sdatfile, "phi_t", phi_tvar);
-		!call increment_start(sdatfile, "t");
-		!! if (i>2) stop
-  !end do
+  call set_start(sdatfile, "phi_t", "y", mpi_rank+1)
+  call set_count(sdatfile, "phi_t", "y", 1)
+
+  do i = 1,6
+		t = 0.3d0 + real(i)
+		phi_tvar(1) = 4 + real(i)/2.0
+		phi_tvar(2) = 6 + real(i)*3.0
+    !if (mpi_rank==0) call write_variable(sdatfile, "t", t)
+    call write_variable(sdatfile, "t", t)
+		call write_variable(sdatfile, "phi_t", phi_tvar)
+		call increment_start(sdatfile, "t")
+		 if (i>2) stop
+  end do
 
 
   !write (*,*) 'y', yvar
@@ -75,6 +79,7 @@ program test
 	!!call write_variable(sdatfile, "parameter", c_address(parameter1));
   !call closefile(sdatfile)
 
+  !call mpi_barrier(ierr)
   call mpi_finalize(ierr)
 
 end program test

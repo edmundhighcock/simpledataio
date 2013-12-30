@@ -83,7 +83,7 @@ parallel_fortran: testprog_fortran_parallel
 	mpirun -np 2 testprog_fortran_parallel
 
 clean: 
-	rm -f testprog testprog_cuda simpledataio.o  testfile.cdf testprog_fortran test.cdf  simpledataio_f95.o testprog_fortran_parallel test_parallel.cdf
+	rm -f testprog testprog_cuda simpledataio.o  testfile.cdf testprog_fortran test.cdf  simpledataio_f95.o testprog_fortran_parallel test_parallel.cdf simpledataio_write_f95.o
 
 distclean: clean
 	rm -f include/simpledataio.mod
