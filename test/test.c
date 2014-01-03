@@ -70,6 +70,10 @@ int main (int argc, char ** argv){
 	sdim = sdatio_find_dimension(&sdatfile, "t");
 	printf("The name of t is %s\n", sdim->name);
 
+	printf("This should be 1: %d\n", sdatio_variable_exists(&sdatfile, "t"));
+	printf("This should be 1: %d\n", sdatio_variable_exists(&sdatfile, "phi_t"));
+	printf("This should be 0: %d\n", sdatio_variable_exists(&sdatfile, "tbbb"));
+
 
 
 

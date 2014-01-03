@@ -430,5 +430,30 @@ contains
    end interface
    call sdatio_increment_start(sfile, dimension_name//c_null_char)
   end subroutine increment_start
+  
+
+ !>/* Returns .true. if the given variable has already been created, .false. otherwise */
+ function variable_exists(sfile, variable_name)
+   type(sdatio_file), intent(in) :: sfile
+   character(*), intent(in) :: variable_name
+   logical :: variable_exists
+   integer(c_int) :: c_variable_exists
+   interface
+       function sdatio_variable_exists(sfile, variable_name) &
+            bind(c, name='sdatio_variable_exists')
+         use iso_c_binding
+         import sdatio_file
+         type(sdatio_file) :: sfile
+         character(c_char) :: variable_name(*)
+         integer(c_int) :: sdatio_variable_exists
+       end function sdatio_variable_exists
+   end interface 
+   c_variable_exists = sdatio_variable_exists(sfile, variable_name//c_null_char)
+   if (c_variable_exists==1) then
+     variable_exists = .true.
+   else 
+     variable_exists = .false.
+   end if
+ end function variable_exists 
 
 end module simpledataio

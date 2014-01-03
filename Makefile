@@ -1,15 +1,15 @@
 ifdef PARALLEL
-CC?=mpicc
+CC=mpicc
 FC=mpif90
 CFLAGS?= -I include/ -I /usr/include $(NETCDF) -DPARALLEL -I /usr/lib/openmpi/include/ 
 FFLAGS?= -I include/ -I /usr/include $(NETCDF) -DPARALLEL -I /usr/lib/openmpi/include/ -cpp
 LDFLAGS?= -lnetcdf -L lib/ -lsimpledataio -lhdf5
 LDFFLAGS?= -lsimpledataiof -lnetcdff -lhdf5 -lnetcdf
 else
-CC?=gcc
+CC=gcc
 FC=gfortran
 CFLAGS?= -I include/ -I /usr/include $(NETCDF)
-FFLAGS?= -I include/ -I /usr/include $(NETCDF)
+FFLAGS?= -I include/ -I /usr/include $(NETCDF) -cpp
 LDFLAGS?= -lnetcdf -L lib/ -lsimpledataio
 LDFFLAGS?= -lsimpledataiof -lnetcdff
 endif

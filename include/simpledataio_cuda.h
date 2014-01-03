@@ -91,3 +91,6 @@ extern "C" struct sdatio_dimension * sdatio_find_dimension(struct sdatio_file * 
 
 /* Increment the start of the specified infinite dimension */
 extern "C" void sdatio_increment_start(struct sdatio_file * sfile, char * dimension_name);
+
+/* Returns 1 if the given variable exists, 0 otherwise */
+extern "C" int sdatio_variable_exists(struct sdatio_file * sfile, char * variable_name);
