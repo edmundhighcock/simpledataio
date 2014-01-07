@@ -121,7 +121,7 @@ am___top_builddir__test_testprog_fortran_OBJECTS = testf.$(OBJEXT)
 __top_builddir__test_testprog_fortran_OBJECTS =  \
 	$(am___top_builddir__test_testprog_fortran_OBJECTS)
 __top_builddir__test_testprog_fortran_DEPENDENCIES =  \
-	libsimpledataio.la libsimpledataiof.la
+	libsimpledataiof.la libsimpledataio.la
 am____top_builddir__test_testprog_fortran_parallel_SOURCES_DIST =  \
 	test/test_parallelf.f95
 @PARALLEL_TRUE@am___top_builddir__test_testprog_fortran_parallel_OBJECTS =  \
@@ -323,7 +323,7 @@ libsimpledataiof_la_SOURCES = src/simpledataiof.F95 src/simpledataio_write.f95
 __top_builddir__test_testprog_SOURCES = test/test.c
 __top_builddir__test_testprog_LDADD = libsimpledataio.la
 __top_builddir__test_testprog_fortran_SOURCES = test/testf.f95
-__top_builddir__test_testprog_fortran_LDADD = libsimpledataio.la libsimpledataiof.la
+__top_builddir__test_testprog_fortran_LDADD = libsimpledataiof.la libsimpledataio.la 
 
 # Weird that this is necessary, but oh well
 AM_FCFLAGS = -I/usr/include
