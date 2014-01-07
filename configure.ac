@@ -27,10 +27,10 @@ AC_CHECK_HEADERS([netcdf.h], [], [echo "netcdf.h not found... suggest defining C
 #AC_CHECK_HEADERS([simpledataio.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
-AC_TYPE_SIZE_T
+#AC_TYPE_SIZE_T
 
 # Checks for library functions.
-AC_FUNC_MALLOC
+#AC_FUNC_MALLOC
 
 # Check whether to build it with support for parallel netcdf IO
 AC_MSG_CHECKING([whether to build using parallel netcdf])
