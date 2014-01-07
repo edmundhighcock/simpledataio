@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm -rf autom4te.cache/
+make distclean
+git commit -av && git push
