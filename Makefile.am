@@ -17,7 +17,7 @@ bin_PROGRAMS+=$(top_builddir)/test/testprog_fortran
 __top_builddir__test_testprog_SOURCES=test/test.c
 __top_builddir__test_testprog_LDADD=libsimpledataio.la
 __top_builddir__test_testprog_fortran_SOURCES=test/testf.f95
-__top_builddir__test_testprog_fortran_LDADD=libsimpledataio.la libsimpledataiof.la
+__top_builddir__test_testprog_fortran_LDADD=libsimpledataiof.la libsimpledataio.la 
 
 # Weird that this is necessary, but oh well
 AM_FCFLAGS=-I/usr/include
