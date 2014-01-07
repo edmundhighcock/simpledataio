@@ -393,7 +393,7 @@ contains
      !starts(i) = starts_c(i)+1
    end do
    
-   write (*,*) variable_name, '  sc', starts, counts, ' n', n
+   !write (*,*) variable_name, '  sc', starts, 'c', counts, ' n', n
 
    deallocate(counts_c, starts_c)
 

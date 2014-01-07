@@ -607,6 +607,8 @@ void sdatio_free_variable(struct sdatio_variable * svar){
 	free(svar->name);
 	free(svar->dimension_list);
 	free(svar->dimension_ids);
+	free(svar->manual_counts);
+	free(svar->manual_starts);
 	free(svar);
 }
 
