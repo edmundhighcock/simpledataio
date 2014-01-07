@@ -15,7 +15,7 @@
  *
  ********************************************************/
 
-#include "simpledataio.h"
+#include "include/simpledataio.h"
 
 #ifdef PARALLEL 
 #include "mpi.h"

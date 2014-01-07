@@ -1,5 +1,5 @@
 #include "stdio.h"
-#include "simpledataio.h"
+#include "include/simpledataio.h"
 
 int main (int argc, char ** argv){
 	struct sdatio_file sdatfile;
