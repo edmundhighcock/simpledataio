@@ -131,11 +131,6 @@ __top_builddir__test_testprog_fortran_parallel_OBJECTS =  \
 	$(am___top_builddir__test_testprog_fortran_parallel_OBJECTS)
 @PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_DEPENDENCIES =  \
 @PARALLEL_TRUE@	libsimpledataio.la libsimpledataiof.la
-__top_builddir__test_testprog_fortran_parallel_LINK = $(LIBTOOL) \
-	--tag=FC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
-	$(FCLD) $(AM_FCFLAGS) $(FCFLAGS) \
-	$(__top_builddir__test_testprog_fortran_parallel_LDFLAGS) \
-	$(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -345,7 +340,7 @@ TESTS_ENVIRONMENT =
 @PARALLEL_TRUE@AM_CPPFLAGS = -DPARALLEL
 @PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_SOURCES = test/test_parallelf.f95
 @PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_LDADD = libsimpledataio.la libsimpledataiof.la
-@PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_LDFLAGS = -lmpi -lmpi_f90
+#__top_builddir__test_testprog_fortran_parallel_LDFLAGS=-lmpi -lmpi_f90
 CLEANFILES = test.cdf testfile.cdf test_parallel.cdf $(SDAT_MOD) $(SDAT_WRITE_MOD) include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
 all: all-am
 
@@ -478,7 +473,7 @@ $(top_builddir)/test/testprog_fortran$(EXEEXT): $(__top_builddir__test_testprog_
 	$(FCLINK) $(__top_builddir__test_testprog_fortran_OBJECTS) $(__top_builddir__test_testprog_fortran_LDADD) $(LIBS)
 $(top_builddir)/test/testprog_fortran_parallel$(EXEEXT): $(__top_builddir__test_testprog_fortran_parallel_OBJECTS) $(__top_builddir__test_testprog_fortran_parallel_DEPENDENCIES) $(EXTRA___top_builddir__test_testprog_fortran_parallel_DEPENDENCIES) $(top_builddir)/test/$(am__dirstamp)
 	@rm -f $(top_builddir)/test/testprog_fortran_parallel$(EXEEXT)
-	$(__top_builddir__test_testprog_fortran_parallel_LINK) $(__top_builddir__test_testprog_fortran_parallel_OBJECTS) $(__top_builddir__test_testprog_fortran_parallel_LDADD) $(LIBS)
+	$(FCLINK) $(__top_builddir__test_testprog_fortran_parallel_OBJECTS) $(__top_builddir__test_testprog_fortran_parallel_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

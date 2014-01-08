@@ -42,7 +42,7 @@ TESTS +=  test/test_parallel.sh
 
 __top_builddir__test_testprog_fortran_parallel_SOURCES=test/test_parallelf.f95
 __top_builddir__test_testprog_fortran_parallel_LDADD=libsimpledataio.la libsimpledataiof.la
-__top_builddir__test_testprog_fortran_parallel_LDFLAGS=-lmpi -lmpi_f90
+#__top_builddir__test_testprog_fortran_parallel_LDFLAGS=-lmpi -lmpi_f90
 endif
 
 CLEANFILES=test.cdf testfile.cdf test_parallel.cdf $(SDAT_MOD) $(SDAT_WRITE_MOD) include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
