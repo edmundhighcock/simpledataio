@@ -58,6 +58,8 @@ AC_CHECK_HEADERS([netcdf.h], [], [echo "netcdf.h not found... suggest defining C
 
 if test "$enable_parallel" = yes; then
   AC_CHECK_HEADERS([mpi.h], [], [echo "mpi.h not found... suggest defining CFLAGS='-I/location/of/mpi/include'" && exit])
+  AC_CHECK_LIB([netcdf], [nc_create_par], [], 
+		AC_MSG_FAILURE([Cannot find symbol nc_create_par: parallel support requires netCDF 4 built on top of parallel HDF5]))
 fi
 
 AC_PROG_FC_UPPERCASE_MOD
