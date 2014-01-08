@@ -56,6 +56,7 @@ host_triplet = @host@
 bin_PROGRAMS = $(top_builddir)/test/testprog$(EXEEXT) \
 	$(top_builddir)/test/testprog_fortran$(EXEEXT) $(am__EXEEXT_1)
 @PARALLEL_TRUE@am__append_1 = $(top_builddir)/test/testprog_fortran_parallel
+@PARALLEL_TRUE@am__append_2 = test/test_parallel.sh
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(am__include_HEADERS_DIST) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
@@ -334,14 +335,16 @@ __top_builddir__test_testprog_fortran_LDADD = libsimpledataiof.la libsimpledatai
 # Weird that this is necessary, but oh well
 AM_FCFLAGS = -I/usr/include
 
+# Serial tests for C and Fortran... invoked by make check
+TESTS = test/testprog test/testprog_fortran $(am__append_2)
+TESTS_ENVIRONMENT = 
+
 # If the user has specified --enable-parallel
 @PARALLEL_TRUE@AM_CPPFLAGS = -DPARALLEL
 @PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_SOURCES = test/test_parallelf.f95
 @PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_LDADD = libsimpledataio.la libsimpledataiof.la
 @PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_LDFLAGS = -lmpi -lmpi_f90
 CLEANFILES = test.cdf testfile.cdf test_parallel.cdf $(SDAT_MOD) $(SDAT_WRITE_MOD) include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
-TESTS = test/testprog test/testprog_fortran test/test_parallel.sh
-TESTS_ENVIRONMENT = 
 all: all-am
 
 .SUFFIXES:
@@ -1037,6 +1040,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-includeHEADERS \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	tags uninstall uninstall-am uninstall-binPROGRAMS \
 	uninstall-includeHEADERS uninstall-libLTLIBRARIES
+
 
 #TEST_EXTENSIONS = .sh
 #SH_LOG_COMPILER = bash

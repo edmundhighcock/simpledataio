@@ -30,10 +30,15 @@ __top_builddir__test_testprog_fortran_LDADD=libsimpledataiof.la libsimpledataio.
 # Weird that this is necessary, but oh well
 AM_FCFLAGS=-I/usr/include
 
+# Serial tests for C and Fortran... invoked by make check
+TESTS = test/testprog test/testprog_fortran
+TESTS_ENVIRONMENT = 
+
 # If the user has specified --enable-parallel
 if PARALLEL
 AM_CPPFLAGS=-DPARALLEL
 bin_PROGRAMS+=$(top_builddir)/test/testprog_fortran_parallel
+TESTS +=  test/test_parallel.sh
 
 __top_builddir__test_testprog_fortran_parallel_SOURCES=test/test_parallelf.f95
 __top_builddir__test_testprog_fortran_parallel_LDADD=libsimpledataio.la libsimpledataiof.la
@@ -43,8 +48,6 @@ endif
 CLEANFILES=test.cdf testfile.cdf test_parallel.cdf $(SDAT_MOD) $(SDAT_WRITE_MOD) include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
 
 
-TESTS = test/testprog test/testprog_fortran test/test_parallel.sh
-TESTS_ENVIRONMENT = 
 #TEST_EXTENSIONS = .sh
 #SH_LOG_COMPILER = bash
 #LOG_COMPILER = sh
