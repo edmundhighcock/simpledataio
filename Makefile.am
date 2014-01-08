@@ -4,12 +4,17 @@ ACLOCAL_AMFLAGS=-I m4
 # C and Fortran Libraries
 lib_LTLIBRARIES = libsimpledataio.la libsimpledataiof.la
 
+if HAS_F90_MODULES
 if UPPER_CASE_MOD
 SDAT_MOD=SIMPLEDATAIO.mod
 SDAT_WRITE_MOD=SIMPLEDATAIO_WRITE.mod
 else
 SDAT_MOD=simpledataio.mod
 SDAT_WRITE_MOD=simpledataio_write.mod
+endif
+else
+SDAT_MOD =
+SDAT_WRITE_MOD =
 endif
 # Public headers/fortran modules
 include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD)
@@ -41,7 +46,7 @@ bin_PROGRAMS+=$(top_builddir)/test/testprog_fortran_parallel
 TESTS +=  test/test_parallel.sh
 
 __top_builddir__test_testprog_fortran_parallel_SOURCES=test/test_parallelf.f95
-__top_builddir__test_testprog_fortran_parallel_LDADD=libsimpledataio.la libsimpledataiof.la
+__top_builddir__test_testprog_fortran_parallel_LDADD=libsimpledataiof.la libsimpledataio.la
 #__top_builddir__test_testprog_fortran_parallel_LDFLAGS=-lmpi -lmpi_f90
 endif
 
@@ -52,10 +57,12 @@ CLEANFILES=test.cdf testfile.cdf test_parallel.cdf $(SDAT_MOD) $(SDAT_WRITE_MOD)
 #SH_LOG_COMPILER = bash
 #LOG_COMPILER = sh
 
+if HAS_F90_MODULES
 include/$(SDAT_MOD): simpledataiof.lo
 	cp $(SDAT_MOD) include/.
 include/$(SDAT_WRITE_MOD): simpledataio_write.lo
 	cp $(SDAT_WRITE_MOD) include/.
+endif
 
 src/simpledataio_write.f95: src/generate_simpledataio_write.rb
 	env ruby $< > $@

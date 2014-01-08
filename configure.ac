@@ -32,6 +32,11 @@ AX_PROG_FC_MPI([test "x$enable_parallel" = xyes], [], [
       AC_MSG_WARN([No MPI Fortran compiler found, not using MPI.])
     fi
   ])
+
+AC_FC_MODULE_EXTENSION
+AM_CONDITIONAL(HAS_F90_MODULES, [test "x$FC_MODEXT" != x])
+
+
 LT_INIT
 #AC_PROG_FC
 #AC_PROG_FPP
@@ -61,6 +66,8 @@ AC_CHECK_HEADERS([netcdf.h], [], [echo "netcdf.h not found... suggest defining C
 
 if test "$enable_parallel" = yes; then
   AC_CHECK_HEADERS([mpi.h], [], [echo "mpi.h not found... suggest defining CFLAGS='-I/location/of/mpi/include'" && exit])
+	# Check that we have the function nc_create_par available... i.e. that we 
+	# have the parallel netcdf libraries
   AC_CHECK_LIB([netcdf], [nc_create_par], [], 
 		AC_MSG_FAILURE([Cannot find symbol nc_create_par: parallel support requires netCDF 4 built on top of parallel HDF5]))
 		AC_CHECK_DECL([nc_create_par], [], 

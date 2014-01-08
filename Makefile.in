@@ -130,7 +130,7 @@ am____top_builddir__test_testprog_fortran_parallel_SOURCES_DIST =  \
 __top_builddir__test_testprog_fortran_parallel_OBJECTS =  \
 	$(am___top_builddir__test_testprog_fortran_parallel_OBJECTS)
 @PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_DEPENDENCIES =  \
-@PARALLEL_TRUE@	libsimpledataio.la libsimpledataiof.la
+@PARALLEL_TRUE@	libsimpledataiof.la libsimpledataio.la
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -217,6 +217,7 @@ EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FC = @FC@
 FCFLAGS = @FCFLAGS@
+FC_MODEXT = @FC_MODEXT@
 FGREP = @FGREP@
 GREP = @GREP@
 INSTALL = @INSTALL@
@@ -313,10 +314,12 @@ top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 # C and Fortran Libraries
 lib_LTLIBRARIES = libsimpledataio.la libsimpledataiof.la
-@UPPER_CASE_MOD_FALSE@SDAT_MOD = simpledataio.mod
-@UPPER_CASE_MOD_TRUE@SDAT_MOD = SIMPLEDATAIO.mod
-@UPPER_CASE_MOD_FALSE@SDAT_WRITE_MOD = simpledataio_write.mod
-@UPPER_CASE_MOD_TRUE@SDAT_WRITE_MOD = SIMPLEDATAIO_WRITE.mod
+@HAS_F90_MODULES_FALSE@SDAT_MOD = 
+@HAS_F90_MODULES_TRUE@@UPPER_CASE_MOD_FALSE@SDAT_MOD = simpledataio.mod
+@HAS_F90_MODULES_TRUE@@UPPER_CASE_MOD_TRUE@SDAT_MOD = SIMPLEDATAIO.mod
+@HAS_F90_MODULES_FALSE@SDAT_WRITE_MOD = 
+@HAS_F90_MODULES_TRUE@@UPPER_CASE_MOD_FALSE@SDAT_WRITE_MOD = simpledataio_write.mod
+@HAS_F90_MODULES_TRUE@@UPPER_CASE_MOD_TRUE@SDAT_WRITE_MOD = SIMPLEDATAIO_WRITE.mod
 # Public headers/fortran modules
 include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD)
 # Sources required
@@ -339,7 +342,7 @@ TESTS_ENVIRONMENT =
 # If the user has specified --enable-parallel
 @PARALLEL_TRUE@AM_CPPFLAGS = -DPARALLEL
 @PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_SOURCES = test/test_parallelf.f95
-@PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_LDADD = libsimpledataio.la libsimpledataiof.la
+@PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_LDADD = libsimpledataiof.la libsimpledataio.la
 #__top_builddir__test_testprog_fortran_parallel_LDFLAGS=-lmpi -lmpi_f90
 CLEANFILES = test.cdf testfile.cdf test_parallel.cdf $(SDAT_MOD) $(SDAT_WRITE_MOD) include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
 all: all-am
@@ -1043,10 +1046,10 @@ uninstall-am: uninstall-binPROGRAMS uninstall-includeHEADERS \
 #SH_LOG_COMPILER = bash
 #LOG_COMPILER = sh
 
-include/$(SDAT_MOD): simpledataiof.lo
-	cp $(SDAT_MOD) include/.
-include/$(SDAT_WRITE_MOD): simpledataio_write.lo
-	cp $(SDAT_WRITE_MOD) include/.
+@HAS_F90_MODULES_TRUE@include/$(SDAT_MOD): simpledataiof.lo
+@HAS_F90_MODULES_TRUE@	cp $(SDAT_MOD) include/.
+@HAS_F90_MODULES_TRUE@include/$(SDAT_WRITE_MOD): simpledataio_write.lo
+@HAS_F90_MODULES_TRUE@	cp $(SDAT_WRITE_MOD) include/.
 
 src/simpledataio_write.f95: src/generate_simpledataio_write.rb
 	env ruby $< > $@
