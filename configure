@@ -636,6 +636,8 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+UPPER_CASE_MOD_FALSE
+UPPER_CASE_MOD_TRUE
 PARALLEL_FALSE
 PARALLEL_TRUE
 ac_ct_FC
@@ -15355,6 +15357,49 @@ done
 
 fi
 
+
+ac_ext=${ac_fc_srcext-f}
+ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
+ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_fc_compiler_gnu
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if Fortran 90 compiler capitalizes .mod filenames" >&5
+$as_echo_n "checking if Fortran 90 compiler capitalizes .mod filenames... " >&6; }
+		    cat <<EOF >conftest.f90
+		      module conftest
+		      end module conftest
+EOF
+ac_try='$F90 ${F90FLAGS} conftest.f90 ${F90LIBS}>&5'
+{ { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+if test -f CONFTEST.mod ; then
+   ac_cv_prog_f90_uppercase_mod=yes
+   rm -f CONFTEST.mod
+else
+   ac_cv_prog_f90_uppercase_mod=no
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_prog_f90_uppercase_mod" >&5
+$as_echo "$ac_cv_prog_f90_uppercase_mod" >&6; }
+#rm -f conftest*
+ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+ if test "x$ac_cv_prog_f90_uppercase_mod" = xyes; then
+  UPPER_CASE_MOD_TRUE=
+  UPPER_CASE_MOD_FALSE='#'
+else
+  UPPER_CASE_MOD_TRUE='#'
+  UPPER_CASE_MOD_FALSE=
+fi
+
+
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -15524,6 +15569,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${PARALLEL_TRUE}" && test -z "${PARALLEL_FALSE}"; then
   as_fn_error $? "conditional \"PARALLEL\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${UPPER_CASE_MOD_TRUE}" && test -z "${UPPER_CASE_MOD_FALSE}"; then
+  as_fn_error $? "conditional \"UPPER_CASE_MOD\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 

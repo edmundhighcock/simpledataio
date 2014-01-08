@@ -45,5 +45,8 @@ if test "$enable_parallel" = yes; then
   AC_CHECK_HEADERS([mpi.h], [], [echo "mpi.h not found... suggest defining CFLAGS='-I/location/of/mpi/include'" && exit])
 fi
 
+AC_PROG_FC_UPPERCASE_MOD
+AM_CONDITIONAL(UPPER_CASE_MOD, [test "x$ac_cv_prog_f90_uppercase_mod" = xyes])
+
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

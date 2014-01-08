@@ -57,7 +57,7 @@ bin_PROGRAMS = $(top_builddir)/test/testprog$(EXEEXT) \
 	$(top_builddir)/test/testprog_fortran$(EXEEXT) $(am__EXEEXT_1)
 @PARALLEL_TRUE@am__append_1 = $(top_builddir)/test/testprog_fortran_parallel
 subdir = .
-DIST_COMMON = README $(am__configure_deps) $(include_HEADERS) \
+DIST_COMMON = README $(am__configure_deps) $(am__include_HEADERS_DIST) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
 	config.guess config.sub depcomp install-sh ltmain.sh missing
@@ -65,7 +65,7 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
 	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
@@ -174,6 +174,8 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+am__include_HEADERS_DIST = include/simpledataio.h simpledataio.mod \
+	SIMPLEDATAIO.mod simpledataio_write.mod SIMPLEDATAIO_WRITE.mod
 HEADERS = $(include_HEADERS)
 ETAGS = etags
 CTAGS = ctags
@@ -313,8 +315,12 @@ top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 # C and Fortran Libraries
 lib_LTLIBRARIES = libsimpledataio.la libsimpledataiof.la
+@UPPER_CASE_MOD_FALSE@SDAT_MOD = simpledataio.mod
+@UPPER_CASE_MOD_TRUE@SDAT_MOD = SIMPLEDATAIO.mod
+@UPPER_CASE_MOD_FALSE@SDAT_WRITE_MOD = simpledataio_write.mod
+@UPPER_CASE_MOD_TRUE@SDAT_WRITE_MOD = SIMPLEDATAIO_WRITE.mod
 # Public headers/fortran modules
-include_HEADERS = include/simpledataio.h include/simpledataio.mod include/simpledataio_write.mod
+include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD)
 # Sources required
 libsimpledataio_la_SOURCES = src/simpledataio.c 
 libsimpledataiof_la_SOURCES = src/simpledataiof.F95 src/simpledataio_write.f95
@@ -333,7 +339,7 @@ AM_FCFLAGS = -I/usr/include
 @PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_SOURCES = test/test_parallelf.f95
 @PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_LDADD = libsimpledataio.la libsimpledataiof.la
 @PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_LDFLAGS = -lmpi -lmpi_f90
-CLEANFILES = test.cdf testfile.cdf test_parallel.cdf simpledataio.mod simpledataio_write.mod include/simpledataio_write.mod include/simpledataio.mod
+CLEANFILES = test.cdf testfile.cdf test_parallel.cdf $(SDAT_MOD) $(SDAT_WRITE_MOD) include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
 TESTS = test/testprog test/testprog_fortran test/test_parallel.sh
 TESTS_ENVIRONMENT = 
 all: all-am
@@ -1036,10 +1042,10 @@ uninstall-am: uninstall-binPROGRAMS uninstall-includeHEADERS \
 #SH_LOG_COMPILER = bash
 #LOG_COMPILER = sh
 
-include/simpledataio.mod: simpledataiof.lo
-	cp simpledataio.mod include/.
-include/simpledataio_write.mod: simpledataio_write.lo
-	cp simpledataio_write.mod include/.
+include/$(SDAT_MOD): simpledataiof.lo
+	cp $(SDAT_MOD) include/.
+include/$(SDAT_WRITE_MOD): simpledataio_write.lo
+	cp $(SDAT_WRITE_MOD) include/.
 
 src/simpledataio_write.f95: src/generate_simpledataio_write.rb
 	env ruby $< > $@
