@@ -254,26 +254,26 @@ contains
  !end subroutine write_variable
 
 
- subroutine write_variable_real_1(sfile, variable_name, val)
-   use netcdf
-   type(sdatio_file), intent(in) :: sfile
-   character(*), intent(in) :: variable_name
-   real, intent(in) :: val
-   integer, dimension(:), allocatable :: starts, counts
-   integer :: fileid, varid, status, n
+ !subroutine write_variable_real_1(sfile, variable_name, val)
+   !use netcdf
+   !type(sdatio_file), intent(in) :: sfile
+   !character(*), intent(in) :: variable_name
+   !real, intent(in) :: val
+   !integer, dimension(:), allocatable :: starts, counts
+   !integer :: fileid, varid, status, n
 
-   call number_of_unlimited_dimensions(sfile, variable_name, n)
-   allocate(starts(n))
-   allocate(counts(n))
-   !write (*,*) 'counts', size(counts), 'starts', size(starts)
-   call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts)
-   status =  nf90_put_var(fileid, varid+1, (/val/), start=starts, count=counts)
-   !status =  nf90_put_var(fileid, varid+1, val)
-   if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', variable_name, ', ',  nf90_strerror(status)
-   !call nf90_put_var(fileid, varid, val)
+   !call number_of_unlimited_dimensions(sfile, variable_name, n)
+   !allocate(starts(n))
+   !allocate(counts(n))
+   !!write (*,*) 'counts', size(counts), 'starts', size(starts)
+   !call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts)
+   !status =  nf90_put_var(fileid, varid+1, (/val/), start=starts, count=counts)
+   !!status =  nf90_put_var(fileid, varid+1, val)
+   !if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', variable_name, ', ',  nf90_strerror(status)
+   !!call nf90_put_var(fileid, varid, val)
 
 
- end subroutine write_variable_real_1
+ !end subroutine write_variable_real_1
 
 !/* Write to the given variable. address should be the address of the start of the array. Indexes should be an array the same size as the number of dimensions of the variable. Using the second form is quicker as the first form requires a search for the variable at every write*/
 !void sdatio_write_variable_at_index(struct sdatio_file * sfile, char * variable_name, int * indexes, void * address)
