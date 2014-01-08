@@ -42,6 +42,9 @@ LT_INIT
 AC_CHECK_LIB([hdf5], [H5open])
 AC_CHECK_LIB([netcdf], [nc_create])
 AC_CHECK_LIB([netcdff], [nc_create])
+AC_CHECK_DECL([nc_create], [], AC_MSG_FAILURE([Cannot find function nc_create ]), [
+							 #include "netcdf.h"
+							 ])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h])
@@ -60,6 +63,12 @@ if test "$enable_parallel" = yes; then
   AC_CHECK_HEADERS([mpi.h], [], [echo "mpi.h not found... suggest defining CFLAGS='-I/location/of/mpi/include'" && exit])
   AC_CHECK_LIB([netcdf], [nc_create_par], [], 
 		AC_MSG_FAILURE([Cannot find symbol nc_create_par: parallel support requires netCDF 4 built on top of parallel HDF5]))
+		AC_CHECK_DECL([nc_create_par], [], 
+								AC_MSG_FAILURE([Cannot find function nc_create_par in  netcdf_par.h ]), [
+								 #include "netcdf.h"
+								 #include "netcdf_par.h"
+								 ])
+
 fi
 
 AC_PROG_FC_UPPERCASE_MOD

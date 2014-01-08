@@ -19,6 +19,7 @@
 
 #ifdef PARALLEL 
 #include "mpi.h"
+#include "netcdf_par.h"
 #endif
 
 #define ERRCODE 2
