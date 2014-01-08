@@ -314,8 +314,13 @@ top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 # C and Fortran Libraries
 lib_LTLIBRARIES = libsimpledataio.la libsimpledataiof.la
+# The Cray compiler, for example, stores the module information
+# in the object files, hence no modules are necessary
 @HAS_F90_MODULES_FALSE@SDAT_MOD = 
 @HAS_F90_MODULES_TRUE@@UPPER_CASE_MOD_FALSE@SDAT_MOD = simpledataio.mod
+
+# If the compiler generates .mod files
+# If the .mod files have uppercase names
 @HAS_F90_MODULES_TRUE@@UPPER_CASE_MOD_TRUE@SDAT_MOD = SIMPLEDATAIO.mod
 @HAS_F90_MODULES_FALSE@SDAT_WRITE_MOD = 
 @HAS_F90_MODULES_TRUE@@UPPER_CASE_MOD_FALSE@SDAT_WRITE_MOD = simpledataio_write.mod
@@ -333,7 +338,9 @@ __top_builddir__test_testprog_fortran_SOURCES = test/testf.f95
 __top_builddir__test_testprog_fortran_LDADD = libsimpledataiof.la libsimpledataio.la 
 
 # Weird that this is necessary, but oh well
-AM_FCFLAGS = -I/usr/include
+
+# To get the module files
+AM_FCFLAGS = -I/usr/include -Iinclude/
 
 # Serial tests for C and Fortran... invoked by make check
 TESTS = test/testprog test/testprog_fortran $(am__append_2)
@@ -1046,12 +1053,18 @@ uninstall-am: uninstall-binPROGRAMS uninstall-includeHEADERS \
 #SH_LOG_COMPILER = bash
 #LOG_COMPILER = sh
 
-@HAS_F90_MODULES_TRUE@include/$(SDAT_MOD): simpledataiof.lo
+@HAS_F90_MODULES_TRUE@$(SDAT_MOD): simpledataiof.lo
+@HAS_F90_MODULES_TRUE@include/$(SDAT_MOD): $(SDAT_MOD)
 @HAS_F90_MODULES_TRUE@	cp $(SDAT_MOD) include/.
-@HAS_F90_MODULES_TRUE@include/$(SDAT_WRITE_MOD): simpledataio_write.lo
+@HAS_F90_MODULES_TRUE@$(SDAT_WRITE_MOD): simpledataio_write.lo
+@HAS_F90_MODULES_TRUE@include/$(SDAT_WRITE_MOD): $(SDAT_WRITE_MOD)
 @HAS_F90_MODULES_TRUE@	cp $(SDAT_WRITE_MOD) include/.
+#simpledataio_write.o: include/$(SDAT_MOD) 
+@HAS_F90_MODULES_TRUE@test/testf.f95: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
+@HAS_F90_MODULES_TRUE@test/test_parallelf.f95: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
 
-src/simpledataio_write.f95: src/generate_simpledataio_write.rb
+# Need to generate the module file for simpledataiof before building simpledataio_write
+src/simpledataio_write.f95: src/generate_simpledataio_write.rb $(SDAT_MOD)
 	env ruby $< > $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

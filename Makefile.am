@@ -4,7 +4,9 @@ ACLOCAL_AMFLAGS=-I m4
 # C and Fortran Libraries
 lib_LTLIBRARIES = libsimpledataio.la libsimpledataiof.la
 
+# If the compiler generates .mod files
 if HAS_F90_MODULES
+# If the .mod files have uppercase names
 if UPPER_CASE_MOD
 SDAT_MOD=SIMPLEDATAIO.mod
 SDAT_WRITE_MOD=SIMPLEDATAIO_WRITE.mod
@@ -12,6 +14,8 @@ else
 SDAT_MOD=simpledataio.mod
 SDAT_WRITE_MOD=simpledataio_write.mod
 endif
+# The Cray compiler, for example, stores the module information
+# in the object files, hence no modules are necessary
 else
 SDAT_MOD =
 SDAT_WRITE_MOD =
@@ -34,6 +38,9 @@ __top_builddir__test_testprog_fortran_LDADD=libsimpledataiof.la libsimpledataio.
 
 # Weird that this is necessary, but oh well
 AM_FCFLAGS=-I/usr/include
+
+# To get the module files
+AM_FCFLAGS+=-Iinclude/
 
 # Serial tests for C and Fortran... invoked by make check
 TESTS = test/testprog test/testprog_fortran
@@ -58,12 +65,18 @@ CLEANFILES=test.cdf testfile.cdf test_parallel.cdf $(SDAT_MOD) $(SDAT_WRITE_MOD)
 #LOG_COMPILER = sh
 
 if HAS_F90_MODULES
-include/$(SDAT_MOD): simpledataiof.lo
+$(SDAT_MOD): simpledataiof.lo
+include/$(SDAT_MOD): $(SDAT_MOD)
 	cp $(SDAT_MOD) include/.
-include/$(SDAT_WRITE_MOD): simpledataio_write.lo
+$(SDAT_WRITE_MOD): simpledataio_write.lo
+include/$(SDAT_WRITE_MOD): $(SDAT_WRITE_MOD)
 	cp $(SDAT_WRITE_MOD) include/.
+#simpledataio_write.o: include/$(SDAT_MOD) 
+test/testf.f95: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
+test/test_parallelf.f95: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
 endif
 
-src/simpledataio_write.f95: src/generate_simpledataio_write.rb
+# Need to generate the module file for simpledataiof before building simpledataio_write
+src/simpledataio_write.f95: src/generate_simpledataio_write.rb $(SDAT_MOD)
 	env ruby $< > $@
 
