@@ -1,4 +1,4 @@
-simplenetcdf
+simpledataio
 ============
 
 A simplified C and Fortran netcdf interface to allow writing to netcdf files with the fewest possible function calls.
