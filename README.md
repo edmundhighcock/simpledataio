@@ -62,7 +62,7 @@ Installing
 
 - Download the source from github
 
-	git clone https://github.com/edmundhighcock/simpledataio.git
+    	git clone https://github.com/edmundhighcock/simpledataio.git
 
 - Configure, make and install...
 
