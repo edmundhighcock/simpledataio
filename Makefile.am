@@ -38,11 +38,12 @@ __top_builddir__test_testprog_LDADD=libsimpledataio.la
 __top_builddir__test_testprog_fortran_SOURCES=test/testf.f90
 __top_builddir__test_testprog_fortran_LDADD=libsimpledataiof.la libsimpledataio.la 
 
-# Weird that this is necessary, but oh well
-AM_FCFLAGS=-I/usr/include
 
 # To get the module files
-AM_FCFLAGS+=-Iinclude/
+AM_FCFLAGS=-Iinclude/
+
+# Weird that this is necessary, but oh well
+#AM_FCFLAGS=-I/usr/include
 
 # On HPC systems with Intel/PGI compilers, force static linking
 if FORCE_STATIC
