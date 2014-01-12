@@ -119,14 +119,14 @@ contains
        & the netcdf fortran library and is non-functional. You can use &
        & the function simpledataio_functional to test &
        & this. "
-     stop(1)
+     stop
 #endif
 #else
      write (*,*) "module simpledataio was built without &
        & ISO_C_BINDING and is non-functional. You can use &
        & the function simpledataio_functional to test &
        & this. "
-     stop(1)
+     stop
 #endif
    end subroutine createfile
 
@@ -152,14 +152,14 @@ contains
        & the netcdf fortran library and is non-functional. You can use &
        & the function simpledataio_functional to test &
        & this. "
-     stop(1)
+     stop
 #endif
 #else
      write (*,*) "module simpledataio was built without &
        & ISO_C_BINDING and is non-functional. You can use &
        & the function simpledataio_functional to test &
        & this. "
-     stop(1)
+     stop
 #endif
    end subroutine createfile_parallel
 !#endif
