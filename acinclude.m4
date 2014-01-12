@@ -516,6 +516,9 @@ al_netcdf_ok=yes
 unset ac_cv_lib_netcdff_nc_create
 unset ac_cv_lib_netcdff_nf_create
 unset ac_cv_lib_netcdff_nf_create_
+AC_LANG_PUSH(Fortran)
+AC_FC_SRCEXT(f90)
+AC_LANG_POP(Fortran)
 AC_CHECK_LIB([netcdf], [nc_create], [], al_netcdf_ok=no)
 al_netcdff_present=yes
 AC_CHECK_LIB([netcdff], [nc_create], [], al_netcdff_present=no)
