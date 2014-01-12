@@ -15381,6 +15381,9 @@ done
 #AC_REQUIRE([AC_PROG_FC_UPPERCASE_MOD])
 
 al_netcdf_ok=yes
+unset ac_cv_lib_netcdff_nc_create
+unset ac_cv_lib_netcdff_nf_create
+unset ac_cv_lib_netcdff_nf_create_
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_create in -lnetcdf" >&5
 $as_echo_n "checking for nc_create in -lnetcdf... " >&6; }
 if ${ac_cv_lib_netcdf_nc_create+:} false; then :
@@ -15755,6 +15758,9 @@ $as_echo "$as_me: WARNING: \"Couldn't automatically detect netcdf prefix: nc-con
 #AC_REQUIRE([AC_PROG_FC_UPPERCASE_MOD])
 
 al_netcdf_ok=yes
+unset ac_cv_lib_netcdff_nc_create
+unset ac_cv_lib_netcdff_nf_create
+unset ac_cv_lib_netcdff_nf_create_
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_create in -lnetcdf" >&5
 $as_echo_n "checking for nc_create in -lnetcdf... " >&6; }
 if ${ac_cv_lib_netcdf_nc_create+:} false; then :

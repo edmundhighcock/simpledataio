@@ -513,6 +513,9 @@ AC_DEFUN([AL_CHECK_NETCDF], [
 #AC_REQUIRE([AC_PROG_FC_UPPERCASE_MOD])
 AC_REQUIRE([AC_FC_MODULE_EXTENSION])
 al_netcdf_ok=yes
+unset ac_cv_lib_netcdff_nc_create
+unset ac_cv_lib_netcdff_nf_create
+unset ac_cv_lib_netcdff_nf_create_
 AC_CHECK_LIB([netcdf], [nc_create], [], al_netcdf_ok=no)
 al_netcdff_present=yes
 AC_CHECK_LIB([netcdff], [nc_create], [], al_netcdff_present=no)
