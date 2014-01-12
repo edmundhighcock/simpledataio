@@ -514,7 +514,7 @@ AC_DEFUN([AL_CHECK_NETCDF], [
 AC_REQUIRE([AC_FC_MODULE_EXTENSION])
 al_netcdf_ok=yes
 AC_CHECK_LIB([netcdf], [nc_create], [], al_netcdf_ok=no)
-AC_CHECK_LIB([netcdff], [nc_create], al_netcdff_present=yes, al_netcdff_present=no)
+AC_CHECK_LIB([netcdff], [nc_create], [], al_netcdff_present=no)
 unset ac_cv_have_decl_nc_create
 AC_CHECK_DECL([nc_create], [], al_netcdf_ok=no, [
 							 #include "netcdf.h"
