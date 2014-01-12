@@ -15476,6 +15476,56 @@ else
   al_netcdff_present=no
 fi
 
+if test "x$al_netcdff_present" = xno; then
+	al_netcdff_present=yes
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for nf_create in -lnetcdff" >&5
+$as_echo_n "checking for nf_create in -lnetcdff... " >&6; }
+if ${ac_cv_lib_netcdff_nf_create+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lnetcdff  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char nf_create ();
+int
+main ()
+{
+return nf_create ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_netcdff_nf_create=yes
+else
+  ac_cv_lib_netcdff_nf_create=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_netcdff_nf_create" >&5
+$as_echo "$ac_cv_lib_netcdff_nf_create" >&6; }
+if test "x$ac_cv_lib_netcdff_nf_create" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+@%:@define HAVE_LIBNETCDFF 1
+_ACEOF
+
+  LIBS="-lnetcdff $LIBS"
+
+else
+  al_netcdff_present=no
+fi
+
+fi
 unset ac_cv_have_decl_nc_create
 ac_fn_c_check_decl "$LINENO" "nc_create" "ac_cv_have_decl_nc_create" "
 							 #include \"netcdf.h\"
@@ -15750,6 +15800,56 @@ else
   al_netcdff_present=no
 fi
 
+if test "x$al_netcdff_present" = xno; then
+	al_netcdff_present=yes
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for nf_create in -lnetcdff" >&5
+$as_echo_n "checking for nf_create in -lnetcdff... " >&6; }
+if ${ac_cv_lib_netcdff_nf_create+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lnetcdff  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char nf_create ();
+int
+main ()
+{
+return nf_create ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_netcdff_nf_create=yes
+else
+  ac_cv_lib_netcdff_nf_create=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_netcdff_nf_create" >&5
+$as_echo "$ac_cv_lib_netcdff_nf_create" >&6; }
+if test "x$ac_cv_lib_netcdff_nf_create" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+@%:@define HAVE_LIBNETCDFF 1
+_ACEOF
+
+  LIBS="-lnetcdff $LIBS"
+
+else
+  al_netcdff_present=no
+fi
+
+fi
 unset ac_cv_have_decl_nc_create
 ac_fn_c_check_decl "$LINENO" "nc_create" "ac_cv_have_decl_nc_create" "
 							 #include \"netcdf.h\"
