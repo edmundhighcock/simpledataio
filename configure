@@ -15459,14 +15459,9 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_netcdff_nc_create" >&5
 $as_echo "$ac_cv_lib_netcdff_nc_create" >&6; }
 if test "x$ac_cv_lib_netcdff_nc_create" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBNETCDFF 1
-_ACEOF
-
-  LIBS="-lnetcdff $LIBS"
-
+  al_netcdff_present=yes
 else
-  al_netcdf_ok=no
+  al_netcdff_present=no
 fi
 
 unset ac_cv_have_decl_nc_create
@@ -15732,14 +15727,9 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_netcdff_nc_create" >&5
 $as_echo "$ac_cv_lib_netcdff_nc_create" >&6; }
 if test "x$ac_cv_lib_netcdff_nc_create" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBNETCDFF 1
-_ACEOF
-
-  LIBS="-lnetcdff $LIBS"
-
+  al_netcdff_present=yes
 else
-  al_netcdf_ok=no
+  al_netcdff_present=no
 fi
 
 unset ac_cv_have_decl_nc_create
