@@ -4812,6 +4812,10 @@ if test "x$nc_iso_c_binding" = xno; then
 $as_echo "$as_me: WARNING: ISO_C_BINDING not supported - defaulting to F90 interfaces" >&2;}
 fi
 
+if test "x$nc_iso_c_binding" = xno; then
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: \"The Fortran compiler does not support the intrinsic iso_c_binding module: the fortran netCDF interface will not work\"" >&5
+$as_echo "$as_me: WARNING: \"The Fortran compiler does not support the intrinsic iso_c_binding module: the fortran netCDF interface will not work\"" >&2;}
+fi
  if test "x$nc_iso_c_binding" = xyes; then
   HAS_ISO_C_BINDING_TRUE=
   HAS_ISO_C_BINDING_FALSE='#'
