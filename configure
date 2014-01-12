@@ -15382,8 +15382,8 @@ done
 
 al_netcdf_ok=yes
 unset ac_cv_lib_netcdff_nc_create
-unset ac_cv_lib_netcdff_nf_create
-unset ac_cv_lib_netcdff_nf_create_
+unset ac_cv_lib_netcdff_nf_close
+unset ac_cv_lib_netcdff_nf_close_
 ac_ext=${ac_fc_srcext-f}
 ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
 ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
@@ -15824,8 +15824,8 @@ $as_echo "$as_me: WARNING: \"Couldn't automatically detect netcdf prefix: nc-con
 
 al_netcdf_ok=yes
 unset ac_cv_lib_netcdff_nc_create
-unset ac_cv_lib_netcdff_nf_create
-unset ac_cv_lib_netcdff_nf_create_
+unset ac_cv_lib_netcdff_nf_close
+unset ac_cv_lib_netcdff_nf_close_
 ac_ext=${ac_fc_srcext-f}
 ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
 ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'

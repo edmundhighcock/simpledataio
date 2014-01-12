@@ -514,8 +514,8 @@ AC_DEFUN([AL_CHECK_NETCDF], [
 AC_REQUIRE([AC_FC_MODULE_EXTENSION])
 al_netcdf_ok=yes
 unset ac_cv_lib_netcdff_nc_create
-unset ac_cv_lib_netcdff_nf_create
-unset ac_cv_lib_netcdff_nf_create_
+unset ac_cv_lib_netcdff_nf_close
+unset ac_cv_lib_netcdff_nf_close_
 AC_LANG_PUSH(Fortran)
 AC_FC_SRCEXT(f90)
 AC_LANG_POP(Fortran)
