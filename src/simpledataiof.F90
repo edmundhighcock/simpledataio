@@ -32,6 +32,7 @@ integer, parameter :: SDATIO_COMPLEX_DOUBLE= 3
 integer, parameter :: SDATIO_UNLIMITED = NF90_UNLIMITED
 
 
+#ifdef ISO_C_BINDING
 type,bind(c) :: sdatio_dimension 
   type(c_ptr) :: name
 	integer(c_int) :: size
@@ -61,6 +62,18 @@ type, bind(c) :: sdatio_file
   type(c_ptr) :: variables
 	integer(c_int) :: data_written
 end type
+
+#else
+
+type :: sdatio_file
+  integer :: nc_file_id
+  integer :: is_parallel
+  integer :: n_dimensions  
+  integer :: n_variables
+  integer :: data_written
+end type
+
+#endif
 
 !interface 
 !!/* Open a new datafile for writing. fname is the name of the file 
@@ -356,10 +369,10 @@ contains
    character(*), intent(in) :: variable_name
    integer, intent(out) :: fileid, varid
    integer, intent(out), dimension(:) :: starts, counts
-   integer(c_size_t), dimension(:), allocatable, target :: starts_c, counts_c
-   type(c_ptr) :: starts_ptr, counts_ptr
    integer :: i,n
 #ifdef ISO_C_BINDING
+   type(c_ptr) :: starts_ptr, counts_ptr
+   integer(c_size_t), dimension(:), allocatable, target :: starts_c, counts_c
    interface
        subroutine sdatio_netcdf_inputs(sfile, variable_name, fileid, varid, starts_ptr, counts_ptr) &
             bind(c, name='sdatio_netcdf_inputs')
