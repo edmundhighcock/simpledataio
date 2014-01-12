@@ -61,8 +61,6 @@ AL_CHECK_ISO_C_BINDING
 if test "x$nc_iso_c_binding" = xno; then 
 	AC_MSG_WARN("The Fortran compiler does not support the intrinsic iso_c_binding module: the fortran netCDF interface will not work")
 fi
-
-
 AM_CONDITIONAL(HAS_ISO_C_BINDING, test "x$nc_iso_c_binding" = xyes)
 
 
