@@ -19,7 +19,10 @@
 module simpledataio
 
 use netcdf 
+
+#ifdef ISO_C_BINDING
 use iso_c_binding
+#endif
 
 integer, parameter :: SDATIO_INT= 0
 integer, parameter :: SDATIO_FLOAT= 1
@@ -87,6 +90,7 @@ contains
   subroutine createfile(sfile, fname)
      type(sdatio_file), intent(out) :: sfile
      character(*), intent(in) :: fname
+#ifdef ISO_C_BINDING
      interface
        subroutine sdatio_createfile(sfile, fname) bind(c, name='sdatio_createfile')
          use iso_c_binding
@@ -96,6 +100,13 @@ contains
        end subroutine sdatio_createfile
      end interface
      call sdatio_createfile(sfile, fname//c_null_char)
+#else
+     write (*,*) "module simpledataio was built without &
+       & ISO_C_BINDING and is non-functional. You can use &
+       & the function simpledataio_functional to test &
+       & this. "
+     stop
+#endif
    end subroutine createfile
 
 !#ifdef PARALLEL 
@@ -103,6 +114,7 @@ contains
      type(sdatio_file), intent(out) :: sfile
      character(*), intent(in) :: fname
      integer, intent(in) :: comm
+#ifdef ISO_C_BINDING
      interface
        subroutine sdatio_createfile_parallel(sfile, fname, comm) bind(c, name='sdatio_createfile_parallel')
          use iso_c_binding
@@ -113,6 +125,13 @@ contains
        end subroutine sdatio_createfile_parallel
      end interface
      call sdatio_createfile_parallel(sfile, fname//c_null_char, comm)
+#else
+     write (*,*) "module simpledataio was built without &
+       & ISO_C_BINDING and is non-functional. You can use &
+       & the function simpledataio_functional to test &
+       & this. "
+     stop
+#endif
    end subroutine createfile_parallel
 !#endif
 
@@ -123,6 +142,7 @@ contains
    character(*), intent(in) :: dimension_name
    integer, intent(in) :: dimsize
    character(*), intent(in) :: description, units
+#ifdef ISO_C_BINDING
    interface
        subroutine sdatio_add_dimension(sfile, dimension_name, dimsize, description, units) bind(c, name='sdatio_add_dimension')
          use iso_c_binding
@@ -135,6 +155,7 @@ contains
        end subroutine sdatio_add_dimension
    end interface 
    call sdatio_add_dimension(sfile, dimension_name//c_null_char, dimsize, description//c_null_char, units//c_null_char)
+#endif
  end subroutine add_dimension
 													 !char * dimension_name, 
 													 !int size,
@@ -146,6 +167,7 @@ contains
 !void sdatio_print_dimensions(struct sdatio_file * sfile)
   subroutine print_dimensions(sfile)
    type(sdatio_file), intent(in) :: sfile
+#ifdef ISO_C_BINDING
    interface
      subroutine sdatio_print_dimensions(sfile) bind(c, name='sdatio_print_dimensions')
        use iso_c_binding
@@ -154,6 +176,7 @@ contains
      end subroutine sdatio_print_dimensions
    end interface
    call sdatio_print_dimensions(sfile)
+#endif
   end subroutine print_dimensions
 
 
@@ -162,6 +185,7 @@ contains
 !void sdatio_close(struct sdatio_file * sfile)
   subroutine closefile(sfile)
    type(sdatio_file), intent(in) :: sfile
+#ifdef ISO_C_BINDING
    interface
      subroutine sdatio_close(sfile) bind(c, name='sdatio_close')
        use iso_c_binding
@@ -170,12 +194,14 @@ contains
      end subroutine sdatio_close
    end interface
    call sdatio_close(sfile)
+#endif
   end subroutine closefile
 
 !/* Ensure all variables are written to disk in case of crashes*/
 !void sdatio_sync(struct sdatio_file * sfile)
   subroutine syncfile(sfile)
    type(sdatio_file), intent(in) :: sfile
+#ifdef ISO_C_BINDING
    interface
      subroutine sdatio_sync(sfile) bind(c, name='sdatio_sync')
        use iso_c_binding
@@ -184,6 +210,7 @@ contains
      end subroutine sdatio_sync
    end interface
    call sdatio_sync(sfile)
+#endif
   end subroutine syncfile
 
 !/* Define a variable in the given file. Dimension list 
@@ -205,6 +232,7 @@ contains
    !character, dimension(:), allocatable :: dimension_list_reversed
    character(len(dimension_list)) :: dimension_list_reversed
    integer :: i
+#ifdef ISO_C_BINDING
    interface
        subroutine sdatio_create_variable(sfile, variable_type, variable_name, dimension_list, description, units) &
             bind(c, name='sdatio_create_variable')
@@ -226,6 +254,7 @@ contains
    !write (*,*) 'dimension_list ', dimension_list, ' dimension_list_reversed ', dimension_list_reversed
    call sdatio_create_variable(sfile, variable_type,&
      variable_name//c_null_char, dimension_list_reversed//c_null_char, description//c_null_char, units//c_null_char)
+#endif
    !else 
    !call sdatio_create_variable(sfile, variable_type,&
      !variable_name//c_null_char, dimension_list//c_null_char, description//c_null_char, units//c_null_char)
@@ -262,6 +291,7 @@ contains
    character(*), intent(in) :: variable_name
    character(*), intent(in) :: dimension_name
    integer, intent(in) :: count
+#ifdef ISO_C_BINDING
    interface
        subroutine sdatio_set_count(sfile, variable_name, dimension_name, count) &
             bind(c, name='sdatio_set_count')
@@ -275,6 +305,7 @@ contains
    end interface 
    call sdatio_set_count(sfile, variable_name//c_null_char, &
                             dimension_name//c_null_char, count)
+#endif
  end subroutine set_count
 
  subroutine set_start(sfile, variable_name, dimension_name, start)
@@ -282,6 +313,7 @@ contains
    character(*), intent(in) :: variable_name
    character(*), intent(in) :: dimension_name
    integer, intent(in) :: start
+#ifdef ISO_C_BINDING
    interface
        subroutine sdatio_set_start(sfile, variable_name, dimension_name, start) &
             bind(c, name='sdatio_set_start')
@@ -295,6 +327,7 @@ contains
    end interface 
    call sdatio_set_start(sfile, variable_name//c_null_char, &
                             dimension_name//c_null_char, start-1) 
+#endif
        ! convert from 1-based to 0-based
                      
  end subroutine set_start
@@ -303,6 +336,7 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(out) :: n
+#ifdef ISO_C_BINDING
    interface
        subroutine sdatio_number_of_unlimited_dimensions(sfile, variable_name, n) &
             bind(c, name='sdatio_number_of_unlimited_dimensions')
@@ -314,6 +348,7 @@ contains
        end subroutine sdatio_number_of_unlimited_dimensions
    end interface 
    call sdatio_number_of_unlimited_dimensions(sfile, variable_name//c_null_char, n)
+#endif
  end subroutine number_of_unlimited_dimensions
 
  subroutine netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts)
@@ -324,6 +359,7 @@ contains
    integer(c_size_t), dimension(:), allocatable, target :: starts_c, counts_c
    type(c_ptr) :: starts_ptr, counts_ptr
    integer :: i,n
+#ifdef ISO_C_BINDING
    interface
        subroutine sdatio_netcdf_inputs(sfile, variable_name, fileid, varid, starts_ptr, counts_ptr) &
             bind(c, name='sdatio_netcdf_inputs')
@@ -351,6 +387,7 @@ contains
    !write (*,*) variable_name, '  sc', starts, 'c', counts, ' n', n
 
    deallocate(counts_c, starts_c)
+#endif
 
  end subroutine netcdf_inputs
 
@@ -360,6 +397,7 @@ contains
 !void sdatio_print_variables(struct sdatio_file * sfile)
   subroutine print_variables(sfile)
    type(sdatio_file), intent(in) :: sfile
+#ifdef ISO_C_BINDING
    interface
      subroutine sdatio_print_variables(sfile) bind(c, name='sdatio_print_variables')
        use iso_c_binding
@@ -368,6 +406,7 @@ contains
      end subroutine sdatio_print_variables
    end interface
    call sdatio_print_variables(sfile)
+#endif
   end subroutine print_variables
 
 !/* Increment the start of the specified infinite dimension */
@@ -375,6 +414,7 @@ contains
   subroutine increment_start(sfile, dimension_name)
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: dimension_name
+#ifdef ISO_C_BINDING
    interface
      subroutine sdatio_increment_start(sfile, dimension_name) bind(c, name='sdatio_increment_start')
        use iso_c_binding
@@ -384,6 +424,7 @@ contains
      end subroutine sdatio_increment_start
    end interface
    call sdatio_increment_start(sfile, dimension_name//c_null_char)
+#endif
   end subroutine increment_start
   
 
@@ -392,6 +433,7 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    logical :: variable_exists
+#ifdef ISO_C_BINDING
    integer(c_int) :: c_variable_exists
    interface
        function sdatio_variable_exists(sfile, variable_name) &
@@ -409,6 +451,20 @@ contains
    else 
      variable_exists = .false.
    end if
+#endif
  end function variable_exists 
+
+ !> Returns true if simpledataio is functional. simpledataio is designed to
+ !! present a uniform interface on any system. If it cannot be built it presents
+ !! a non-functioning interface and allows the user to test for this at run time
+ !! rather then causing the user's code to fail at compile time
+ function simpledataio_functional()
+   logical :: simpledataio_functional
+#ifdef ISO_C_BINDING
+   simpledataio_functional = .true.
+#else
+   simpledataio_functional = .false.
+#endif
+  end function simpledataio_functional
 
 end module simpledataio
