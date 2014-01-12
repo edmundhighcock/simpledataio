@@ -104,6 +104,7 @@ contains
      type(sdatio_file), intent(out) :: sfile
      character(*), intent(in) :: fname
 #ifdef ISO_C_BINDING
+#ifdef FORTRAN_NETCDF
      interface
        subroutine sdatio_createfile(sfile, fname) bind(c, name='sdatio_createfile')
          use iso_c_binding
@@ -113,6 +114,13 @@ contains
        end subroutine sdatio_createfile
      end interface
      call sdatio_createfile(sfile, fname//c_null_char)
+#else
+     write (*,*) "module simpledataio was built without &
+       & the netcdf fortran library and is non-functional. You can use &
+       & the function simpledataio_functional to test &
+       & this. "
+     stop
+#endif
 #else
      write (*,*) "module simpledataio was built without &
        & ISO_C_BINDING and is non-functional. You can use &
@@ -128,6 +136,7 @@ contains
      character(*), intent(in) :: fname
      integer, intent(in) :: comm
 #ifdef ISO_C_BINDING
+#ifdef FORTRAN_NETCDF
      interface
        subroutine sdatio_createfile_parallel(sfile, fname, comm) bind(c, name='sdatio_createfile_parallel')
          use iso_c_binding
@@ -138,6 +147,13 @@ contains
        end subroutine sdatio_createfile_parallel
      end interface
      call sdatio_createfile_parallel(sfile, fname//c_null_char, comm)
+#else
+     write (*,*) "module simpledataio was built without &
+       & the netcdf fortran library and is non-functional. You can use &
+       & the function simpledataio_functional to test &
+       & this. "
+     stop
+#endif
 #else
      write (*,*) "module simpledataio was built without &
        & ISO_C_BINDING and is non-functional. You can use &
@@ -473,10 +489,11 @@ contains
  !! rather then causing the user's code to fail at compile time
  function simpledataio_functional()
    logical :: simpledataio_functional
-#ifdef ISO_C_BINDING
-   simpledataio_functional = .true.
-#else
    simpledataio_functional = .false.
+#ifdef ISO_C_BINDING
+#ifdef FORTRAN_NETCDF
+   simpledataio_functional = .true.
+#endif
 #endif
   end function simpledataio_functional
 
