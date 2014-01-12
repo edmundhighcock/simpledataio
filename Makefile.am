@@ -47,6 +47,7 @@ AM_FCFLAGS+=-Iinclude/
 # On HPC systems with Intel/PGI compilers, force static linking
 if FORCE_STATIC
 AM_LDFLAGS=-all-static
+else
 endif
 
 # Serial tests for C and Fortran... invoked by make check

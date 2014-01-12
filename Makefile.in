@@ -221,6 +221,7 @@ EGREP = @EGREP@
 EXEEXT = @EXEEXT@
 FC = @FC@
 FCFLAGS = @FCFLAGS@
+FCFLAGS_f90 = @FCFLAGS_f90@
 FC_MODEXT = @FC_MODEXT@
 FGREP = @FGREP@
 GREP = @GREP@
@@ -556,28 +557,28 @@ test.obj: test/test.c
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test.obj `if test -f 'test/test.c'; then $(CYGPATH_W) 'test/test.c'; else $(CYGPATH_W) '$(srcdir)/test/test.c'; fi`
 
 .f90.o:
-	$(FCCOMPILE) -c -o $@ $<
+	$(FCCOMPILE) -c -o $@ $(FCFLAGS_f90) $<
 
 .f90.obj:
-	$(FCCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+	$(FCCOMPILE) -c -o $@ $(FCFLAGS_f90) `$(CYGPATH_W) '$<'`
 
 .f90.lo:
-	$(LTFCCOMPILE) -c -o $@ $<
+	$(LTFCCOMPILE) -c -o $@ $(FCFLAGS_f90) $<
 
 simpledataio_write.lo: src/simpledataio_write.f90
-	$(LIBTOOL)  --tag=FC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o simpledataio_write.lo `test -f 'src/simpledataio_write.f90' || echo '$(srcdir)/'`src/simpledataio_write.f90
+	$(LIBTOOL)  --tag=FC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o simpledataio_write.lo $(FCFLAGS_f90) `test -f 'src/simpledataio_write.f90' || echo '$(srcdir)/'`src/simpledataio_write.f90
 
 testf.o: test/testf.f90
-	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o testf.o `test -f 'test/testf.f90' || echo '$(srcdir)/'`test/testf.f90
+	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o testf.o $(FCFLAGS_f90) `test -f 'test/testf.f90' || echo '$(srcdir)/'`test/testf.f90
 
 testf.obj: test/testf.f90
-	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o testf.obj `if test -f 'test/testf.f90'; then $(CYGPATH_W) 'test/testf.f90'; else $(CYGPATH_W) '$(srcdir)/test/testf.f90'; fi`
+	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o testf.obj $(FCFLAGS_f90) `if test -f 'test/testf.f90'; then $(CYGPATH_W) 'test/testf.f90'; else $(CYGPATH_W) '$(srcdir)/test/testf.f90'; fi`
 
 test_parallelf.o: test/test_parallelf.f90
-	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o test_parallelf.o `test -f 'test/test_parallelf.f90' || echo '$(srcdir)/'`test/test_parallelf.f90
+	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o test_parallelf.o $(FCFLAGS_f90) `test -f 'test/test_parallelf.f90' || echo '$(srcdir)/'`test/test_parallelf.f90
 
 test_parallelf.obj: test/test_parallelf.f90
-	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o test_parallelf.obj `if test -f 'test/test_parallelf.f90'; then $(CYGPATH_W) 'test/test_parallelf.f90'; else $(CYGPATH_W) '$(srcdir)/test/test_parallelf.f90'; fi`
+	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o test_parallelf.obj $(FCFLAGS_f90) `if test -f 'test/test_parallelf.f90'; then $(CYGPATH_W) 'test/test_parallelf.f90'; else $(CYGPATH_W) '$(srcdir)/test/test_parallelf.f90'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

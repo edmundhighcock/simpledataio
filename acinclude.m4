@@ -444,3 +444,33 @@ AC_DEFUN([AX_COMPILER_VENDOR],
  ])
 ])
 
+
+AC_DEFUN([AL_CHECK_ISO_C_BINDING], [
+# next check to see if the Fortran compiler will support
+# ISO_C_BINDING
+nc_iso_c_binding=yes
+
+# Some f90 compilers change the case of the mod file names. Others
+# require special flags to be set to deal with .f90 files. Find out
+# about this compiler.
+AC_LANG_PUSH(Fortran)
+AC_FC_SRCEXT(f90)
+AC_LANG_POP(Fortran)
+AC_MSG_CHECKING([if Fortran compiler supports Fortran 2003 ISO_C_BINDING])
+cat <<EOF >conftest.f90
+module conftest_module
+USE ISO_C_BINDING
+end module conftest_module
+EOF
+doit='$FC -c ${FCFLAGS} ${FCFLAGS_f90} conftest.f90'
+if AC_TRY_EVAL(doit); then
+	 nc_iso_c_binding=yes
+else
+	 nc_iso_c_binding=no
+fi
+AC_MSG_RESULT([$nc_iso_c_binding])
+
+if test "x$nc_iso_c_binding" = xno; then
+		AC_MSG_WARN([ISO_C_BINDING not supported - defaulting to F90 interfaces])
+fi
+])
