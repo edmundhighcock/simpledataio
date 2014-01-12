@@ -638,6 +638,8 @@ LTLIBOBJS
 LIBOBJS
 UPPER_CASE_MOD_FALSE
 UPPER_CASE_MOD_TRUE
+HAS_FORTRAN_NETCDF_FALSE
+HAS_FORTRAN_NETCDF_TRUE
 CPP
 OTOOL64
 OTOOL
@@ -15422,6 +15424,7 @@ else
   al_netcdf_ok=no
 fi
 
+al_netcdff_present=yes
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_create in -lnetcdff" >&5
 $as_echo_n "checking for nc_create in -lnetcdff... " >&6; }
 if ${ac_cv_lib_netcdff_nc_create+:} false; then :
@@ -15695,6 +15698,7 @@ else
   al_netcdf_ok=no
 fi
 
+al_netcdff_present=yes
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_create in -lnetcdff" >&5
 $as_echo_n "checking for nc_create in -lnetcdff... " >&6; }
 if ${ac_cv_lib_netcdff_nc_create+:} false; then :
@@ -15894,6 +15898,19 @@ as_fn_error $? "\"Failed to find all netCDF prerequisites\"
 See \`config.log' for more details" "$LINENO" 5; }
 	fi
 fi
+
+if test "x$al_netcdff_present" = xno; then
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: \"Cannot find the fortran netcdf library: the fortran netCDF interface will not work\"" >&5
+$as_echo "$as_me: WARNING: \"Cannot find the fortran netcdf library: the fortran netCDF interface will not work\"" >&2;}
+fi
+ if test "x$al_netcdff_present" = xyes; then
+  HAS_FORTRAN_NETCDF_TRUE=
+  HAS_FORTRAN_NETCDF_FALSE='#'
+else
+  HAS_FORTRAN_NETCDF_TRUE='#'
+  HAS_FORTRAN_NETCDF_FALSE=
+fi
+
 
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -16212,6 +16229,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${HAS_ISO_C_BINDING_TRUE}" && test -z "${HAS_ISO_C_BINDING_FALSE}"; then
   as_fn_error $? "conditional \"HAS_ISO_C_BINDING\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAS_FORTRAN_NETCDF_TRUE}" && test -z "${HAS_FORTRAN_NETCDF_FALSE}"; then
+  as_fn_error $? "conditional \"HAS_FORTRAN_NETCDF\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${UPPER_CASE_MOD_TRUE}" && test -z "${UPPER_CASE_MOD_FALSE}"; then

@@ -2459,6 +2459,7 @@ m4trace:acinclude.m4:510: -1- AC_DEFUN([AL_CHECK_NETCDF], [
 AC_REQUIRE([AC_FC_MODULE_EXTENSION])
 al_netcdf_ok=yes
 AC_CHECK_LIB([netcdf], [nc_create], [], al_netcdf_ok=no)
+al_netcdff_present=yes
 AC_CHECK_LIB([netcdff], [nc_create], [], al_netcdff_present=no)
 unset ac_cv_have_decl_nc_create
 AC_CHECK_DECL([nc_create], [], al_netcdf_ok=no, [
@@ -2796,20 +2797,25 @@ m4trace:configure.ac:100: -1- m4_pattern_allow([^HAVE_LIBNETCDFF$])
 m4trace:configure.ac:100: -1- m4_pattern_allow([^HAVE_NETCDF_H$])
 m4trace:configure.ac:100: -1- AL_CHECK_FORTRAN_MODULE([netcdf], [], [al_netcdf_ok=no])
 m4trace:configure.ac:100: -1- m4_pattern_allow([^FCFLAGS_f90$])
-m4trace:configure.ac:116: -1- m4_pattern_allow([^HAVE_MPI_H$])
-m4trace:configure.ac:119: -1- m4_pattern_allow([^HAVE_LIBNETCDF$])
-m4trace:configure.ac:129: -1- AC_PROG_FC_UPPERCASE_MOD
-m4trace:configure.ac:130: -1- AM_CONDITIONAL([UPPER_CASE_MOD], [test "x$ac_cv_prog_f90_uppercase_mod" = xyes])
-m4trace:configure.ac:130: -1- m4_pattern_allow([^UPPER_CASE_MOD_TRUE$])
-m4trace:configure.ac:130: -1- m4_pattern_allow([^UPPER_CASE_MOD_FALSE$])
-m4trace:configure.ac:130: -1- _AM_SUBST_NOTMAKE([UPPER_CASE_MOD_TRUE])
-m4trace:configure.ac:130: -1- _AM_SUBST_NOTMAKE([UPPER_CASE_MOD_FALSE])
-m4trace:configure.ac:133: -1- m4_pattern_allow([^LIB@&t@OBJS$])
-m4trace:configure.ac:133: -1- m4_pattern_allow([^LTLIBOBJS$])
-m4trace:configure.ac:133: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
-m4trace:configure.ac:133: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
-m4trace:configure.ac:133: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
-m4trace:configure.ac:133: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
-m4trace:configure.ac:133: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
-m4trace:configure.ac:133: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
-m4trace:configure.ac:133: -1- _LT_PROG_LTMAIN
+m4trace:configure.ac:109: -1- AM_CONDITIONAL([HAS_FORTRAN_NETCDF], [test "x$al_netcdff_present" = xyes])
+m4trace:configure.ac:109: -1- m4_pattern_allow([^HAS_FORTRAN_NETCDF_TRUE$])
+m4trace:configure.ac:109: -1- m4_pattern_allow([^HAS_FORTRAN_NETCDF_FALSE$])
+m4trace:configure.ac:109: -1- _AM_SUBST_NOTMAKE([HAS_FORTRAN_NETCDF_TRUE])
+m4trace:configure.ac:109: -1- _AM_SUBST_NOTMAKE([HAS_FORTRAN_NETCDF_FALSE])
+m4trace:configure.ac:121: -1- m4_pattern_allow([^HAVE_MPI_H$])
+m4trace:configure.ac:124: -1- m4_pattern_allow([^HAVE_LIBNETCDF$])
+m4trace:configure.ac:134: -1- AC_PROG_FC_UPPERCASE_MOD
+m4trace:configure.ac:135: -1- AM_CONDITIONAL([UPPER_CASE_MOD], [test "x$ac_cv_prog_f90_uppercase_mod" = xyes])
+m4trace:configure.ac:135: -1- m4_pattern_allow([^UPPER_CASE_MOD_TRUE$])
+m4trace:configure.ac:135: -1- m4_pattern_allow([^UPPER_CASE_MOD_FALSE$])
+m4trace:configure.ac:135: -1- _AM_SUBST_NOTMAKE([UPPER_CASE_MOD_TRUE])
+m4trace:configure.ac:135: -1- _AM_SUBST_NOTMAKE([UPPER_CASE_MOD_FALSE])
+m4trace:configure.ac:138: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:138: -1- m4_pattern_allow([^LTLIBOBJS$])
+m4trace:configure.ac:138: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
+m4trace:configure.ac:138: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
+m4trace:configure.ac:138: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
+m4trace:configure.ac:138: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
+m4trace:configure.ac:138: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
+m4trace:configure.ac:138: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
+m4trace:configure.ac:138: -1- _LT_PROG_LTMAIN

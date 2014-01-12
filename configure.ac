@@ -103,6 +103,11 @@ if test "x$al_netcdf_ok" = xno; then
 	fi
 fi
 
+if test "x$al_netcdff_present" = xno; then
+	AC_MSG_WARN("Cannot find the fortran netcdf library: the fortran netCDF interface will not work")
+fi
+AM_CONDITIONAL(HAS_FORTRAN_NETCDF, test "x$al_netcdff_present" = xyes)
+
 
 # Checks for typedefs, structures, and compiler characteristics.
 #AC_TYPE_SIZE_T
