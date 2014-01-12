@@ -516,6 +516,10 @@ al_netcdf_ok=yes
 AC_CHECK_LIB([netcdf], [nc_create], [], al_netcdf_ok=no)
 al_netcdff_present=yes
 AC_CHECK_LIB([netcdff], [nc_create], [], al_netcdff_present=no)
+if test "x$al_netcdff_present" = xno; then
+	al_netcdff_present=yes
+	AC_CHECK_LIB([netcdff], [nf_create], [], al_netcdff_present=no)
+fi
 unset ac_cv_have_decl_nc_create
 AC_CHECK_DECL([nc_create], [], al_netcdf_ok=no, [
 							 #include "netcdf.h"
