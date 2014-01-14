@@ -702,6 +702,8 @@ CC
 MPICC
 WITHMPI_FALSE
 WITHMPI_TRUE
+USE_LIBTOOL_FALSE
+USE_LIBTOOL_TRUE
 PARALLEL_FALSE
 PARALLEL_TRUE
 am__untar
@@ -769,6 +771,7 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 enable_parallel
+enable_libtool
 enable_mpi
 enable_dependency_tracking
 enable_shared
@@ -1412,6 +1415,9 @@ Optional Features:
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-parallel       build with parallel netcdf (requires netcdf4, hdf5
                           and mpi)
+  --disable-libtool       disable libtool and build old-fashioned .a
+                          libraries... useful on some HPC systems with limited
+                          compilers
   --enable-mpi            build with mpi version of compilers
   --disable-dependency-tracking  speeds up one-time build
   --enable-dependency-tracking   do not reject slow dependency extractors
@@ -2885,6 +2891,28 @@ $as_echo "$enable_parallel" >&6; }
 else
   PARALLEL_TRUE='#'
   PARALLEL_FALSE=
+fi
+
+
+# Check whether to build using libtool and generate proper libraries or
+# to generate old-style .a libs
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to build using libtool" >&5
+$as_echo_n "checking whether to build using libtool... " >&6; }
+@%:@ Check whether --enable-libtool was given.
+if test "${enable_libtool+set}" = set; then :
+  enableval=$enable_libtool; enable_libtool=no
+else
+  enable_libtool=yes
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $enable_libtool" >&5
+$as_echo "$enable_libtool" >&6; }
+ if test "x$enable_libtool" = xyes; then
+  USE_LIBTOOL_TRUE=
+  USE_LIBTOOL_FALSE='#'
+else
+  USE_LIBTOOL_TRUE='#'
+  USE_LIBTOOL_FALSE=
 fi
 
 
@@ -4826,7 +4854,8 @@ fi
 
 
 
-case `pwd` in
+#if test "x$enable_libtool" = xyes; then
+	case `pwd` in
   *\ * | *\	*)
     { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Libtool does not cope well with whitespace in \`pwd\`" >&5
 $as_echo "$as_me: WARNING: Libtool does not cope well with whitespace in \`pwd\`" >&2;} ;;
@@ -15306,10 +15335,13 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 # Only expand once:
 
 
+#else
+ #C_PROG_RANLIB
+#AC_PROG_INSTALL
+#fi
+
 #AC_PROG_FC
 #AC_PROG_FPP
-#AC_PROG_RANLIB
-#AC_PROG_INSTALL
 
 # Checks for libraries.
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for H5open in -lhdf5" >&5
@@ -16545,6 +16577,10 @@ fi
 
 if test -z "${PARALLEL_TRUE}" && test -z "${PARALLEL_FALSE}"; then
   as_fn_error $? "conditional \"PARALLEL\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${USE_LIBTOOL_TRUE}" && test -z "${USE_LIBTOOL_FALSE}"; then
+  as_fn_error $? "conditional \"USE_LIBTOOL\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${WITHMPI_TRUE}" && test -z "${WITHMPI_FALSE}"; then

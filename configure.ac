@@ -16,6 +16,16 @@ AC_ARG_ENABLE([parallel],
 AC_MSG_RESULT([$enable_parallel])
 AM_CONDITIONAL(PARALLEL, [test "x$enable_parallel" = xyes])
 
+# Check whether to build using libtool and generate proper libraries or
+# to generate old-style .a libs
+AC_MSG_CHECKING([whether to build using libtool])
+AC_ARG_ENABLE([libtool],
+              [AS_HELP_STRING([--disable-libtool],
+                              [disable libtool and build old-fashioned .a libraries... useful on some HPC systems with limited compilers])],
+							[enable_libtool=no], [enable_libtool=yes])
+AC_MSG_RESULT([$enable_libtool])
+AM_CONDITIONAL(USE_LIBTOOL, [test "x$enable_libtool" = xyes])
+
 
 # Check whether to build it using mpi compilers (must be used for enable_parallel)
 if test x"$enable_parallel" = xyes; then
@@ -64,11 +74,15 @@ fi
 AM_CONDITIONAL(HAS_ISO_C_BINDING, test "x$nc_iso_c_binding" = xyes)
 
 
-LT_INIT
+#if test "x$enable_libtool" = xyes; then
+	LT_INIT
+#else
+ #C_PROG_RANLIB
+#AC_PROG_INSTALL
+#fi
+
 #AC_PROG_FC
 #AC_PROG_FPP
-#AC_PROG_RANLIB
-#AC_PROG_INSTALL
 
 # Checks for libraries.
 AC_CHECK_LIB([hdf5], [H5open])
