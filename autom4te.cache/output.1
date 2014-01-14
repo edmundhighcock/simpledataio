@@ -771,7 +771,7 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 enable_parallel
-enable_libtool
+enable_archiveonly
 enable_mpi
 enable_dependency_tracking
 enable_shared
@@ -1415,9 +1415,10 @@ Optional Features:
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-parallel       build with parallel netcdf (requires netcdf4, hdf5
                           and mpi)
-  --disable-libtool       disable libtool and build old-fashioned .a
+  --enable-archiveonly    disable libtool and build old-fashioned .a
                           libraries... useful on some HPC systems with limited
-                          compilers
+                          compilers. Also diagnose compilation of test
+                          programs
   --enable-mpi            build with mpi version of compilers
   --disable-dependency-tracking  speeds up one-time build
   --enable-dependency-tracking   do not reject slow dependency extractors
@@ -2895,12 +2896,13 @@ fi
 
 
 # Check whether to build using libtool and generate proper libraries or
-# to generate old-style .a libs
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to build using libtool" >&5
-$as_echo_n "checking whether to build using libtool... " >&6; }
-@%:@ Check whether --enable-libtool was given.
-if test "${enable_libtool+set}" = set; then :
-  enableval=$enable_libtool; enable_libtool=no
+# to only generate old-style .a libs. Also disables compilation test
+# programs
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to build archives only" >&5
+$as_echo_n "checking whether to build archives only... " >&6; }
+@%:@ Check whether --enable-archiveonly was given.
+if test "${enable_archiveonly+set}" = set; then :
+  enableval=$enable_archiveonly; enable_libtool=no
 else
   enable_libtool=yes
 fi
@@ -15336,9 +15338,9 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 #else
- #C_PROG_RANLIB
-#AC_PROG_INSTALL
+ #AC_PROG_RANLIB
 #fi
+#AC_PROG_INSTALL
 
 #AC_PROG_FC
 #AC_PROG_FPP

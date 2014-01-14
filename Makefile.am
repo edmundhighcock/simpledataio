@@ -55,6 +55,7 @@ libsimpledataiof_a_SOURCES = src/simpledataiof2.F90 src/simpledataio_write2.F90
 #EXTRA_libsimpledataiof_a_SOURCES = src/simpledataiof.F90 src/simpledataio_write.F90
 endif
 
+if USE_LIBTOOL
 # Test programs
 bin_PROGRAMS=$(top_builddir)/test/testprog 
 bin_PROGRAMS+=$(top_builddir)/test/testprog_fortran
@@ -64,6 +65,7 @@ __top_builddir__test_testprog_SOURCES=test/test.c
 __top_builddir__test_testprog_LDADD=libsimpledataio.$(LA)
 __top_builddir__test_testprog_fortran_SOURCES=test/testf.f90
 __top_builddir__test_testprog_fortran_LDADD=libsimpledataiof.$(LA) libsimpledataio.$(LA) 
+endif
 
 
 # To get the module files
@@ -90,12 +92,14 @@ TESTS_ENVIRONMENT =
 # If the user has specified --enable-parallel
 if PARALLEL
 AM_CPPFLAGS=-DPARALLEL
+if USE_LIBTOOL
 bin_PROGRAMS+=$(top_builddir)/test/testprog_fortran_parallel
 TESTS +=  test/test_parallel.sh
 
 __top_builddir__test_testprog_fortran_parallel_SOURCES=test/test_parallelf.f90
 __top_builddir__test_testprog_fortran_parallel_LDADD=libsimpledataiof.$(LA) libsimpledataio.$(LA)
 #__top_builddir__test_testprog_fortran_parallel_LDFLAGS=-lmpi -lmpi_f90
+endif
 endif
 
 CLEANFILES=test.cdf testfile.cdf test_parallel.cdf $(SDAT_MOD) $(SDAT_WRITE_MOD) include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)

@@ -17,11 +17,12 @@ AC_MSG_RESULT([$enable_parallel])
 AM_CONDITIONAL(PARALLEL, [test "x$enable_parallel" = xyes])
 
 # Check whether to build using libtool and generate proper libraries or
-# to generate old-style .a libs
-AC_MSG_CHECKING([whether to build using libtool])
-AC_ARG_ENABLE([libtool],
-              [AS_HELP_STRING([--disable-libtool],
-                              [disable libtool and build old-fashioned .a libraries... useful on some HPC systems with limited compilers])],
+# to only generate old-style .a libs. Also disables compilation test
+# programs
+AC_MSG_CHECKING([whether to build archives only])
+AC_ARG_ENABLE([archiveonly],
+              [AS_HELP_STRING([--enable-archiveonly],
+                              [disable libtool and build old-fashioned .a libraries... useful on some HPC systems with limited compilers. Also diagnose compilation of test programs])],
 							[enable_libtool=no], [enable_libtool=yes])
 AC_MSG_RESULT([$enable_libtool])
 AM_CONDITIONAL(USE_LIBTOOL, [test "x$enable_libtool" = xyes])
@@ -77,9 +78,9 @@ AM_CONDITIONAL(HAS_ISO_C_BINDING, test "x$nc_iso_c_binding" = xyes)
 #if test "x$enable_libtool" = xyes; then
 	LT_INIT
 #else
- #C_PROG_RANLIB
-#AC_PROG_INSTALL
+ #AC_PROG_RANLIB
 #fi
+#AC_PROG_INSTALL
 
 #AC_PROG_FC
 #AC_PROG_FPP
