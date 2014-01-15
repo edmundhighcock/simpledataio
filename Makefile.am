@@ -5,7 +5,7 @@
 ACLOCAL_AMFLAGS=-I m4
 #
 #
-if USE_LIBTOOL
+if !ARCHIVEONLY
 LA = la
 LO = lo
 else
@@ -14,7 +14,7 @@ LO = o
 endif
 
 # C and Fortran Libraries
-if USE_LIBTOOL
+if !ARCHIVEONLY
 lib_LTLIBRARIES = libsimpledataio.la libsimpledataiof.la
 lib_LIBRARIES =
 else
@@ -38,24 +38,20 @@ else
 SDAT_MOD =
 SDAT_WRITE_MOD =
 endif
+
 # Public headers/fortran modules
 include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD)
+
 # Sources required
-if USE_LIBTOOL
+if !ARCHIVEONLY
 libsimpledataio_la_SOURCES = src/simpledataio.c
-#EXTRA_libsimpledataio_la_SOURCES = src/simpledataio.c 
 libsimpledataiof_la_SOURCES = src/simpledataiof.F90 src/simpledataio_write.F90
-#EXTRA_libsimpledataiof_la_SOURCES = src/simpledataiof.F90 src/simpledataio_write.F90
 else
 libsimpledataio_a_SOURCES = src/simpledataio2.c 
 libsimpledataiof_a_SOURCES = src/simpledataiof2.F90 src/simpledataio_write2.F90
-#libsimpledataio_a_SOURCES = 
-#EXTRA_libsimpledataio_a_SOURCES = src/simpledataio.c 
-#libsimpledataiof_a_SOURCES =
-#EXTRA_libsimpledataiof_a_SOURCES = src/simpledataiof.F90 src/simpledataio_write.F90
 endif
 
-if USE_LIBTOOL
+if !ARCHIVEONLY
 # Test programs
 bin_PROGRAMS=$(top_builddir)/test/testprog 
 bin_PROGRAMS+=$(top_builddir)/test/testprog_fortran
@@ -92,7 +88,7 @@ TESTS_ENVIRONMENT =
 # If the user has specified --enable-parallel
 if PARALLEL
 AM_CPPFLAGS=-DPARALLEL
-if USE_LIBTOOL
+if !ARCHIVEONLY
 bin_PROGRAMS+=$(top_builddir)/test/testprog_fortran_parallel
 TESTS +=  test/test_parallel.sh
 
@@ -110,7 +106,7 @@ CLEANFILES+= src/simpledataio2.c src/simpledataiof2.F90 src/simpledataio_write2.
 #SH_LOG_COMPILER = bash
 #LOG_COMPILER = sh
 
-if !USE_LIBTOOL
+if ARCHIVEONLY
   TWO = 2
 endif
 if HAS_F90_MODULES
@@ -125,7 +121,7 @@ test/testf.f90: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
 test/test_parallelf.f90: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
 endif
 
-if !USE_LIBTOOL
+if ARCHIVEONLY
 src/simpledataio2.c: src/simpledataio.c
 	cp $< $@
 src/simpledataiof2.F90: src/simpledataiof.F90

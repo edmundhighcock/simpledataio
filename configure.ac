@@ -23,9 +23,9 @@ AC_MSG_CHECKING([whether to build archives only])
 AC_ARG_ENABLE([archiveonly],
               [AS_HELP_STRING([--enable-archiveonly],
                               [disable libtool and build old-fashioned .a libraries... useful on some HPC systems with limited compilers. Also diagnose compilation of test programs])],
-							[enable_libtool=no], [enable_libtool=yes])
-AC_MSG_RESULT([$enable_libtool])
-AM_CONDITIONAL(USE_LIBTOOL, [test "x$enable_libtool" = xyes])
+							[enable_archiveonly=yes], [enable_archiveonly=no])
+AC_MSG_RESULT([$enable_archiveonly])
+AM_CONDITIONAL(ARCHIVEONLY, [test "x$enable_archiveonly" = xyes])
 
 
 # Check whether to build it using mpi compilers (must be used for enable_parallel)

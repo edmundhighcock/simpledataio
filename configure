@@ -702,8 +702,8 @@ CC
 MPICC
 WITHMPI_FALSE
 WITHMPI_TRUE
-USE_LIBTOOL_FALSE
-USE_LIBTOOL_TRUE
+ARCHIVEONLY_FALSE
+ARCHIVEONLY_TRUE
 PARALLEL_FALSE
 PARALLEL_TRUE
 am__untar
@@ -2902,19 +2902,19 @@ fi
 $as_echo_n "checking whether to build archives only... " >&6; }
 # Check whether --enable-archiveonly was given.
 if test "${enable_archiveonly+set}" = set; then :
-  enableval=$enable_archiveonly; enable_libtool=no
+  enableval=$enable_archiveonly; enable_archiveonly=yes
 else
-  enable_libtool=yes
+  enable_archiveonly=no
 fi
 
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $enable_libtool" >&5
-$as_echo "$enable_libtool" >&6; }
- if test "x$enable_libtool" = xyes; then
-  USE_LIBTOOL_TRUE=
-  USE_LIBTOOL_FALSE='#'
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $enable_archiveonly" >&5
+$as_echo "$enable_archiveonly" >&6; }
+ if test "x$enable_archiveonly" = xyes; then
+  ARCHIVEONLY_TRUE=
+  ARCHIVEONLY_FALSE='#'
 else
-  USE_LIBTOOL_TRUE='#'
-  USE_LIBTOOL_FALSE=
+  ARCHIVEONLY_TRUE='#'
+  ARCHIVEONLY_FALSE=
 fi
 
 
@@ -16581,8 +16581,8 @@ if test -z "${PARALLEL_TRUE}" && test -z "${PARALLEL_FALSE}"; then
   as_fn_error $? "conditional \"PARALLEL\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${USE_LIBTOOL_TRUE}" && test -z "${USE_LIBTOOL_FALSE}"; then
-  as_fn_error $? "conditional \"USE_LIBTOOL\" was never defined.
+if test -z "${ARCHIVEONLY_TRUE}" && test -z "${ARCHIVEONLY_FALSE}"; then
+  as_fn_error $? "conditional \"ARCHIVEONLY\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${WITHMPI_TRUE}" && test -z "${WITHMPI_FALSE}"; then
