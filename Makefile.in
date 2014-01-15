@@ -64,8 +64,8 @@ host_triplet = @host@
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog$(EXEEXT) \
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog_fortran$(EXEEXT) \
 @ARCHIVEONLY_FALSE@	$(am__EXEEXT_1)
-@HAS_FORTRAN_NETCDF_TRUE@am__append_1 = -DFORTRAN_NETCDF
-@HAS_ISO_C_BINDING_TRUE@am__append_2 = -DISO_C_BINDING
+@HAS_FORTRAN_NETCDF_TRUE@am__append_1 = $(FDEF)FORTRAN_NETCDF
+@HAS_ISO_C_BINDING_TRUE@am__append_2 = $(FDEF)ISO_C_BINDING
 @ARCHIVEONLY_FALSE@@PARALLEL_TRUE@am__append_3 = $(top_builddir)/test/testprog_fortran_parallel
 @ARCHIVEONLY_FALSE@@PARALLEL_TRUE@am__append_4 = test/test_parallel.sh
 subdir = .
@@ -285,6 +285,10 @@ MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MPICC = @MPICC@
 MPIFC = @MPIFC@
+
+#$(info "DEFS is (DEFS)")
+MYDEFS = @MYDEFS@
+MYDEFSF = @MYDEFSF@
 NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
@@ -358,7 +362,20 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+#CDEFS=$(MYDEFS)
+#$(info "DEFS is $(DEFS)")
+#DEFS=
+AM_CFLAGS = $(MYDEFS)
+#FDEFS=$(subst -D,$(FDEF),$(MYDEFS))
+
+# To get the module files
+AM_FCFLAGS = $(MYDEFSF) -Iinclude/ $(am__append_1) $(am__append_2)
 ACLOCAL_AMFLAGS = -I m4
+
+# Flag needed for defining macros to the fortran preprocessor (usually -D)
+FDEF = @FC_DEFINE@
+
+# Now adjust fortran and C preprocessor flags separately
 #
 #
 @ARCHIVEONLY_FALSE@LA = la
@@ -397,9 +414,6 @@ include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD)
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_LDADD = libsimpledataio.$(LA)
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_fortran_SOURCES = test/testf.f90
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_fortran_LDADD = libsimpledataiof.$(LA) libsimpledataio.$(LA) 
-
-# To get the module files
-AM_FCFLAGS = -Iinclude/ $(am__append_1) $(am__append_2)
 
 # On HPC systems with Intel/PGI compilers, force static linking
 @FORCE_STATIC_TRUE@AM_LDFLAGS = -all-static

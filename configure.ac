@@ -50,9 +50,6 @@ AX_PROG_CC_MPI([test "x$enable_mpi" = xyes], [], [
       AC_MSG_WARN([No MPI C compiler found, not using MPI.])
     fi
   ])
-AC_FC_PP_DEFINE
-AC_SUBST([FC_DEFINE])
-AC_FC_PP_SRCEXT(F90)
 AX_PROG_FC_MPI([test "x$enable_mpi" = xyes], [], [
     if test x"$enable_mpi" = xyes; then
       AC_MSG_FAILURE([MPI Fortran compiler requested, but could not use MPI.])
@@ -60,6 +57,9 @@ AX_PROG_FC_MPI([test "x$enable_mpi" = xyes], [], [
       AC_MSG_WARN([No MPI Fortran compiler found, not using MPI.])
     fi
   ])
+AC_FC_PP_DEFINE
+AC_SUBST([FC_DEFINE])
+AC_FC_PP_SRCEXT(F90)
 #AC_MSG_RESULT([fcdefine is $FC_DEFINE])
 #FCFLAGS+=$FC_DEFINE
 
@@ -156,6 +156,72 @@ fi
 
 AC_PROG_FC_UPPERCASE_MOD
 AM_CONDITIONAL(UPPER_CASE_MOD, [test "x$ac_cv_prog_f90_uppercase_mod" = xyes])
+
+#MYDEFS=$DEFS
+#AC_SUBST([MYDEFS])
+ac_script=['
+:mline
+/\\$/{
+ N
+ s,\\\n,,
+ b mline
+}
+t clear
+:clear
+s/^[   ]*#[  ]*define[   ][  ]*\([^  (][^  (]*([^)]*)\)[   ]*\(.*\)/-D\1=\2/g
+t quote
+s/^[   ]*#[  ]*define[   ][  ]*\([^  ][^   ]*\)[   ]*\(.*\)/-D\1=\2/g
+t quote
+b any
+:quote
+s/[  `~#$^&*(){}\\|;'\''"<>?]/\\&/g
+s/\[/\\&/g
+s/\]/\\&/g
+s/\$/$$/g
+H
+:any
+${
+  g
+  s/^\n//
+  s/\n/ /g
+  p
+}
+']
+ac_scriptf=['
+:mline
+/\\$/{
+ N
+ s,\\\n,,
+ b mline
+}
+t clear
+:clear
+s/^[   ]*#[  ]*define[   ][  ]*\([^  (][^  (]*([^)]*)\)[   ]*\(.*\)/FC_DEFINE\1=\2/g
+t quote
+s/^[   ]*#[  ]*define[   ][  ]*\([^  ][^   ]*\)[   ]*\(.*\)/FC_DEFINE\1=\2/g
+t quote
+b any
+:quote
+s/[  `~#$^&*(){}\\|;'\''"<>?]/\\&/g
+s/\[/\\&/g
+s/\]/\\&/g
+s/\$/$$/g
+H
+:any
+${
+  g
+  s/^\n//
+  s/\n/ /g
+  p
+}
+']
+
+MYDEFS=`sed -n "$ac_script" confdefs.h`
+AC_SUBST([MYDEFS])
+sed -n "$ac_scriptf" confdefs.h > confdefs.h2
+#MYDEFSF=`cat "$MYDEFSF" | sed  -e s/FC_DEFINE/$FC_DEFINE/  `
+MYDEFSF=` sed  -e s/FC_DEFINE/$FC_DEFINE/g confdefs.h2 `
+AC_SUBST([MYDEFSF])
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
