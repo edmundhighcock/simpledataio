@@ -15415,9 +15415,6 @@ done
 #AC_REQUIRE([AC_PROG_FC_UPPERCASE_MOD])
 
 al_netcdf_ok=yes
-unset ac_cv_lib_netcdff_nc_create
-unset ac_cv_lib_netcdff_nf_close
-unset ac_cv_lib_netcdff_nf_close_
 ac_ext=${ac_fc_srcext-f}
 ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
 ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
@@ -15483,6 +15480,7 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
+unset ac_cv_lib_netcdf_nc_create
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_create in -lnetcdf" >&5
 $as_echo_n "checking for nc_create in -lnetcdf... " >&6; }
 if ${ac_cv_lib_netcdf_nc_create+:} false; then :
@@ -15530,7 +15528,13 @@ else
   al_netcdf_ok=no
 fi
 
+
 al_netcdff_present=yes
+
+unset ac_cv_lib_netcdff_nc_create
+unset ac_cv_lib_netcdff_nf_close
+unset ac_cv_lib_netcdff_nf_close_
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_create in -lnetcdff" >&5
 $as_echo_n "checking for nc_create in -lnetcdff... " >&6; }
 if ${ac_cv_lib_netcdff_nc_create+:} false; then :
@@ -15678,6 +15682,7 @@ else
 fi
 
 fi
+
 unset ac_cv_have_decl_nc_create
 ac_fn_c_check_decl "$LINENO" "nc_create" "ac_cv_have_decl_nc_create" "
 							 #include \"netcdf.h\"
@@ -15695,6 +15700,7 @@ fi
 
 # Checks for header files.
 #AC_CHECK_HEADERS([netcdf.h], [], [echo "netcdf.h not found... suggest defining CFLAGS='-I/location/of/netcdf/include'" && exit])
+unset ac_cv_header_netcdf_h
 for ac_header in netcdf.h
 do :
   ac_fn_c_check_header_mongrel "$LINENO" "netcdf.h" "ac_cv_header_netcdf_h" "$ac_includes_default"
@@ -15857,9 +15863,6 @@ $as_echo "$as_me: WARNING: \"Couldn't automatically detect netcdf prefix: nc-con
 #AC_REQUIRE([AC_PROG_FC_UPPERCASE_MOD])
 
 al_netcdf_ok=yes
-unset ac_cv_lib_netcdff_nc_create
-unset ac_cv_lib_netcdff_nf_close
-unset ac_cv_lib_netcdff_nf_close_
 ac_ext=${ac_fc_srcext-f}
 ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
 ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
@@ -15925,6 +15928,7 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
+unset ac_cv_lib_netcdf_nc_create
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_create in -lnetcdf" >&5
 $as_echo_n "checking for nc_create in -lnetcdf... " >&6; }
 if ${ac_cv_lib_netcdf_nc_create+:} false; then :
@@ -15972,7 +15976,13 @@ else
   al_netcdf_ok=no
 fi
 
+
 al_netcdff_present=yes
+
+unset ac_cv_lib_netcdff_nc_create
+unset ac_cv_lib_netcdff_nf_close
+unset ac_cv_lib_netcdff_nf_close_
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_create in -lnetcdff" >&5
 $as_echo_n "checking for nc_create in -lnetcdff... " >&6; }
 if ${ac_cv_lib_netcdff_nc_create+:} false; then :
@@ -16120,6 +16130,7 @@ else
 fi
 
 fi
+
 unset ac_cv_have_decl_nc_create
 ac_fn_c_check_decl "$LINENO" "nc_create" "ac_cv_have_decl_nc_create" "
 							 #include \"netcdf.h\"
@@ -16137,6 +16148,7 @@ fi
 
 # Checks for header files.
 #AC_CHECK_HEADERS([netcdf.h], [], [echo "netcdf.h not found... suggest defining CFLAGS='-I/location/of/netcdf/include'" && exit])
+unset ac_cv_header_netcdf_h
 for ac_header in netcdf.h
 do :
   ac_fn_c_check_header_mongrel "$LINENO" "netcdf.h" "ac_cv_header_netcdf_h" "$ac_includes_default"
