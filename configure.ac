@@ -50,6 +50,9 @@ AX_PROG_CC_MPI([test "x$enable_mpi" = xyes], [], [
       AC_MSG_WARN([No MPI C compiler found, not using MPI.])
     fi
   ])
+AC_FC_PP_DEFINE
+AC_SUBST([FC_DEFINE])
+AC_FC_PP_SRCEXT(F90)
 AX_PROG_FC_MPI([test "x$enable_mpi" = xyes], [], [
     if test x"$enable_mpi" = xyes; then
       AC_MSG_FAILURE([MPI Fortran compiler requested, but could not use MPI.])
@@ -57,9 +60,6 @@ AX_PROG_FC_MPI([test "x$enable_mpi" = xyes], [], [
       AC_MSG_WARN([No MPI Fortran compiler found, not using MPI.])
     fi
   ])
-AC_FC_PP_DEFINE
-AC_SUBST([FC_DEFINE])
-AC_FC_PP_SRCEXT(F90)
 #AC_MSG_RESULT([fcdefine is $FC_DEFINE])
 #FCFLAGS+=$FC_DEFINE
 
