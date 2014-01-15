@@ -3,7 +3,7 @@
 # Written by:
 # 	Edmund Highcock (edmund.highcock@users.sourceforge.net)
 
-#DEFS=
+DEFS=
 
 #$(info "DEFS is (DEFS)")
 MYDEFS=@MYDEFS@
