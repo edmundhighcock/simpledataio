@@ -58,6 +58,8 @@ AX_PROG_FC_MPI([test "x$enable_mpi" = xyes], [], [
     fi
   ])
 AC_FC_PP_DEFINE
+#AC_MSG_RESULT([fcdefine is $FC_DEFINE])
+#FCFLAGS+=$FC_DEFINE
 
 # If we are not using the GNU compiler, we are probably on an HPC system
 # in which case, we force static compilation of the test programs

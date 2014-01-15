@@ -4745,6 +4745,8 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
+#AC_MSG_RESULT([fcdefine is $FC_DEFINE])
+#FCFLAGS+=$FC_DEFINE
 
 # If we are not using the GNU compiler, we are probably on an HPC system
 # in which case, we force static compilation of the test programs

@@ -1,6 +1,9 @@
+
 # Automake file for Simpledataio
 # Written by:
 # 	Edmund Highcock (edmund.highcock@users.sourceforge.net)
+
+DEFS=
 
 ACLOCAL_AMFLAGS=-I m4
 #
