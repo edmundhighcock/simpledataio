@@ -3,7 +3,7 @@
 # Written by:
 # 	Edmund Highcock (edmund.highcock@users.sourceforge.net)
 
-DEFS=
+#DEFS=
 
 ACLOCAL_AMFLAGS=-I m4
 #

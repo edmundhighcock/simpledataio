@@ -58,6 +58,8 @@ AX_PROG_FC_MPI([test "x$enable_mpi" = xyes], [], [
     fi
   ])
 AC_FC_PP_DEFINE
+AC_SUBST([FC_DEFINE])
+AC_FC_PP_SRCEXT(F90)
 #AC_MSG_RESULT([fcdefine is $FC_DEFINE])
 #FCFLAGS+=$FC_DEFINE
 

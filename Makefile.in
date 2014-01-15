@@ -19,6 +19,8 @@
 # Written by:
 # 	Edmund Highcock (edmund.highcock@users.sourceforge.net)
 
+#DEFS=
+
 
 
 
@@ -246,7 +248,7 @@ CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
-DEFS = 
+DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
@@ -259,6 +261,7 @@ EXEEXT = @EXEEXT@
 FC = @FC@
 FCFLAGS = @FCFLAGS@
 FCFLAGS_F = @FCFLAGS_F@
+FCFLAGS_F90 = @FCFLAGS_F90@
 FCFLAGS_f90 = @FCFLAGS_f90@
 FC_DEFINE = @FC_DEFINE@
 FC_MODEXT = @FC_MODEXT@
