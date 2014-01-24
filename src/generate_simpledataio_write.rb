@@ -15,9 +15,9 @@ class Generator
 	end
 	def procedure_name
 		if @offset
-			"write_variable_#{@type.gsub(/[* ]/, '_')}_#{@dimsize}"
+			"write_variable_with_offset_#{@type.gsub(/[* ]/, '_')}_#{@dimsize}"
 		else
-			"write_variable_no_offset_#{@type.gsub(/[* ]/, '_')}_#{@dimsize}"
+			"write_variable_#{@type.gsub(/[* ]/, '_')}_#{@dimsize}"
 		end
 	end
 	def get_n2
@@ -140,13 +140,13 @@ string = <<EOF
 
 module simpledataio_write
 
-interface write_variable
+interface write_variable_with_offset
 #{generators.map{|g| "  module procedure " + g.procedure_name}.join("\n")}
-end interface write_variable
+end interface write_variable_with_offset
 
-interface write_variable_no_offset
+interface write_variable
 #{generators_no_offset.map{|g| "  module procedure " + g.procedure_name}.join("\n")}
-end interface write_variable_no_offset
+end interface write_variable
 
 contains
 

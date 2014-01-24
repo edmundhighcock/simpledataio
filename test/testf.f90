@@ -72,14 +72,14 @@ program test
     call set_offset(sdatfile, "phi_txy", "x", 1)
 
     call set_start(sdatfile, "phi_txy", "x", 2)
-    call write_variable(sdatfile, "phi_txy", phicomp)
+    call write_variable_with_offset(sdatfile, "phi_txy", phicomp)
 
     call set_start(sdatfile, "phi_txy", "y", 2)
-    call write_variable_no_offset(sdatfile, "phi_txy", parameter_comp)
+    call write_variable(sdatfile, "phi_txy", parameter_comp)
     call set_start(sdatfile, "phi_txy", "y", 1)
 
     call set_start(sdatfile, "phi_txy", "x", 3)
-    call write_variable(sdatfile, "phi_txy", phicomp)
+    call write_variable_with_offset(sdatfile, "phi_txy", phicomp)
 
 
     call increment_start(sdatfile, "t");
