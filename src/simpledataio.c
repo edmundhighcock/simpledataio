@@ -74,7 +74,7 @@ void sdatio_createfile(struct sdatio_file * sfile, char * fname)  {
 	int retval;
 	/*if (0){}*/
 	/*else {*/
-		if ((retval = nc_create(fname, NC_CLOBBER, &(sfile->nc_file_id)))) ERR(retval);
+		if ((retval = nc_create(fname, NC_NETCDF4|NC_CLOBBER, &(sfile->nc_file_id)))) ERR(retval);
 		/*}*/
 	sfile->n_dimensions = 0;
 	sfile->n_variables = 0;
