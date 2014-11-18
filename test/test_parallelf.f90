@@ -31,7 +31,9 @@ program test
   call mpi_comm_rank(mpi_comm_world, mpi_rank, ierr)
 
   write (*,*) ' mpi_comm_world', mpi_comm_world
-  call createfile_parallel(sdatfile, "test_parallel.cdf", mpi_comm_world)
+  call sdatio_init(sdatfile, "test_parallel.cdf")
+  call set_parallel(sdatfile, mpi_comm_world)
+  call create_file(sdatfile)
 	call add_dimension(sdatfile, "x", 3, "The x coordinate", "m")
 	call add_dimension(sdatfile, "y", 2, "The y coordinate", "m")
 	call add_dimension(sdatfile, "r", 2, "Real and imaginary parts", "")
@@ -97,6 +99,7 @@ program test
 
   write (*,*) 'About to close file: ', mpi_rank
   call closefile(sdatfile)
+  call sdatio_free(sdatfile)
   write (*,*) 'Closed file: ', mpi_rank
 
 

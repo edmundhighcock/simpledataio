@@ -15,7 +15,9 @@ int main (int argc, char ** argv){
 
 	sdatio_debug = 0;
 
-	sdatio_createfile(&sdatfile, "testfile.cdf");
+  sdatio_init(&sdatfile, "testfile.cdf");
+
+	sdatio_create_file(&sdatfile);
 
 	sdatio_add_dimension(&sdatfile, "x", 3, "The x coordinate", "m");
 	sdatio_add_dimension(&sdatfile, "y", 2, "The y coordinate", "m");
@@ -79,6 +81,7 @@ int main (int argc, char ** argv){
 
 
 	sdatio_close(&sdatfile);
+  sdatio_free(&sdatfile);
 
 	printf("Success!\n");
 	return 0;

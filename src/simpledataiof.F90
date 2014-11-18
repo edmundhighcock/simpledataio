@@ -6,7 +6,10 @@
 !! simpledataio_write
 module simpledataio
 
+
+#ifdef FORTRAN_NETCDF
 use netcdf 
+#endif
 
 #ifdef ISO_C_BINDING
 use iso_c_binding
@@ -17,7 +20,11 @@ integer, parameter :: SDATIO_FLOAT= 1
 integer, parameter :: SDATIO_DOUBLE= 2
 integer, parameter :: SDATIO_COMPLEX_DOUBLE= 3
 
+#ifdef FORTRAN_NETCDF
 integer, parameter :: SDATIO_UNLIMITED = NF90_UNLIMITED
+#else
+integer, parameter :: SDATIO_UNLIMITED = 0
+#endif
 
 
 #ifdef ISO_C_BINDING
@@ -29,8 +36,9 @@ type,bind(c) :: sdatio_dimension
 end type
 
 
-type :: sdatio_variable 
-	character, dimension(:), allocatable :: name
+type,bind(c) :: sdatio_variable 
+	!character, dimension(:), allocatable :: name
+  type(c_ptr) :: name
 	integer :: nc_id
 	integer :: type
   type(c_ptr) :: dimension_list
@@ -45,11 +53,15 @@ end type
 type, bind(c) :: sdatio_file 
 	integer(c_int) :: nc_file_id
 	integer(c_int):: is_parallel
+	integer(c_int):: is_open
 	integer(c_int) :: n_dimensions
   type(c_ptr) ::  dimensions
 	integer(c_int)  :: n_variables
   type(c_ptr) :: variables
 	integer(c_int) :: data_written
+  type(c_ptr) :: communicator
+	integer(c_int) :: mode
+  type(c_ptr) :: name
 end type
 
 #else
@@ -89,20 +101,20 @@ end type
  !* The stuct sfile is used to store the state information
  !* of the file.*/
 contains 
-  subroutine createfile(sfile, fname)
+  subroutine sdatio_init(sfile, fname)
      type(sdatio_file), intent(out) :: sfile
      character(*), intent(in) :: fname
 #ifdef ISO_C_BINDING
 #ifdef FORTRAN_NETCDF
      interface
-       subroutine sdatio_createfile(sfile, fname) bind(c, name='sdatio_createfile')
+       subroutine sdatio_init_c(sfile, fname) bind(c, name='sdatio_init')
          use iso_c_binding
          import sdatio_file
          type(sdatio_file) :: sfile
          character(c_char) :: fname(*)
-       end subroutine sdatio_createfile
+       end subroutine sdatio_init_c
      end interface
-     call sdatio_createfile(sfile, fname//c_null_char)
+     call sdatio_init_c(sfile, fname//c_null_char)
 #else
      write (*,*) "module simpledataio was built without &
        & the netcdf fortran library and is non-functional. You can use &
@@ -117,40 +129,59 @@ contains
        & this. "
      stop
 #endif
-   end subroutine createfile
+   end subroutine sdatio_init
+
+  !> /*Free memory associated with the file object. Remember to close
+  !! the file first.*/
+  subroutine sdatio_free(sfile)
+     type(sdatio_file), intent(out) :: sfile
+#ifdef ISO_C_BINDING
+#ifdef FORTRAN_NETCDF
+     interface
+       subroutine sdatio_free_c(sfile) bind(c, name='sdatio_free')
+         use iso_c_binding
+         import sdatio_file
+         type(sdatio_file) :: sfile
+       end subroutine sdatio_free_c
+     end interface
+     call sdatio_free_c(sfile)
+#endif
+#endif
+   end subroutine sdatio_free
+  subroutine create_file(sfile)
+     type(sdatio_file), intent(out) :: sfile
+#ifdef ISO_C_BINDING
+#ifdef FORTRAN_NETCDF
+     interface
+       subroutine sdatio_create_file(sfile) bind(c, name='sdatio_create_file')
+         use iso_c_binding
+         import sdatio_file
+         type(sdatio_file) :: sfile
+       end subroutine sdatio_create_file
+     end interface
+     call sdatio_create_file(sfile)
+#endif
+#endif
+   end subroutine create_file
 
 !#ifdef PARALLEL 
-  subroutine createfile_parallel(sfile, fname, comm)
+  subroutine set_parallel(sfile, comm)
      type(sdatio_file), intent(out) :: sfile
-     character(*), intent(in) :: fname
      integer, intent(in) :: comm
 #ifdef ISO_C_BINDING
 #ifdef FORTRAN_NETCDF
      interface
-       subroutine sdatio_createfile_parallel(sfile, fname, comm) bind(c, name='sdatio_createfile_parallel_fortran')
+       subroutine sdatio_set_parallel(sfile, comm) bind(c, name='sdatio_set_parallel_fortran')
          use iso_c_binding
          import sdatio_file
          type(sdatio_file) :: sfile
-         character(c_char) :: fname(*)
-         integer(c_int),value :: comm
-       end subroutine sdatio_createfile_parallel
+         integer,value :: comm ! NB Argument is MPI_Fint, i.e. fortran integer size
+       end subroutine sdatio_set_parallel
      end interface
-     call sdatio_createfile_parallel(sfile, fname//c_null_char, comm)
-#else
-     write (*,*) "module simpledataio was built without &
-       & the netcdf fortran library and is non-functional. You can use &
-       & the function simpledataio_functional to test &
-       & this. "
-     stop
+     call sdatio_set_parallel(sfile, comm)
 #endif
-#else
-     write (*,*) "module simpledataio was built without &
-       & ISO_C_BINDING and is non-functional. You can use &
-       & the function simpledataio_functional to test &
-       & this. "
-     stop
 #endif
-   end subroutine createfile_parallel
+   end subroutine set_parallel
 !#endif
 
 !/* Create a new dimension in the file sfile. Dimension names must

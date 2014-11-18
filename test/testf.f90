@@ -28,7 +28,8 @@ program test
   parameter_comp =  cmplx(4.0, 5.0)
   write (*,*) 'phicomp(1,1) is ', phicomp(1,1)
 
-  call createfile(sdatfile, "test.cdf")
+  call sdatio_init(sdatfile, "test.cdf")
+  call create_file(sdatfile)
   call add_dimension(sdatfile, "x", 3, "The x coordinate", "m")
   call add_dimension(sdatfile, "y", 2, "The y coordinate", "m")
   call add_dimension(sdatfile, "r", 2, "Real and imaginary parts", "")
@@ -97,5 +98,6 @@ program test
   !write (*,*) 'id', svar%type_size
   !call write_variable(sdatfile, "parameter", c_address(parameter1));
   call closefile(sdatfile)
+  call sdatio_free(sdatfile)
 
 end program test
