@@ -101,8 +101,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in) :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -125,7 +126,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       (/val/), start=starts, count=counts)
+       (/val/), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -143,8 +144,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in), dimension(:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -167,7 +169,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val((offsets(1)):), start=starts, count=counts)
+       val((offsets(1)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -185,8 +187,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in), dimension(:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -210,7 +213,7 @@ contains
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
        val((offsets(1)):,&   
-(offsets(2)):), start=starts, count=counts)
+(offsets(2)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -228,8 +231,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in), dimension(:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -254,7 +258,7 @@ contains
    status =  nf90_put_var(fileid, varid+1, &
        val((offsets(1)):,&   
 (offsets(2)):,&   
-(offsets(3)):), start=starts, count=counts)
+(offsets(3)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -272,8 +276,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in), dimension(:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -299,7 +304,7 @@ contains
        val((offsets(1)):,&   
 (offsets(2)):,&   
 (offsets(3)):,&   
-(offsets(4)):), start=starts, count=counts)
+(offsets(4)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -317,8 +322,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in), dimension(:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -345,7 +351,7 @@ contains
 (offsets(2)):,&   
 (offsets(3)):,&   
 (offsets(4)):,&   
-(offsets(5)):), start=starts, count=counts)
+(offsets(5)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -363,8 +369,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in), dimension(:,:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -392,7 +399,7 @@ contains
 (offsets(3)):,&   
 (offsets(4)):,&   
 (offsets(5)):,&   
-(offsets(6)):), start=starts, count=counts)
+(offsets(6)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -410,8 +417,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in) :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -434,7 +442,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       (/val/), start=starts, count=counts)
+       (/val/), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -452,8 +460,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in), dimension(:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -476,7 +485,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val((offsets(1)):), start=starts, count=counts)
+       val((offsets(1)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -494,8 +503,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in), dimension(:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -519,7 +529,7 @@ contains
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
        val((offsets(1)):,&   
-(offsets(2)):), start=starts, count=counts)
+(offsets(2)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -537,8 +547,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in), dimension(:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -563,7 +574,7 @@ contains
    status =  nf90_put_var(fileid, varid+1, &
        val((offsets(1)):,&   
 (offsets(2)):,&   
-(offsets(3)):), start=starts, count=counts)
+(offsets(3)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -581,8 +592,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in), dimension(:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -608,7 +620,7 @@ contains
        val((offsets(1)):,&   
 (offsets(2)):,&   
 (offsets(3)):,&   
-(offsets(4)):), start=starts, count=counts)
+(offsets(4)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -626,8 +638,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in), dimension(:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -654,7 +667,7 @@ contains
 (offsets(2)):,&   
 (offsets(3)):,&   
 (offsets(4)):,&   
-(offsets(5)):), start=starts, count=counts)
+(offsets(5)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -672,8 +685,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in), dimension(:,:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -701,7 +715,7 @@ contains
 (offsets(3)):,&   
 (offsets(4)):,&   
 (offsets(5)):,&   
-(offsets(6)):), start=starts, count=counts)
+(offsets(6)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -719,8 +733,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in) :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -743,7 +758,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       (/val/), start=starts, count=counts)
+       (/val/), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -761,8 +776,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in), dimension(:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -785,7 +801,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val((offsets(1)):), start=starts, count=counts)
+       val((offsets(1)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -803,8 +819,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in), dimension(:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -828,7 +845,7 @@ contains
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
        val((offsets(1)):,&   
-(offsets(2)):), start=starts, count=counts)
+(offsets(2)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -846,8 +863,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in), dimension(:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -872,7 +890,7 @@ contains
    status =  nf90_put_var(fileid, varid+1, &
        val((offsets(1)):,&   
 (offsets(2)):,&   
-(offsets(3)):), start=starts, count=counts)
+(offsets(3)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -890,8 +908,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in), dimension(:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -917,7 +936,7 @@ contains
        val((offsets(1)):,&   
 (offsets(2)):,&   
 (offsets(3)):,&   
-(offsets(4)):), start=starts, count=counts)
+(offsets(4)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -935,8 +954,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in), dimension(:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -963,7 +983,7 @@ contains
 (offsets(2)):,&   
 (offsets(3)):,&   
 (offsets(4)):,&   
-(offsets(5)):), start=starts, count=counts)
+(offsets(5)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -981,8 +1001,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in), dimension(:,:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -1010,7 +1031,7 @@ contains
 (offsets(3)):,&   
 (offsets(4)):,&   
 (offsets(5)):,&   
-(offsets(6)):), start=starts, count=counts)
+(offsets(6)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1028,8 +1049,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in) :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -1052,7 +1074,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       (/val/), start=starts, count=counts)
+       (/val/), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1070,8 +1092,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in), dimension(:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -1094,7 +1117,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val((offsets(1)):), start=starts, count=counts)
+       val((offsets(1)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1112,8 +1135,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in), dimension(:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -1137,7 +1161,7 @@ contains
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
        val((offsets(1)):,&   
-(offsets(2)):), start=starts, count=counts)
+(offsets(2)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1155,8 +1179,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in), dimension(:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -1181,7 +1206,7 @@ contains
    status =  nf90_put_var(fileid, varid+1, &
        val((offsets(1)):,&   
 (offsets(2)):,&   
-(offsets(3)):), start=starts, count=counts)
+(offsets(3)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1199,8 +1224,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in), dimension(:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -1226,7 +1252,7 @@ contains
        val((offsets(1)):,&   
 (offsets(2)):,&   
 (offsets(3)):,&   
-(offsets(4)):), start=starts, count=counts)
+(offsets(4)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1244,8 +1270,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in), dimension(:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -1272,7 +1299,7 @@ contains
 (offsets(2)):,&   
 (offsets(3)):,&   
 (offsets(4)):,&   
-(offsets(5)):), start=starts, count=counts)
+(offsets(5)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1290,8 +1317,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in), dimension(:,:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -1319,7 +1347,7 @@ contains
 (offsets(3)):,&   
 (offsets(4)):,&   
 (offsets(5)):,&   
-(offsets(6)):), start=starts, count=counts)
+(offsets(6)):), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1337,8 +1365,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in) :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -1364,7 +1393,7 @@ contains
    realval(1) = real(val)
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval, start=starts, count=counts) 
+       realval, start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1374,7 +1403,7 @@ contains
    realval(1) = aimag(val)
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval, start=starts, count=counts) 
+       realval, start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1392,8 +1421,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in), dimension(:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1, size(val, 1)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -1419,7 +1449,7 @@ contains
    realval(1,:) = real(val(:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,(offsets(2)):), start=starts, count=counts) 
+       realval(1:,(offsets(2)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1429,7 +1459,7 @@ contains
    realval(1,:) = aimag(val(:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,(offsets(2)):), start=starts, count=counts) 
+       realval(1:,(offsets(2)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1447,8 +1477,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in), dimension(:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1, size(val, 1), size(val, 2)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -1475,7 +1506,7 @@ contains
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
        realval(1:,(offsets(2)):,&
-                 (offsets(3)):), start=starts, count=counts) 
+                 (offsets(3)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1486,7 +1517,7 @@ contains
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
        realval(1:,(offsets(2)):,&
-                 (offsets(3)):), start=starts, count=counts) 
+                 (offsets(3)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1504,8 +1535,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in), dimension(:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1, size(val, 1), size(val, 2), size(val, 3)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -1533,7 +1565,7 @@ contains
    status =  nf90_put_var(fileid, varid+1, &
        realval(1:,(offsets(2)):,&
                  (offsets(3)):,&
-                 (offsets(4)):), start=starts, count=counts) 
+                 (offsets(4)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1545,7 +1577,7 @@ contains
    status =  nf90_put_var(fileid, varid+1, &
        realval(1:,(offsets(2)):,&
                  (offsets(3)):,&
-                 (offsets(4)):), start=starts, count=counts) 
+                 (offsets(4)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1563,8 +1595,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in), dimension(:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1, size(val, 1), size(val, 2), size(val, 3), size(val, 4)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -1593,7 +1626,7 @@ contains
        realval(1:,(offsets(2)):,&
                  (offsets(3)):,&
                  (offsets(4)):,&
-                 (offsets(5)):), start=starts, count=counts) 
+                 (offsets(5)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1606,7 +1639,7 @@ contains
        realval(1:,(offsets(2)):,&
                  (offsets(3)):,&
                  (offsets(4)):,&
-                 (offsets(5)):), start=starts, count=counts) 
+                 (offsets(5)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1624,8 +1657,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in), dimension(:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1, size(val, 1), size(val, 2), size(val, 3), size(val, 4), size(val, 5)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -1655,7 +1689,7 @@ contains
                  (offsets(3)):,&
                  (offsets(4)):,&
                  (offsets(5)):,&
-                 (offsets(6)):), start=starts, count=counts) 
+                 (offsets(6)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1669,7 +1703,7 @@ contains
                  (offsets(3)):,&
                  (offsets(4)):,&
                  (offsets(5)):,&
-                 (offsets(6)):), start=starts, count=counts) 
+                 (offsets(6)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1687,8 +1721,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in), dimension(:,:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1, size(val, 1), size(val, 2), size(val, 3), size(val, 4), size(val, 5), size(val, 6)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -1719,7 +1754,7 @@ contains
                  (offsets(4)):,&
                  (offsets(5)):,&
                  (offsets(6)):,&
-                 (offsets(7)):), start=starts, count=counts) 
+                 (offsets(7)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1734,7 +1769,7 @@ contains
                  (offsets(4)):,&
                  (offsets(5)):,&
                  (offsets(6)):,&
-                 (offsets(7)):), start=starts, count=counts) 
+                 (offsets(7)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1752,8 +1787,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in) :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -1779,7 +1815,7 @@ contains
    realval(1) = real(val)
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval, start=starts, count=counts) 
+       realval, start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1789,7 +1825,7 @@ contains
    realval(1) = aimag(val)
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval, start=starts, count=counts) 
+       realval, start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1807,8 +1843,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in), dimension(:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1, size(val, 1)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -1834,7 +1871,7 @@ contains
    realval(1,:) = real(val(:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,(offsets(2)):), start=starts, count=counts) 
+       realval(1:,(offsets(2)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1844,7 +1881,7 @@ contains
    realval(1,:) = aimag(val(:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,(offsets(2)):), start=starts, count=counts) 
+       realval(1:,(offsets(2)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1862,8 +1899,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in), dimension(:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1, size(val, 1), size(val, 2)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -1890,7 +1928,7 @@ contains
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
        realval(1:,(offsets(2)):,&
-                 (offsets(3)):), start=starts, count=counts) 
+                 (offsets(3)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1901,7 +1939,7 @@ contains
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
        realval(1:,(offsets(2)):,&
-                 (offsets(3)):), start=starts, count=counts) 
+                 (offsets(3)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1919,8 +1957,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in), dimension(:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1, size(val, 1), size(val, 2), size(val, 3)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -1948,7 +1987,7 @@ contains
    status =  nf90_put_var(fileid, varid+1, &
        realval(1:,(offsets(2)):,&
                  (offsets(3)):,&
-                 (offsets(4)):), start=starts, count=counts) 
+                 (offsets(4)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1960,7 +1999,7 @@ contains
    status =  nf90_put_var(fileid, varid+1, &
        realval(1:,(offsets(2)):,&
                  (offsets(3)):,&
-                 (offsets(4)):), start=starts, count=counts) 
+                 (offsets(4)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -1978,8 +2017,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in), dimension(:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1, size(val, 1), size(val, 2), size(val, 3), size(val, 4)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -2008,7 +2048,7 @@ contains
        realval(1:,(offsets(2)):,&
                  (offsets(3)):,&
                  (offsets(4)):,&
-                 (offsets(5)):), start=starts, count=counts) 
+                 (offsets(5)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2021,7 +2061,7 @@ contains
        realval(1:,(offsets(2)):,&
                  (offsets(3)):,&
                  (offsets(4)):,&
-                 (offsets(5)):), start=starts, count=counts) 
+                 (offsets(5)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2039,8 +2079,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in), dimension(:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1, size(val, 1), size(val, 2), size(val, 3), size(val, 4), size(val, 5)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -2070,7 +2111,7 @@ contains
                  (offsets(3)):,&
                  (offsets(4)):,&
                  (offsets(5)):,&
-                 (offsets(6)):), start=starts, count=counts) 
+                 (offsets(6)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2084,7 +2125,7 @@ contains
                  (offsets(3)):,&
                  (offsets(4)):,&
                  (offsets(5)):,&
-                 (offsets(6)):), start=starts, count=counts) 
+                 (offsets(6)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2102,8 +2143,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in), dimension(:,:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1, size(val, 1), size(val, 2), size(val, 3), size(val, 4), size(val, 5), size(val, 6)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -2134,7 +2176,7 @@ contains
                  (offsets(4)):,&
                  (offsets(5)):,&
                  (offsets(6)):,&
-                 (offsets(7)):), start=starts, count=counts) 
+                 (offsets(7)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2149,7 +2191,7 @@ contains
                  (offsets(4)):,&
                  (offsets(5)):,&
                  (offsets(6)):,&
-                 (offsets(7)):), start=starts, count=counts) 
+                 (offsets(7)):), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2168,8 +2210,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in) :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2180,7 +2223,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       (/val/), start=starts, count=counts)
+       (/val/), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2198,8 +2241,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in), dimension(:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2210,7 +2254,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:), start=starts, count=counts)
+       val(:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2228,8 +2272,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in), dimension(:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2240,7 +2285,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:), start=starts, count=counts)
+       val(:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2258,8 +2303,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in), dimension(:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2270,7 +2316,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:), start=starts, count=counts)
+       val(:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2288,8 +2334,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in), dimension(:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2300,7 +2347,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:,:), start=starts, count=counts)
+       val(:,:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2318,8 +2365,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in), dimension(:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2330,7 +2378,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:,:,:), start=starts, count=counts)
+       val(:,:,:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2348,8 +2396,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    real, intent(in), dimension(:,:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2360,7 +2409,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:,:,:,:), start=starts, count=counts)
+       val(:,:,:,:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2378,8 +2427,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in) :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2390,7 +2440,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       (/val/), start=starts, count=counts)
+       (/val/), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2408,8 +2458,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in), dimension(:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2420,7 +2471,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:), start=starts, count=counts)
+       val(:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2438,8 +2489,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in), dimension(:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2450,7 +2502,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:), start=starts, count=counts)
+       val(:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2468,8 +2520,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in), dimension(:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2480,7 +2533,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:), start=starts, count=counts)
+       val(:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2498,8 +2551,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in), dimension(:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2510,7 +2564,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:,:), start=starts, count=counts)
+       val(:,:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2528,8 +2582,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in), dimension(:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2540,7 +2595,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:,:,:), start=starts, count=counts)
+       val(:,:,:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2558,8 +2613,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    double precision, intent(in), dimension(:,:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2570,7 +2626,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:,:,:,:), start=starts, count=counts)
+       val(:,:,:,:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2588,8 +2644,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in) :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2600,7 +2657,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       (/val/), start=starts, count=counts)
+       (/val/), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2618,8 +2675,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in), dimension(:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2630,7 +2688,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:), start=starts, count=counts)
+       val(:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2648,8 +2706,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in), dimension(:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2660,7 +2719,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:), start=starts, count=counts)
+       val(:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2678,8 +2737,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in), dimension(:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2690,7 +2750,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:), start=starts, count=counts)
+       val(:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2708,8 +2768,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in), dimension(:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2720,7 +2781,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:,:), start=starts, count=counts)
+       val(:,:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2738,8 +2799,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in), dimension(:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2750,7 +2812,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:,:,:), start=starts, count=counts)
+       val(:,:,:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2768,8 +2830,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(in), dimension(:,:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2780,7 +2843,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:,:,:,:), start=starts, count=counts)
+       val(:,:,:,:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2798,8 +2861,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in) :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2810,7 +2874,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       (/val/), start=starts, count=counts)
+       (/val/), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2828,8 +2892,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in), dimension(:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2840,7 +2905,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:), start=starts, count=counts)
+       val(:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2858,8 +2923,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in), dimension(:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2870,7 +2936,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:), start=starts, count=counts)
+       val(:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2888,8 +2954,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in), dimension(:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2900,7 +2967,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:), start=starts, count=counts)
+       val(:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2918,8 +2985,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in), dimension(:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2930,7 +2998,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:,:), start=starts, count=counts)
+       val(:,:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2948,8 +3016,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in), dimension(:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2960,7 +3029,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:,:,:), start=starts, count=counts)
+       val(:,:,:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -2978,8 +3047,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    character, intent(in), dimension(:,:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    
 
 #ifdef FORTRAN_NETCDF
@@ -2990,7 +3060,7 @@ contains
      
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets)
    status =  nf90_put_var(fileid, varid+1, &
-       val(:,:,:,:,:,:), start=starts, count=counts)
+       val(:,:,:,:,:,:), start=int(starts), count=int(counts))
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3008,8 +3078,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in) :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3023,7 +3094,7 @@ contains
    realval(1) = real(val)
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval, start=starts, count=counts) 
+       realval, start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3033,7 +3104,7 @@ contains
    realval(1) = aimag(val)
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval, start=starts, count=counts) 
+       realval, start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3051,8 +3122,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in), dimension(:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1, size(val, 1)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3066,7 +3138,7 @@ contains
    realval(1,:) = real(val(:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:), start=starts, count=counts) 
+       realval(1:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3076,7 +3148,7 @@ contains
    realval(1,:) = aimag(val(:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:), start=starts, count=counts) 
+       realval(1:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3094,8 +3166,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in), dimension(:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1, size(val, 1), size(val, 2)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3109,7 +3182,7 @@ contains
    realval(1,:,:) = real(val(:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:), start=starts, count=counts) 
+       realval(1:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3119,7 +3192,7 @@ contains
    realval(1,:,:) = aimag(val(:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:), start=starts, count=counts) 
+       realval(1:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3137,8 +3210,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in), dimension(:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1, size(val, 1), size(val, 2), size(val, 3)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3152,7 +3226,7 @@ contains
    realval(1,:,:,:) = real(val(:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3162,7 +3236,7 @@ contains
    realval(1,:,:,:) = aimag(val(:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3180,8 +3254,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in), dimension(:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1, size(val, 1), size(val, 2), size(val, 3), size(val, 4)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3195,7 +3270,7 @@ contains
    realval(1,:,:,:,:) = real(val(:,:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3205,7 +3280,7 @@ contains
    realval(1,:,:,:,:) = aimag(val(:,:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3223,8 +3298,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in), dimension(:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1, size(val, 1), size(val, 2), size(val, 3), size(val, 4), size(val, 5)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3238,7 +3314,7 @@ contains
    realval(1,:,:,:,:,:) = real(val(:,:,:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3248,7 +3324,7 @@ contains
    realval(1,:,:,:,:,:) = aimag(val(:,:,:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3266,8 +3342,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex, intent(in), dimension(:,:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    real, dimension(1, size(val, 1), size(val, 2), size(val, 3), size(val, 4), size(val, 5), size(val, 6)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3281,7 +3358,7 @@ contains
    realval(1,:,:,:,:,:,:) = real(val(:,:,:,:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3291,7 +3368,7 @@ contains
    realval(1,:,:,:,:,:,:) = aimag(val(:,:,:,:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3309,8 +3386,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in) :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3324,7 +3402,7 @@ contains
    realval(1) = real(val)
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval, start=starts, count=counts) 
+       realval, start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3334,7 +3412,7 @@ contains
    realval(1) = aimag(val)
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval, start=starts, count=counts) 
+       realval, start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3352,8 +3430,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in), dimension(:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1, size(val, 1)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3367,7 +3446,7 @@ contains
    realval(1,:) = real(val(:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:), start=starts, count=counts) 
+       realval(1:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3377,7 +3456,7 @@ contains
    realval(1,:) = aimag(val(:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:), start=starts, count=counts) 
+       realval(1:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3395,8 +3474,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in), dimension(:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1, size(val, 1), size(val, 2)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3410,7 +3490,7 @@ contains
    realval(1,:,:) = real(val(:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:), start=starts, count=counts) 
+       realval(1:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3420,7 +3500,7 @@ contains
    realval(1,:,:) = aimag(val(:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:), start=starts, count=counts) 
+       realval(1:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3438,8 +3518,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in), dimension(:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1, size(val, 1), size(val, 2), size(val, 3)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3453,7 +3534,7 @@ contains
    realval(1,:,:,:) = real(val(:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3463,7 +3544,7 @@ contains
    realval(1,:,:,:) = aimag(val(:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3481,8 +3562,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in), dimension(:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1, size(val, 1), size(val, 2), size(val, 3), size(val, 4)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3496,7 +3578,7 @@ contains
    realval(1,:,:,:,:) = real(val(:,:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3506,7 +3588,7 @@ contains
    realval(1,:,:,:,:) = aimag(val(:,:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3524,8 +3606,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in), dimension(:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1, size(val, 1), size(val, 2), size(val, 3), size(val, 4), size(val, 5)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3539,7 +3622,7 @@ contains
    realval(1,:,:,:,:,:) = real(val(:,:,:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3549,7 +3632,7 @@ contains
    realval(1,:,:,:,:,:) = aimag(val(:,:,:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3567,8 +3650,9 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    complex*16, intent(in), dimension(:,:,:,:,:,:)  :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    double precision, dimension(1, size(val, 1), size(val, 2), size(val, 3), size(val, 4), size(val, 5), size(val, 6)) :: realval
 
 #ifdef FORTRAN_NETCDF
@@ -3582,7 +3666,7 @@ contains
    realval(1,:,:,:,:,:,:) = real(val(:,:,:,:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 
@@ -3592,7 +3676,7 @@ contains
    realval(1,:,:,:,:,:,:) = aimag(val(:,:,:,:,:,:))
    call netcdf_inputs(sfile, variable_name, fileid, varid, starts, counts, offsets) 
    status =  nf90_put_var(fileid, varid+1, &
-       realval(1:,:,:,:,:,:,:), start=starts, count=counts) 
+       realval(1:,:,:,:,:,:,:), start=int(starts), count=int(counts)) 
    if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)
 

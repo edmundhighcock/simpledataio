@@ -25,12 +25,14 @@ An example paints a thousand words: here is the minimal set of C calls to write 
 		double phivar[3][2] = {{0.1,0.3}, {2.0, 4.0}, {-1.0, 3.6}};
 		struct sdatio_file sdatfile;
 
-		sdatio_createfile(&sdatfile, "testfile.cdf");
+		sdatio_init(&sdatfile, "testfile.cdf");
+		sdatio_create_file(&sdatfile);
 		sdatio_add_dimension(&sdatfile, "x", 3, "The x coordinate", "m");
 		sdatio_add_dimension(&sdatfile, "y", 2, "The y coordinate", "m");
 		sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "phi", "xy", "Some potential", "Vm");
 		sdatio_write_variable(&sdatfile, "phi", &phivar[0]);
 		sdatio_close(&sdatfile);
+		sdatio_free(&sdatfile);
 
 		return 0;
 	}
@@ -47,12 +49,14 @@ Here is the minium set of Fortran calls to do the same thing.
 		double precision, dimension(3,2) ::  phivar = reshape((/0.1d0,2.0d0,-1.0d0, 0.3d0,4.0d0, 3.6d0/), (/3,2/))
 
 
-		call createfile(sdatfile, "test.cdf")
+		call sdatio_init(sdatfile, "test.cdf")
+		call create_file(sdatfile)
 		call add_dimension(sdatfile, "x", 3, "The x coordinate", "m")
 		call add_dimension(sdatfile, "y", 2, "The y coordinate", "m")
 		call create_variable(sdatfile, SDATIO_DOUBLE, "phi", "xy", "Some potential", "Vm")
 		call write_variable(sdatfile, "phi", phivar)
 		call closefile(sdatfile)
+		call sdatio_free(sdatfile)
 
 	end program test
 

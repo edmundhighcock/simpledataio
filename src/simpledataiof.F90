@@ -13,6 +13,9 @@ use netcdf
 
 #ifdef ISO_C_BINDING
 use iso_c_binding
+integer, parameter :: sdatio_int_kind = c_size_t
+#else
+integer, parameter :: sdatio_int_kind = 8
 #endif
 
 integer, parameter :: SDATIO_INT= 0
@@ -30,20 +33,20 @@ integer, parameter :: SDATIO_UNLIMITED = 0
 #ifdef ISO_C_BINDING
 type,bind(c) :: sdatio_dimension 
   type(c_ptr) :: name
-	integer(c_int) :: size
-	integer(c_int) :: nc_id
-	integer(c_int) :: start
+  integer(c_int) :: size
+  integer(c_int) :: nc_id
+  integer(c_int) :: start
 end type
 
 
 type,bind(c) :: sdatio_variable 
-	!character, dimension(:), allocatable :: name
+  !character, dimension(:), allocatable :: name
   type(c_ptr) :: name
-	integer :: nc_id
-	integer :: type
+  integer(c_int) :: nc_id
+  integer(c_int) :: type
   type(c_ptr) :: dimension_list
   type(c_ptr) :: dimension_ids
-	integer :: type_size
+  integer(c_int) :: type_size
   type(c_ptr) :: manual_counts
   type(c_ptr) :: manual_starts
   type(c_ptr) :: manual_offsets
@@ -51,16 +54,16 @@ end type
 
 
 type, bind(c) :: sdatio_file 
-	integer(c_int) :: nc_file_id
-	integer(c_int):: is_parallel
-	integer(c_int):: is_open
-	integer(c_int) :: n_dimensions
+  integer(c_int) :: nc_file_id
+  integer(c_int):: is_parallel
+  integer(c_int):: is_open
+  integer(c_int) :: n_dimensions
   type(c_ptr) ::  dimensions
-	integer(c_int)  :: n_variables
+  integer(c_int)  :: n_variables
   type(c_ptr) :: variables
-	integer(c_int) :: data_written
+  integer(c_int) :: data_written
   type(c_ptr) :: communicator
-	integer(c_int) :: mode
+  integer(c_int) :: mode
   type(c_ptr) :: name
 end type
 
@@ -206,10 +209,10 @@ contains
    call sdatio_add_dimension(sfile, dimension_name//c_null_char, dimsize, description//c_null_char, units//c_null_char)
 #endif
  end subroutine add_dimension
-													 !char * dimension_name, 
-													 !int size,
-													 !char * description,
-													 !char * units)
+                           !char * dimension_name, 
+                           !int size,
+                           !char * description,
+                           !char * units)
 
 
 !/* Print out a nice list of all the dimensions defined so far*/
@@ -266,11 +269,11 @@ contains
  !* is a character string listing (in order) the dimension names
  !* (which are all single characters) e.g. "xyx".*/
 !void sdatio_create_variable(struct sdatio_file * sfile,
-														!int variable_type,
-														!char * variable_name,
-														!char * dimension_list,
-														!char * description,
-														!char * units)
+                            !int variable_type,
+                            !char * variable_name,
+                            !char * dimension_list,
+                            !char * description,
+                            !char * units)
  subroutine create_variable(sfile, variable_type, variable_name, dimension_list, description, units)
    implicit none
    type(sdatio_file), intent(in) :: sfile
@@ -447,10 +450,10 @@ contains
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    integer, intent(out) :: fileid, varid
-   integer, intent(out), dimension(:) :: starts, counts, offsets
+   integer(sdatio_int_kind), intent(out), dimension(:) :: starts, counts, offsets
    integer :: i,n
 #ifdef ISO_C_BINDING
-   type(c_ptr) :: starts_ptr, counts_ptr
+   !type(c_ptr) :: starts_ptr, counts_ptr
    integer(c_size_t), dimension(:), allocatable, target :: starts_c, counts_c, offsets_c
    interface
        subroutine sdatio_netcdf_inputs(sfile, variable_name, fileid, varid, &

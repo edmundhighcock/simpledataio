@@ -82,14 +82,14 @@ EOF
 	end
 	def put_variable
 		"status =  nf90_put_var(fileid, varid+1, &
-       #{@dimsize == 0 ? val_get_0 : val_get}, start=starts, count=counts)"
+       #{@dimsize == 0 ? val_get_0 : val_get}, start=int(starts), count=int(counts))"
 	end
 	def check_error
 		"if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
                             variable_name, ', ',  nf90_strerror(status)"
 	end
 	def function_string
-		string = <<EOF
+		_string = <<EOF
  subroutine #{procedure_name}(sfile, variable_name, val)
 #ifdef FORTRAN_NETCDF
    use netcdf
@@ -98,8 +98,9 @@ EOF
    type(sdatio_file), intent(in) :: sfile
    character(*), intent(in) :: variable_name
    #{@type}, intent(in)#{@dimension} :: val
-   integer, dimension(:), allocatable :: starts, counts, offsets
-   integer :: fileid, varid, status, n, n2, ndims
+   integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
+   !integer :: fileid, varid, status, n, n2, ndims
+   integer :: fileid, varid, status, n2
    #{complex ? realval_declaration : nil}
 
 #ifdef FORTRAN_NETCDF
