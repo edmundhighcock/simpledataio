@@ -148,6 +148,6 @@ endif
 
 # Need to generate the module file for simpledataiof before building simpledataio_write
 src/simpledataio_write.F90: src/generate_simpledataio_write.rb $(SDAT_MOD)
-	env ruby $< > $@
+	env ruby $< $@
 
 

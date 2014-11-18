@@ -24,6 +24,7 @@
 #include "mpi.h"
 #else
 typedef int MPI_Comm;
+typedef int MPI_Fint;
 #endif
 
 #define ERRCODE 2
@@ -45,6 +46,7 @@ void sdatio_recommence_definitions(struct sdatio_file * sfile){
 	if ((retval = nc_redef(sfile->nc_file_id))) ERR(retval);
 }
 
+
 void sdatio_createfile_parallel(struct sdatio_file * sfile, char * fname, MPI_Comm * comm)  {
 	/*printf("called\n");*/
 	int retval;
@@ -56,7 +58,7 @@ void sdatio_createfile_parallel(struct sdatio_file * sfile, char * fname, MPI_Co
 
 	/*MPI_Init(&retval, &args);*/
 #ifdef PARALLEL 
-		if ((retval = nc_create_par(fname, NC_NETCDF4|NC_MPIPOSIX|NC_CLOBBER, MPI_COMM_WORLD, MPI_INFO_NULL,  &(sfile->nc_file_id)))) ERR(retval);
+		if ((retval = nc_create_par(fname, NC_NETCDF4|NC_MPIPOSIX|NC_CLOBBER, *comm, MPI_INFO_NULL,  &(sfile->nc_file_id)))) ERR(retval);
 #else
 		printf("sdatio was built without --enable-parallel, sdatio_createfile_parallel will not work\n");
 		abort();
@@ -69,18 +71,41 @@ void sdatio_createfile_parallel(struct sdatio_file * sfile, char * fname, MPI_Co
 	sdatio_end_definitions(sfile);
 }
 
-void sdatio_createfile(struct sdatio_file * sfile, char * fname)  {
+void sdatio_createfile_parallel_fortran(struct sdatio_file * sfile, char * fname, MPI_Fint  fcomm)  {
+#ifdef PARALLEL
+  MPI_Comm comm = MPI_Comm_f2c(fcomm);
+  sdatio_createfile_parallel(sfile, fname, &comm);
+#else 
+
+#endif
+}
+
+void sdatio_createfile_with_mode(struct sdatio_file * sfile, int mode, char * fname)  {
 	/*printf("called\n");*/
 	int retval;
 	/*if (0){}*/
 	/*else {*/
-		if ((retval = nc_create(fname, NC_NETCDF4|NC_CLOBBER, &(sfile->nc_file_id)))) ERR(retval);
+		if ((retval = nc_create(fname, NC_CLOBBER, &(sfile->nc_file_id)))) ERR(retval);
 		/*}*/
 	sfile->n_dimensions = 0;
 	sfile->n_variables = 0;
 	sfile->is_parallel = 0;
 	sfile->data_written = 0;
 	sdatio_end_definitions(sfile);
+}
+void sdatio_createfile(struct sdatio_file * sfile, char * fname)  {
+  sdatio_createfile_with_mode(sfile, NC_CLOBBER|NC_NETCDF4, fname);
+	/*printf("called\n");*/
+  /*int retval;*/
+  /**//*if (0){}*/
+  /**//*else {*/
+  /*if ((retval = nc_create(fname, NC_CLOBBER, &(sfile->nc_file_id)))) ERR(retval);*/
+  /**//*}*/
+  /*sfile->n_dimensions = 0;*/
+  /*sfile->n_variables = 0;*/
+  /*sfile->is_parallel = 0;*/
+  /*sfile->data_written = 0;*/
+  /*sdatio_end_definitions(sfile);*/
 }
 
 
@@ -284,6 +309,7 @@ void sdatio_create_variable(struct sdatio_file * sfile,
 														char * description,
 														char * units){
 	int ndims;
+  int nunlim;
 	struct sdatio_variable  * svar;
 	int retval;
 	/*int * dimension_ids;*/
@@ -340,6 +366,14 @@ void sdatio_create_variable(struct sdatio_file * sfile,
 	}
 
 	sdatio_append_variable(sfile, svar);
+
+#ifdef PARALLEL
+    if (sfile->is_parallel){
+      sdatio_number_of_unlimited_dimensions(sfile, variable_name, &nunlim);
+      if (nunlim > 0)
+        if ((retval = nc_var_par_access(sfile->nc_file_id, svar->nc_id, NC_COLLECTIVE))) ERR(retval);
+    }
+#endif
 	
 }
 
@@ -594,6 +628,22 @@ struct sdatio_variable * sdatio_find_variable(struct sdatio_file * sfile, char *
 		abort();
 	}
 	return sfile->variables[variable_number];
+}
+
+
+void sdatio_collective(struct sdatio_file * sfile, char * variable_name){
+#ifdef PARALLEL
+  int retval;
+	struct sdatio_variable * svar = sdatio_find_variable(sfile, variable_name);
+  if ((retval = nc_var_par_access(sfile->nc_file_id, svar->nc_id, NC_COLLECTIVE))) ERR(retval);
+#endif
+}
+void sdatio_independent(struct sdatio_file * sfile, char * variable_name){
+#ifdef PARALLEL
+  int retval;
+	struct sdatio_variable * svar = sdatio_find_variable(sfile, variable_name);
+  if ((retval = nc_var_par_access(sfile->nc_file_id, svar->nc_id, NC_INDEPENDENT))) ERR(retval);
+#endif
 }
 
 /* Returns 1 if the given variable exists, 0 otherwise */

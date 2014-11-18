@@ -1214,7 +1214,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-includeHEADERS \
 
 # Need to generate the module file for simpledataiof before building simpledataio_write
 src/simpledataio_write.F90: src/generate_simpledataio_write.rb $(SDAT_MOD)
-	env ruby $< > $@
+	env ruby $< $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

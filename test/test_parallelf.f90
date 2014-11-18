@@ -47,7 +47,7 @@ program test
 	call create_variable(sdatfile, SDATIO_DOUBLE, "y", "y", "Values of the y coordinate", "m")
 	call create_variable(sdatfile, SDATIO_DOUBLE, "t", "t", "Values of the time coordinate", "m")
 
-  if (mpi_rank == 0) call write_variable(sdatfile, "parameter", parameter1)
+  !if (mpi_rank == 0) call write_variable(sdatfile, "parameter", parameter1)
   call write_variable(sdatfile, "parameter_comp", parameter_comp)
 
 	call print_variables(sdatfile)
@@ -56,7 +56,7 @@ program test
   call set_start(sdatfile, "iky", "y", mpi_rank+1)
   call set_count(sdatfile, "iky", "y", 1)
 
-	if (mpi_rank == 0) call write_variable(sdatfile, "y", yvar)
+	!if (mpi_rank == 0) call write_variable(sdatfile, "y", yvar)
 	call write_variable(sdatfile, "iky", iy)
   call set_start(sdatfile, "phi", "y", mpi_rank+1)
   call set_count(sdatfile, "phi", "y", 1)
@@ -71,13 +71,16 @@ program test
   call set_count(sdatfile, "phi_t", "y", 1)
 
   do i = 1,6
+    if (mpi_rank==0) write (*, *) 'i=',i
 		t = 0.3d0 + real(i)
 		phi_tvar(1) = 4 + real(i)/2.0
 		phi_tvar(2) = 6 + real(i)*3.0
     !if (mpi_rank==0) call write_variable(sdatfile, "t", t)
     call write_variable(sdatfile, "t", t)
+    !if (mpi_rank==0) then
 		call write_variable(sdatfile, "phi_t", phi_tvar)
 		call increment_start(sdatfile, "t")
+  !endif
 		 !if (i>2) stop
   end do
 
