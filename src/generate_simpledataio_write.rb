@@ -101,6 +101,8 @@ EOF
    integer(sdatio_int_kind), dimension(:), allocatable :: starts, counts, offsets
    !integer :: fileid, varid, status, n, n2, ndims
    integer :: fileid, varid, status, n2
+   #{@offset ? "integer :: n, ndims" : ""}
+
    #{complex ? realval_declaration : nil}
 
 #ifdef FORTRAN_NETCDF
