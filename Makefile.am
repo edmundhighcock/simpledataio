@@ -68,10 +68,13 @@ if !ARCHIVEONLY
 # Test programs
 bin_PROGRAMS=$(top_builddir)/test/testprog 
 bin_PROGRAMS+=$(top_builddir)/test/testprog_fortran
+bin_PROGRAMS+=$(top_builddir)/test/testprog_long_dim_names
 
 # Test program sources
 __top_builddir__test_testprog_SOURCES=test/test.c
 __top_builddir__test_testprog_LDADD=libsimpledataio.$(LA)
+__top_builddir__test_testprog_long_dim_names_SOURCES=test/test_long_dim_names.c
+__top_builddir__test_testprog_long_dim_names_LDADD=libsimpledataio.$(LA)
 __top_builddir__test_testprog_fortran_SOURCES=test/testf.f90
 __top_builddir__test_testprog_fortran_LDADD=libsimpledataiof.$(LA) libsimpledataio.$(LA) 
 endif
@@ -95,7 +98,7 @@ AM_FCFLAGS+= $(FDEF)ISO_C_BINDING
 endif
 
 # Serial tests for C and Fortran... invoked by make check
-TESTS = test/testprog test/testprog_fortran
+TESTS = test/testprog test/testprog_fortran test/testprog_long_dim_names
 TESTS_ENVIRONMENT = 
 
 # If the user has specified --enable-parallel
