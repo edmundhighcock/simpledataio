@@ -13,7 +13,7 @@ int main (int argc, char ** argv){
 	int i;
 	int j = 4;
 
-	sdatio_debug = 0;
+	sdatio_debug = 1;
 
   sdatio_init(&sdatfile, "testfile.cdf");
 

@@ -66,7 +66,6 @@ host_triplet = @host@
 @HAS_FORTRAN_NETCDF_TRUE@am__append_1 = $(FDEF)FORTRAN_NETCDF
 @HAS_ISO_C_BINDING_TRUE@am__append_2 = $(FDEF)ISO_C_BINDING
 @ARCHIVEONLY_FALSE@@PARALLEL_TRUE@am__append_3 = $(top_builddir)/test/testprog_fortran_parallel
-@ARCHIVEONLY_FALSE@@PARALLEL_TRUE@am__append_4 = test/test_parallel.sh
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(am__include_HEADERS_DIST) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
@@ -427,12 +426,12 @@ include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD)
 @FORCE_STATIC_TRUE@AM_LDFLAGS = -all-static
 
 # Serial tests for C and Fortran... invoked by make check
-TESTS = test/testprog test/testprog_fortran \
-	test/testprog_long_dim_names $(am__append_4)
+TESTS = $(PARTESTS) test/testprog test/testprog_fortran test/testprog_long_dim_names
 TESTS_ENVIRONMENT = 
 
 # If the user has specified --enable-parallel
 @PARALLEL_TRUE@AM_CPPFLAGS = -DPARALLEL
+@ARCHIVEONLY_FALSE@@PARALLEL_TRUE@PARTESTS = test/test_parallel.sh
 @ARCHIVEONLY_FALSE@@PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_SOURCES = test/test_parallelf.f90
 @ARCHIVEONLY_FALSE@@PARALLEL_TRUE@__top_builddir__test_testprog_fortran_parallel_LDADD = libsimpledataiof.$(LA) libsimpledataio.$(LA)
 #__top_builddir__test_testprog_fortran_parallel_LDFLAGS=-lmpi -lmpi_f90

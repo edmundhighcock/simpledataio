@@ -98,7 +98,7 @@ AM_FCFLAGS+= $(FDEF)ISO_C_BINDING
 endif
 
 # Serial tests for C and Fortran... invoked by make check
-TESTS = test/testprog test/testprog_fortran test/testprog_long_dim_names
+TESTS = $(PARTESTS) test/testprog test/testprog_fortran test/testprog_long_dim_names
 TESTS_ENVIRONMENT = 
 
 # If the user has specified --enable-parallel
@@ -106,7 +106,7 @@ if PARALLEL
 AM_CPPFLAGS=-DPARALLEL
 if !ARCHIVEONLY
 bin_PROGRAMS+=$(top_builddir)/test/testprog_fortran_parallel
-TESTS +=  test/test_parallel.sh
+PARTESTS =  test/test_parallel.sh
 
 __top_builddir__test_testprog_fortran_parallel_SOURCES=test/test_parallelf.f90
 __top_builddir__test_testprog_fortran_parallel_LDADD=libsimpledataiof.$(LA) libsimpledataio.$(LA)
