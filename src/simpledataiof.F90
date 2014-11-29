@@ -55,6 +55,7 @@ module simpledataio
     type(c_ptr) :: manual_counts
     type(c_ptr) :: manual_starts
     type(c_ptr) :: manual_offsets
+    integer(c_int) :: ndims
   end type sdatio_variable
 
   type, bind(c) :: sdatio_file 
@@ -69,6 +70,7 @@ module simpledataio
     type(c_ptr) :: communicator
     integer(c_int) :: mode
     type(c_ptr) :: name
+    integer(c_int) :: has_long_dim_names
   end type sdatio_file
 
 #else
