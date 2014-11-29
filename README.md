@@ -128,8 +128,8 @@ where it is being written into the output file (this makes sense if you think ab
 set the offsets for a given variable and dimension using `set_offset` so that it can take data from a different index
 of a given dimension. 
 
-Single Letter Variable Names
-----------------------------
+Single Letter Dimension Names
+-----------------------------
 
 If and only if all dimension names in the file are a single letter like "x" then the commas
 can be omitted from the list of dimensions provided to `create_variable`
