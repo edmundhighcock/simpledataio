@@ -29,7 +29,7 @@ An example paints a thousand words: here is the minimal set of C calls to write 
 		sdatio_create_file(&sdatfile);
 		sdatio_add_dimension(&sdatfile, "x", 3, "The x coordinate", "m");
 		sdatio_add_dimension(&sdatfile, "y", 2, "The y coordinate", "m");
-		sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "phi", "xy", "Some potential", "Vm");
+		sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "phi", "x,y", "Some potential", "Vm");
 		sdatio_write_variable(&sdatfile, "phi", &phivar[0]);
 		sdatio_close(&sdatfile);
 		sdatio_free(&sdatfile);
@@ -53,7 +53,7 @@ Here is the minium set of Fortran calls to do the same thing.
 		call create_file(sdatfile)
 		call add_dimension(sdatfile, "x", 3, "The x coordinate", "m")
 		call add_dimension(sdatfile, "y", 2, "The y coordinate", "m")
-		call create_variable(sdatfile, SDATIO_DOUBLE, "phi", "xy", "Some potential", "Vm")
+		call create_variable(sdatfile, SDATIO_DOUBLE, "phi", "x,y", "Some potential", "Vm")
 		call write_variable(sdatfile, "phi", phivar)
 		call closefile(sdatfile)
 		call sdatio_free(sdatfile)
@@ -127,3 +127,12 @@ output file. The default offset is the value of start, i.e. it will take data fr
 where it is being written into the output file (this makes sense if you think about it). However, you can manually
 set the offsets for a given variable and dimension using `set_offset` so that it can take data from a different index
 of a given dimension. 
+
+Single Letter Variable Names
+----------------------------
+
+If and only if all dimension names in the file are a single letter like "x" then the commas
+can be omitted from the list of dimensions provided to `create_variable`
+
+
+		sdatio_create_variable(&sdatfile, SDATIO_DOUBLE, "phi", "xy", "Some potential", "Vm");
