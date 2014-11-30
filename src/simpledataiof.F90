@@ -283,7 +283,8 @@ contains
     character(*), intent(in) :: description, units
     !character, dimension(:), allocatable :: dimension_list_reversed
     character(len(dimension_list)) :: dimension_list_reversed
-    integer :: i
+    character(len(dimension_list)) :: buffer
+    integer :: i, counter, reverse_index
 #ifdef ISO_C_BINDING
     interface
        subroutine sdatio_create_variable(sfile, variable_type, variable_name, dimension_list, description, units) &
@@ -300,9 +301,38 @@ contains
     end interface
     !allocate(dimension_list_reversed(len(dimension_list)))
     !if (len(dimension_list) .gt. 0) then
-    do i = 1,len(dimension_list)
-       dimension_list_reversed(i:i) = dimension_list(len(dimension_list)-i+1:len(dimension_list)-i+1)
-    end do
+
+    
+    dimension_list_reversed = ''
+    if (sfile%has_long_dim_names .eq. 1) then
+      ! This section of code takes a string like "x,y,time"
+      ! and reverses it to give "time,y,x"
+      counter = 0
+      buffer = ''
+      do i = 1,len(dimension_list)+1
+        reverse_index = len(dimension_list) - i + 1
+        if (i .le. len(dimension_list) .and. dimension_list(i:i) .ne. ",") then
+          counter = counter + 1
+          buffer(counter:counter) = dimension_list(i:i)
+        else
+          if (i .lt. len(dimension_list) + 1) &
+            dimension_list_reversed(reverse_index:reverse_index) = ","
+          dimension_list_reversed(reverse_index+1:reverse_index+counter) = buffer(1:counter)
+          !write (*,*) 'dimension_list_reversed', dimension_list_reversed, 'end', &
+            !dimension_list, 'end'
+          counter = 0
+          buffer = ''
+        end if
+      end do
+      !if (len(trim(dimension_list_reversed)) .ne. len(trim(dimension_list))) then
+        !write (*,*) "There is a problem with dimension_list: ", dimension_list
+        !write (*,*) "Possible missing comma separators? "
+    else
+      !write (*,*) 'sfile%has_long_dim_names', sfile%has_long_dim_names
+      do i = 1,len(dimension_list)
+         dimension_list_reversed(i:i) = dimension_list(len(dimension_list)-i+1:len(dimension_list)-i+1)
+      end do
+    end if
     !write (*,*) 'dimension_list ', dimension_list, ' dimension_list_reversed ', dimension_list_reversed
     call sdatio_create_variable(sfile, variable_type,&
          variable_name//c_null_char, dimension_list_reversed//c_null_char, description//c_null_char, units//c_null_char)

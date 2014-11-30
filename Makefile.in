@@ -61,6 +61,7 @@ host_triplet = @host@
 @ARCHIVEONLY_FALSE@bin_PROGRAMS =  \
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog$(EXEEXT) \
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog_fortran$(EXEEXT) \
+@ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog_long_dim_names_fortran$(EXEEXT) \
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog_long_dim_names$(EXEEXT) \
 @ARCHIVEONLY_FALSE@	$(am__EXEEXT_1)
 @HAS_FORTRAN_NETCDF_TRUE@am__append_1 = $(FDEF)FORTRAN_NETCDF
@@ -177,6 +178,14 @@ __top_builddir__test_testprog_long_dim_names_OBJECTS =  \
 	$(am___top_builddir__test_testprog_long_dim_names_OBJECTS)
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_long_dim_names_DEPENDENCIES =  \
 @ARCHIVEONLY_FALSE@	libsimpledataio.$(LA)
+am____top_builddir__test_testprog_long_dim_names_fortran_SOURCES_DIST =  \
+	test/test_long_dim_namesf.f90
+@ARCHIVEONLY_FALSE@am___top_builddir__test_testprog_long_dim_names_fortran_OBJECTS =  \
+@ARCHIVEONLY_FALSE@	test_long_dim_namesf.$(OBJEXT)
+__top_builddir__test_testprog_long_dim_names_fortran_OBJECTS = $(am___top_builddir__test_testprog_long_dim_names_fortran_OBJECTS)
+@ARCHIVEONLY_FALSE@__top_builddir__test_testprog_long_dim_names_fortran_DEPENDENCIES =  \
+@ARCHIVEONLY_FALSE@	libsimpledataiof.$(LA) \
+@ARCHIVEONLY_FALSE@	libsimpledataio.$(LA)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -207,7 +216,8 @@ SOURCES = $(libsimpledataio_a_SOURCES) $(libsimpledataiof_a_SOURCES) \
 	$(__top_builddir__test_testprog_SOURCES) \
 	$(__top_builddir__test_testprog_fortran_SOURCES) \
 	$(__top_builddir__test_testprog_fortran_parallel_SOURCES) \
-	$(__top_builddir__test_testprog_long_dim_names_SOURCES)
+	$(__top_builddir__test_testprog_long_dim_names_SOURCES) \
+	$(__top_builddir__test_testprog_long_dim_names_fortran_SOURCES)
 DIST_SOURCES = $(am__libsimpledataio_a_SOURCES_DIST) \
 	$(am__libsimpledataiof_a_SOURCES_DIST) \
 	$(am__libsimpledataio_la_SOURCES_DIST) \
@@ -215,7 +225,8 @@ DIST_SOURCES = $(am__libsimpledataio_a_SOURCES_DIST) \
 	$(am____top_builddir__test_testprog_SOURCES_DIST) \
 	$(am____top_builddir__test_testprog_fortran_SOURCES_DIST) \
 	$(am____top_builddir__test_testprog_fortran_parallel_SOURCES_DIST) \
-	$(am____top_builddir__test_testprog_long_dim_names_SOURCES_DIST)
+	$(am____top_builddir__test_testprog_long_dim_names_SOURCES_DIST) \
+	$(am____top_builddir__test_testprog_long_dim_names_fortran_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -421,12 +432,14 @@ include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD)
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_long_dim_names_LDADD = libsimpledataio.$(LA)
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_fortran_SOURCES = test/testf.f90
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_fortran_LDADD = libsimpledataiof.$(LA) libsimpledataio.$(LA) 
+@ARCHIVEONLY_FALSE@__top_builddir__test_testprog_long_dim_names_fortran_SOURCES = test/test_long_dim_namesf.f90
+@ARCHIVEONLY_FALSE@__top_builddir__test_testprog_long_dim_names_fortran_LDADD = libsimpledataiof.$(LA) libsimpledataio.$(LA) 
 
 # On HPC systems with Intel/PGI compilers, force static linking
 @FORCE_STATIC_TRUE@AM_LDFLAGS = -all-static
 
 # Serial tests for C and Fortran... invoked by make check
-TESTS = $(PARTESTS) test/testprog test/testprog_fortran test/testprog_long_dim_names
+TESTS = $(PARTESTS) test/testprog test/testprog_fortran test/testprog_long_dim_names test/testprog_long_dim_names_fortran
 TESTS_ENVIRONMENT = 
 
 # If the user has specified --enable-parallel
@@ -618,6 +631,9 @@ $(top_builddir)/test/testprog_fortran_parallel$(EXEEXT): $(__top_builddir__test_
 $(top_builddir)/test/testprog_long_dim_names$(EXEEXT): $(__top_builddir__test_testprog_long_dim_names_OBJECTS) $(__top_builddir__test_testprog_long_dim_names_DEPENDENCIES) $(EXTRA___top_builddir__test_testprog_long_dim_names_DEPENDENCIES) $(top_builddir)/test/$(am__dirstamp)
 	@rm -f $(top_builddir)/test/testprog_long_dim_names$(EXEEXT)
 	$(LINK) $(__top_builddir__test_testprog_long_dim_names_OBJECTS) $(__top_builddir__test_testprog_long_dim_names_LDADD) $(LIBS)
+$(top_builddir)/test/testprog_long_dim_names_fortran$(EXEEXT): $(__top_builddir__test_testprog_long_dim_names_fortran_OBJECTS) $(__top_builddir__test_testprog_long_dim_names_fortran_DEPENDENCIES) $(EXTRA___top_builddir__test_testprog_long_dim_names_fortran_DEPENDENCIES) $(top_builddir)/test/$(am__dirstamp)
+	@rm -f $(top_builddir)/test/testprog_long_dim_names_fortran$(EXEEXT)
+	$(FCLINK) $(__top_builddir__test_testprog_long_dim_names_fortran_OBJECTS) $(__top_builddir__test_testprog_long_dim_names_fortran_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -747,6 +763,12 @@ test_parallelf.o: test/test_parallelf.f90
 
 test_parallelf.obj: test/test_parallelf.f90
 	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o test_parallelf.obj $(FCFLAGS_f90) `if test -f 'test/test_parallelf.f90'; then $(CYGPATH_W) 'test/test_parallelf.f90'; else $(CYGPATH_W) '$(srcdir)/test/test_parallelf.f90'; fi`
+
+test_long_dim_namesf.o: test/test_long_dim_namesf.f90
+	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o test_long_dim_namesf.o $(FCFLAGS_f90) `test -f 'test/test_long_dim_namesf.f90' || echo '$(srcdir)/'`test/test_long_dim_namesf.f90
+
+test_long_dim_namesf.obj: test/test_long_dim_namesf.f90
+	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o test_long_dim_namesf.obj $(FCFLAGS_f90) `if test -f 'test/test_long_dim_namesf.f90'; then $(CYGPATH_W) 'test/test_long_dim_namesf.f90'; else $(CYGPATH_W) '$(srcdir)/test/test_long_dim_namesf.f90'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
