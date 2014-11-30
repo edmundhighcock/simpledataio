@@ -284,7 +284,7 @@ contains
     !character, dimension(:), allocatable :: dimension_list_reversed
     character(len(dimension_list)) :: dimension_list_reversed
     character(len(dimension_list)) :: buffer
-    integer :: i, counter, reverse_index
+    integer :: i, counter, reverse_index, dimlistlength, imax
 #ifdef ISO_C_BINDING
     interface
        subroutine sdatio_create_variable(sfile, variable_type, variable_name, dimension_list, description, units) &
@@ -303,19 +303,25 @@ contains
     !if (len(dimension_list) .gt. 0) then
 
     
+    dimlistlength = len(trim(dimension_list))
     dimension_list_reversed = ''
-    if (sfile%has_long_dim_names .eq. 1) then
+    if (len(dimension_list) < 2) then
+      dimension_list_reversed = dimension_list
+    else if (sfile%has_long_dim_names .eq. 1 .or. index(dimension_list, ",") .ne. 0) then
       ! This section of code takes a string like "x,y,time"
       ! and reverses it to give "time,y,x"
       counter = 0
       buffer = ''
-      do i = 1,len(dimension_list)+1
-        reverse_index = len(dimension_list) - i + 1
-        if (i .le. len(dimension_list) .and. dimension_list(i:i) .ne. ",") then
+          !write (*,*) 'dimension_list_reversed', dimension_list_reversed, 'end', &
+            !dimension_list, 'end'
+      do i = 1,dimlistlength+1
+        imax = min(dimlistlength, i)
+        reverse_index = dimlistlength - i + 1
+        if (i .le. dimlistlength .and. dimension_list(imax:imax) .ne. ",") then
           counter = counter + 1
           buffer(counter:counter) = dimension_list(i:i)
         else
-          if (i .lt. len(dimension_list) + 1) &
+          if (i .lt. dimlistlength + 1) &
             dimension_list_reversed(reverse_index:reverse_index) = ","
           dimension_list_reversed(reverse_index+1:reverse_index+counter) = buffer(1:counter)
           !write (*,*) 'dimension_list_reversed', dimension_list_reversed, 'end', &

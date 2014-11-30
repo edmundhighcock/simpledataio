@@ -475,7 +475,7 @@ void sdatio_create_variable(struct sdatio_file * sfile,
   sdatio_end_definitions(sfile);
   
   svar->type = variable_type;
-  svar->dimension_list = (char *)malloc(sizeof(char)*(ndims+1));
+  svar->dimension_list = (char *)malloc(sizeof(char)*(strlen(dimension_list)+1));
   strcpy(svar->dimension_list, dimension_list);
 
   svar->manual_starts=(int*)malloc(sizeof(int)*ndims);
@@ -489,7 +489,11 @@ void sdatio_create_variable(struct sdatio_file * sfile,
     svar->manual_offsets[i]=-1;
   }
 
+  DEBUG_MESS("Starting sdatio_append_variable\n");
+
   sdatio_append_variable(sfile, svar);
+
+  DEBUG_MESS("Ending sdatio_append_variable\n");
 
 #ifdef PARALLEL
   if (sfile->is_parallel){
@@ -644,7 +648,7 @@ void sdatio_set_count(struct sdatio_file * sfile, char * variable_name, char * d
     }
   }
     if (!found) {
-      printf("Couldn't find dimension in sdatio_set_count\n");
+      printf("Couldn't find dimension %s for variable %s in sdatio_set_count\n", dimension_name, variable_name);
       abort();
     }
     /*printf("count is %d\n", svar->manual_counts[ndim]);*/
