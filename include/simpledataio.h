@@ -15,6 +15,9 @@ void sdatio_set_parallel(struct sdatio_file * sfile, MPI_Comm * comm);
  * of the file.*/
 void sdatio_create_file(struct sdatio_file * sfile);
 
+/* Write metadata to the file (as a netcdf global attribute)*/
+void sdatio_add_metadata(struct sdatio_file * sfile, int metadata_type, char * key, void * value);
+
 /* Create a new dimension in the file sfile. Dimension names must
  * be a single letter. */
 void sdatio_add_dimension(struct sdatio_file * sfile, 
@@ -63,3 +66,4 @@ void sdatio_increment_start(struct sdatio_file * sfile, char * dimension_name);
 
 /* Returns 1 if the given variable exists, 0 otherwise */
 int sdatio_variable_exists(struct sdatio_file * sfile, char * variable_name);
+

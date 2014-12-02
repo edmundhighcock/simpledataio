@@ -140,7 +140,39 @@ void sdatio_create_file(struct sdatio_file * sfile )  {
 /**//*sdatio_end_definitions(sfile);*/
 /*}*/
 
+int sdatio_netcdf_variable_type(int type){
+  switch (type){
+  case SDATIO_INT:
+    return NC_INT;
+  case SDATIO_FLOAT:
+    return NC_FLOAT;
+  case SDATIO_DOUBLE:
+    return NC_DOUBLE;
+  case SDATIO_CHAR:
+    return NC_CHAR;
+    /*case */
+    /*case SDATIO_COMPLEX_DOUBLE:*/
+    /*printf("Can't do complex yet\n");*/
+    /*abort();*/
+  default:
+    printf("Unknown data type for simple data io\n");
+    abort();
+  }
+}
 
+void sdatio_add_metadata(struct sdatio_file * sfile, int metadata_type, char * key, void * value){
+  int retval;
+  sdatio_recommence_definitions(sfile);
+  switch (metadata_type){
+    case SDATIO_CHAR:
+      if ((retval = nc_put_att_text(sfile->nc_file_id, NC_GLOBAL, key, strlen(value), value))) ERR(retval);
+      break;
+    default:
+      if ((retval = nc_put_att(sfile->nc_file_id, NC_GLOBAL, key, 
+              sdatio_netcdf_variable_type(metadata_type), 1, value))) ERR(retval);
+  }
+  sdatio_end_definitions(sfile);
+}
 
 /***********************************************************
  *
@@ -254,22 +286,6 @@ void sdatio_free_dimension(struct sdatio_dimension * sdim){
  *
  * ***********************************************/
 
-int sdatio_netcdf_variable_type(int type){
-  switch (type){
-  case SDATIO_INT:
-    return NC_INT;
-  case SDATIO_FLOAT:
-    return NC_FLOAT;
-  case SDATIO_DOUBLE:
-    return NC_DOUBLE;
-  case SDATIO_COMPLEX_DOUBLE:
-    printf("Can't do complex yet\n");
-    abort();
-  default:
-    printf("Unknown data type for simple data io\n");
-    abort();
-  }
-}
 
 
 void sdatio_get_dimension_ids(struct sdatio_file * sfile, char * dimension_list, struct sdatio_variable * svar){
@@ -466,6 +482,9 @@ void sdatio_create_variable(struct sdatio_file * sfile,
       break;
     case SDATIO_DOUBLE:
       svar->type_size = sizeof(double);
+      break;
+    case SDATIO_CHAR:
+      svar->type_size = sizeof(char);
       break;
     default:
       printf("Unknown type in sdatio_create_variable\n");
