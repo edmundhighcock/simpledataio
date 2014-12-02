@@ -247,6 +247,21 @@ contains
 #endif
   end subroutine print_dimensions
 
+  !/* Add standard metadata like creation time and library versions*/
+  subroutine add_standard_metadata(sfile)
+    type(sdatio_file), intent(in) :: sfile
+#ifdef ISO_C_BINDING
+    interface
+       subroutine sdatio_add_standard_metadata(sfile) &
+           bind(c, name='sdatio_add_standard_metadata')
+         use iso_c_binding
+         import sdatio_file
+         type(sdatio_file) :: sfile
+       end subroutine sdatio_add_standard_metadata
+    end interface
+    call sdatio_add_standard_metadata(sfile)
+#endif
+  end subroutine add_standard_metadata
   !/* Close the file and free all memory associated with sfile*/
   !void sdatio_close(struct sdatio_file * sfile)
   subroutine closefile(sfile)

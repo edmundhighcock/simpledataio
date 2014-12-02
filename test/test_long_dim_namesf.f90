@@ -33,6 +33,7 @@ program test
 
   call sdatio_init(sdatfile, "test_long_dim_namesf.cdf")
   call create_file(sdatfile)
+  call add_standard_metadata(sdatfile)
   call add_metadata(sdatfile, "Information", "is often useful")
   call add_metadata(sdatfile, "Time", 24379)
   call add_metadata(sdatfile, "Is Money", 217490731.290348)

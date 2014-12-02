@@ -111,15 +111,19 @@ void sdatio_create_file(struct sdatio_file * sfile )  {
 
 void sdatio_add_standard_metadata(struct sdatio_file * sfile){
   time_t current_time;
+  char  strtime[40];
+  size_t count = 40;
   current_time = time(NULL);
-  sdatio_add_metadata(sfile, SDATIO_CHAR, "CreationTime", ctime(&current_time));
-  sdatio_add_metadata(sfile, SDATIO_INT, "CreationTimeInSecondsAfterEpoch", (int *)&current_time);
-  sdatio_add_metadata(sfile, SDATIO_CHAR, "SimpledatioInfo", 
+  strftime(strtime, count, "%c %z", localtime(&current_time)); 
+  sdatio_add_metadata(sfile, SDATIO_CHAR, "creation_time", &strtime);
+  sdatio_add_metadata(sfile, SDATIO_INT, "creation_time_in_seconds_after_epoch", (int *)&current_time);
+  sdatio_add_metadata(sfile, SDATIO_CHAR, "simpledatio_info", 
       "This datafile was constructed using simpledatio, a simplified netCDF interface.");
-  sdatio_add_metadata(sfile, SDATIO_CHAR, "SimpledatioURL", 
+  sdatio_add_metadata(sfile, SDATIO_CHAR, "simpledatio_url", 
       "http://github.com/edmundhighcock/simpledataio");
-  sdatio_add_metadata(sfile, SDATIO_CHAR, "SimpledatioVersion", SDATIO_VERSION_STRING);
-  sdatio_add_metadata(sfile, SDATIO_CHAR, "netCDFVersion", nc_inq_libvers());
+  sdatio_add_metadata(sfile, SDATIO_CHAR, "simpledatio_version", SDATIO_VERSION_STRING);
+  sdatio_add_metadata(sfile, SDATIO_CHAR, "netcdf_version", nc_inq_libvers());
+  sdatio_add_metadata(sfile, SDATIO_CHAR, "netcdf_url", "http://www.unidata.ucar.edu/software/netcdf");
   
 }
 
@@ -486,8 +490,8 @@ void sdatio_create_variable(struct sdatio_file * sfile,
   /*if (sfile->is_parallel){}*/
   /*else {*/
     if ((retval = nc_def_var(sfile->nc_file_id, variable_name, sdatio_netcdf_variable_type(variable_type), ndims, svar->dimension_ids, &(svar->nc_id)))) ERR(retval);
-    if ((retval = nc_put_att_text(sfile->nc_file_id, svar->nc_id, "Description", strlen(description), description))) ERR(retval);
-    if ((retval = nc_put_att_text(sfile->nc_file_id, svar->nc_id, "Units", strlen(units), units))) ERR(retval);
+    if ((retval = nc_put_att_text(sfile->nc_file_id, svar->nc_id, "description", strlen(description), description))) ERR(retval);
+    if ((retval = nc_put_att_text(sfile->nc_file_id, svar->nc_id, "units", strlen(units), units))) ERR(retval);
     /*}*/
   switch (variable_type){
     case SDATIO_INT:
