@@ -16,7 +16,7 @@ void sdatio_set_parallel(struct sdatio_file * sfile, MPI_Comm * comm);
 void sdatio_create_file(struct sdatio_file * sfile);
 
 /* Write metadata to the file (as a netcdf global attribute)*/
-void sdatio_add_metadata(struct sdatio_file * sfile, int metadata_type, char * key, void * value);
+void sdatio_add_metadata(struct sdatio_file * sfile, const int metadata_type, const char * key, const void * value);
 
 /* Create a new dimension in the file sfile. Dimension names must
  * be a single letter. */
@@ -32,6 +32,9 @@ void sdatio_print_dimensions(struct sdatio_file * sfile);
 
 /* Close the file and free all memory associated with sfile*/
 void sdatio_close(struct sdatio_file * sfile);
+
+/* Write default metadata such as simpledataio and library versions */
+void sdatio_add_standard_metadata(struct sdatio_file * sfile);
 
 /* Ensure all variables are written to disk in case of crashes*/
 void sdatio_sync(struct sdatio_file * sfile);

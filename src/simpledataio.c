@@ -107,6 +107,22 @@ void sdatio_create_file(struct sdatio_file * sfile )  {
   sdatio_end_definitions(sfile);
 }
 
+
+
+void sdatio_add_standard_metadata(struct sdatio_file * sfile){
+  time_t current_time;
+  current_time = time(NULL);
+  sdatio_add_metadata(sfile, SDATIO_CHAR, "CreationTime", ctime(&current_time));
+  sdatio_add_metadata(sfile, SDATIO_INT, "CreationTimeInSecondsAfterEpoch", (int *)&current_time);
+  sdatio_add_metadata(sfile, SDATIO_CHAR, "SimpledatioInfo", 
+      "This datafile was constructed using simpledatio, a simplified netCDF interface.");
+  sdatio_add_metadata(sfile, SDATIO_CHAR, "SimpledatioURL", 
+      "http://github.com/edmundhighcock/simpledataio");
+  sdatio_add_metadata(sfile, SDATIO_CHAR, "SimpledatioVersion", SDATIO_VERSION_STRING);
+  sdatio_add_metadata(sfile, SDATIO_CHAR, "netCDFVersion", nc_inq_libvers());
+  
+}
+
 /*void sdatio_create_file_parallel_fortran(struct sdatio_file * sfile, char * fname, MPI_Fint  fcomm)  {*/
 /*#ifdef PARALLEL*/
 /*MPI_Comm comm = MPI_Comm_f2c(fcomm);*/
@@ -160,7 +176,7 @@ int sdatio_netcdf_variable_type(int type){
   }
 }
 
-void sdatio_add_metadata(struct sdatio_file * sfile, int metadata_type, char * key, void * value){
+void sdatio_add_metadata(struct sdatio_file * sfile, const int metadata_type, const char * key, const void * value){
   int retval;
   sdatio_recommence_definitions(sfile);
   switch (metadata_type){

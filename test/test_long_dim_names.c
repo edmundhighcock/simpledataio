@@ -15,7 +15,7 @@ int main (int argc, char ** argv){
 	int j = 4;
   int time = 2152123;
 
-	sdatio_debug = 1;
+	sdatio_debug = 0;
 
   sdatio_init(&sdatfile, "testfile_long_dim_names.cdf");
 
@@ -23,6 +23,9 @@ int main (int argc, char ** argv){
 
   sdatio_add_metadata(&sdatfile, SDATIO_CHAR, "Thoughts", "This file is important");
   sdatio_add_metadata(&sdatfile, SDATIO_INT, "Time", &time);
+
+  sdatio_add_standard_metadata(&sdatfile);
+  printf("HEEEELLLOOOO\n");
 
   sdatio_add_dimension(&sdatfile, "x", 3, "The x coordinate", "m");
 
