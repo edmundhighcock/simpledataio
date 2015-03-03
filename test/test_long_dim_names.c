@@ -2,24 +2,24 @@
 #include "include/simpledataio.h"
 
 int main (int argc, char ** argv){
-	struct sdatio_file sdatfile;
-	double yvar[2] = {0.1,0.3};
-	float floatvar[2] = {0.1,0.3};
-	int iy[2] = {1,2};
-	double phivar[3][2] = {{0.1,0.3}, {2.0, 4.0}, {-1.0, 3.6}};
+  struct sdatio_file sdatfile;
+  double yvar[2] = {0.1,0.3};
+  float floatvar[2] = {0.1,0.3};
+  int iy[2] = {1,2};
+  double phivar[3][2] = {{0.1,0.3}, {2.0, 4.0}, {-1.0, 3.6}};
   double long_dim_var[3][3] = {{0.,0.,0.},{0.,0.,0.},{0.,0.,0.}};
-	double t;
-	double phi_tvar[2];
-	double parameter = 0.5;
-	int i;
-	int j = 4;
+  double t;
+  double phi_tvar[2];
+  double parameter = 0.5;
+  int i;
+  int j = 4;
   int time = 2152123;
 
-	sdatio_debug = 0;
+  sdatio_debug = 0;
 
   sdatio_init(&sdatfile, "testfile_long_dim_names.cdf");
 
-	sdatio_create_file(&sdatfile);
+  sdatio_create_file(&sdatfile);
 
   sdatio_add_metadata(&sdatfile, SDATIO_CHAR, "Thoughts", "This file is important");
   sdatio_add_metadata(&sdatfile, SDATIO_INT, "Time", &time);
@@ -97,6 +97,6 @@ int main (int argc, char ** argv){
   sdatio_close(&sdatfile);
   sdatio_free(&sdatfile);
 
-	printf("Success!\n");
-	return 0;
+  printf("Success!\n");
+  return 0;
 }
