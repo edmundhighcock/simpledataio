@@ -64,6 +64,8 @@ For full examples, including
 variables with unlimited dimensions
 see these test cases in [C](test/test_long_dim_names.c) and [Fortran](test/test_long_dim_namesf.f90).
 
+For full interface documentation see the [C header file](include/simpledataio.h). 
+
 Opening and continuing files
 ----------------------------
 
