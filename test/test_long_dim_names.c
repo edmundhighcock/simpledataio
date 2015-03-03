@@ -25,7 +25,6 @@ int main (int argc, char ** argv){
   sdatio_add_metadata(&sdatfile, SDATIO_INT, "Time", &time);
 
   sdatio_add_standard_metadata(&sdatfile);
-  printf("HEEEELLLOOOO\n");
 
   sdatio_add_dimension(&sdatfile, "x", 3, "The x coordinate", "m");
 
