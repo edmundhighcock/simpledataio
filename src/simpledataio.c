@@ -990,10 +990,7 @@ void sdatio_open_file(struct sdatio_file * sfile )  {
   int vartypeint;
   int dummy;
   int *nunlim;
-  /*if (0){}*/
-  /*else {*/
 
-  /*char * args;*/
   retval = 0;
 
   if (sfile->is_open){
@@ -1001,9 +998,10 @@ void sdatio_open_file(struct sdatio_file * sfile )  {
     abort();
   }
 
+  /* We make the choice to always open the file in readwrite mode*/
   sfile->mode = sfile->mode|NC_WRITE;
 
-  /*MPI_Init(&retval, &args);*/
+  /* Open the file*/
   if (sfile->is_parallel) {
 #ifdef PARALLEL 
     if ((retval = nc_open_par(sfile->name, sfile->mode, *(sfile->communicator), MPI_INFO_NULL,  &(sfile->nc_file_id)))) ERR(retval);
@@ -1015,11 +1013,11 @@ void sdatio_open_file(struct sdatio_file * sfile )  {
   else {
     if ((retval = nc_open(sfile->name, sfile->mode, &(sfile->nc_file_id)))) ERR(retval);
   }
+  /*Initialize object file data*/
   sfile->is_open = 1;
   sfile->n_dimensions = 0;
   sfile->n_variables = 0;
   sfile->data_written = 0;
-    /*}*/
   /* Get number of dimensions in the file*/
   if ((retval = nc_inq_ndims(sfile->nc_file_id, &ndims))) ERR(retval);
   /* Allocate some temp storate*/

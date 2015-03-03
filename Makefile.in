@@ -62,6 +62,7 @@ host_triplet = @host@
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog$(EXEEXT) \
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog_open$(EXEEXT) \
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog_fortran$(EXEEXT) \
+@ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog_open_fortran$(EXEEXT) \
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog_long_dim_names_fortran$(EXEEXT) \
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog_long_dim_names$(EXEEXT) \
 @ARCHIVEONLY_FALSE@	$(am__EXEEXT_1)
@@ -195,6 +196,15 @@ __top_builddir__test_testprog_open_OBJECTS =  \
 	$(am___top_builddir__test_testprog_open_OBJECTS)
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_open_DEPENDENCIES =  \
 @ARCHIVEONLY_FALSE@	libsimpledataio.$(LA)
+am____top_builddir__test_testprog_open_fortran_SOURCES_DIST =  \
+	test/test_openf.f90
+@ARCHIVEONLY_FALSE@am___top_builddir__test_testprog_open_fortran_OBJECTS =  \
+@ARCHIVEONLY_FALSE@	test_openf.$(OBJEXT)
+__top_builddir__test_testprog_open_fortran_OBJECTS =  \
+	$(am___top_builddir__test_testprog_open_fortran_OBJECTS)
+@ARCHIVEONLY_FALSE@__top_builddir__test_testprog_open_fortran_DEPENDENCIES =  \
+@ARCHIVEONLY_FALSE@	libsimpledataiof.$(LA) \
+@ARCHIVEONLY_FALSE@	libsimpledataio.$(LA)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -227,7 +237,8 @@ SOURCES = $(libsimpledataio_a_SOURCES) $(libsimpledataiof_a_SOURCES) \
 	$(__top_builddir__test_testprog_fortran_parallel_SOURCES) \
 	$(__top_builddir__test_testprog_long_dim_names_SOURCES) \
 	$(__top_builddir__test_testprog_long_dim_names_fortran_SOURCES) \
-	$(__top_builddir__test_testprog_open_SOURCES)
+	$(__top_builddir__test_testprog_open_SOURCES) \
+	$(__top_builddir__test_testprog_open_fortran_SOURCES)
 DIST_SOURCES = $(am__libsimpledataio_a_SOURCES_DIST) \
 	$(am__libsimpledataiof_a_SOURCES_DIST) \
 	$(am__libsimpledataio_la_SOURCES_DIST) \
@@ -237,7 +248,8 @@ DIST_SOURCES = $(am__libsimpledataio_a_SOURCES_DIST) \
 	$(am____top_builddir__test_testprog_fortran_parallel_SOURCES_DIST) \
 	$(am____top_builddir__test_testprog_long_dim_names_SOURCES_DIST) \
 	$(am____top_builddir__test_testprog_long_dim_names_fortran_SOURCES_DIST) \
-	$(am____top_builddir__test_testprog_open_SOURCES_DIST)
+	$(am____top_builddir__test_testprog_open_SOURCES_DIST) \
+	$(am____top_builddir__test_testprog_open_fortran_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -445,6 +457,8 @@ include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD)
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_long_dim_names_LDADD = libsimpledataio.$(LA)
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_fortran_SOURCES = test/testf.f90
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_fortran_LDADD = libsimpledataiof.$(LA) libsimpledataio.$(LA) 
+@ARCHIVEONLY_FALSE@__top_builddir__test_testprog_open_fortran_SOURCES = test/test_openf.f90
+@ARCHIVEONLY_FALSE@__top_builddir__test_testprog_open_fortran_LDADD = libsimpledataiof.$(LA) libsimpledataio.$(LA) 
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_long_dim_names_fortran_SOURCES = test/test_long_dim_namesf.f90
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_long_dim_names_fortran_LDADD = libsimpledataiof.$(LA) libsimpledataio.$(LA) 
 
@@ -452,7 +466,7 @@ include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD)
 @FORCE_STATIC_TRUE@AM_LDFLAGS = -all-static
 
 # Serial tests for C and Fortran... invoked by make check
-TESTS = $(PARTESTS) test/testprog test/testprog_fortran test/testprog_long_dim_names test/testprog_long_dim_names_fortran test/testprog_open
+TESTS = $(PARTESTS) test/testprog test/testprog_fortran test/testprog_long_dim_names test/testprog_long_dim_names_fortran test/testprog_open test/testprog_open_fortran
 TESTS_ENVIRONMENT = 
 
 # If the user has specified --enable-parallel
@@ -650,6 +664,9 @@ $(top_builddir)/test/testprog_long_dim_names_fortran$(EXEEXT): $(__top_builddir_
 $(top_builddir)/test/testprog_open$(EXEEXT): $(__top_builddir__test_testprog_open_OBJECTS) $(__top_builddir__test_testprog_open_DEPENDENCIES) $(EXTRA___top_builddir__test_testprog_open_DEPENDENCIES) $(top_builddir)/test/$(am__dirstamp)
 	@rm -f $(top_builddir)/test/testprog_open$(EXEEXT)
 	$(LINK) $(__top_builddir__test_testprog_open_OBJECTS) $(__top_builddir__test_testprog_open_LDADD) $(LIBS)
+$(top_builddir)/test/testprog_open_fortran$(EXEEXT): $(__top_builddir__test_testprog_open_fortran_OBJECTS) $(__top_builddir__test_testprog_open_fortran_DEPENDENCIES) $(EXTRA___top_builddir__test_testprog_open_fortran_DEPENDENCIES) $(top_builddir)/test/$(am__dirstamp)
+	@rm -f $(top_builddir)/test/testprog_open_fortran$(EXEEXT)
+	$(FCLINK) $(__top_builddir__test_testprog_open_fortran_OBJECTS) $(__top_builddir__test_testprog_open_fortran_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -800,6 +817,12 @@ test_long_dim_namesf.o: test/test_long_dim_namesf.f90
 
 test_long_dim_namesf.obj: test/test_long_dim_namesf.f90
 	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o test_long_dim_namesf.obj $(FCFLAGS_f90) `if test -f 'test/test_long_dim_namesf.f90'; then $(CYGPATH_W) 'test/test_long_dim_namesf.f90'; else $(CYGPATH_W) '$(srcdir)/test/test_long_dim_namesf.f90'; fi`
+
+test_openf.o: test/test_openf.f90
+	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o test_openf.o $(FCFLAGS_f90) `test -f 'test/test_openf.f90' || echo '$(srcdir)/'`test/test_openf.f90
+
+test_openf.obj: test/test_openf.f90
+	$(FC) $(AM_FCFLAGS) $(FCFLAGS) -c -o test_openf.obj $(FCFLAGS_f90) `if test -f 'test/test_openf.f90'; then $(CYGPATH_W) 'test/test_openf.f90'; else $(CYGPATH_W) '$(srcdir)/test/test_openf.f90'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1287,6 +1310,7 @@ uninstall-am: uninstall-binPROGRAMS uninstall-includeHEADERS \
 @HAS_F90_MODULES_TRUE@	cp $(SDAT_WRITE_MOD) include/.
 #simpledataio_write.o: include/$(SDAT_MOD) 
 @HAS_F90_MODULES_TRUE@test/testf.f90: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
+@HAS_F90_MODULES_TRUE@test/test_openf.f90: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
 @HAS_F90_MODULES_TRUE@test/test_parallelf.f90: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
 
 @ARCHIVEONLY_TRUE@src/simpledataio2.c: src/simpledataio.c

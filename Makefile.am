@@ -69,6 +69,7 @@ if !ARCHIVEONLY
 bin_PROGRAMS=$(top_builddir)/test/testprog 
 bin_PROGRAMS+=$(top_builddir)/test/testprog_open
 bin_PROGRAMS+=$(top_builddir)/test/testprog_fortran
+bin_PROGRAMS+=$(top_builddir)/test/testprog_open_fortran
 bin_PROGRAMS+=$(top_builddir)/test/testprog_long_dim_names_fortran
 bin_PROGRAMS+=$(top_builddir)/test/testprog_long_dim_names
 
@@ -81,6 +82,8 @@ __top_builddir__test_testprog_long_dim_names_SOURCES=test/test_long_dim_names.c
 __top_builddir__test_testprog_long_dim_names_LDADD=libsimpledataio.$(LA)
 __top_builddir__test_testprog_fortran_SOURCES=test/testf.f90
 __top_builddir__test_testprog_fortran_LDADD=libsimpledataiof.$(LA) libsimpledataio.$(LA) 
+__top_builddir__test_testprog_open_fortran_SOURCES=test/test_openf.f90
+__top_builddir__test_testprog_open_fortran_LDADD=libsimpledataiof.$(LA) libsimpledataio.$(LA) 
 __top_builddir__test_testprog_long_dim_names_fortran_SOURCES=test/test_long_dim_namesf.f90
 __top_builddir__test_testprog_long_dim_names_fortran_LDADD=libsimpledataiof.$(LA) libsimpledataio.$(LA) 
 endif
@@ -104,7 +107,7 @@ AM_FCFLAGS+= $(FDEF)ISO_C_BINDING
 endif
 
 # Serial tests for C and Fortran... invoked by make check
-TESTS = $(PARTESTS) test/testprog test/testprog_fortran test/testprog_long_dim_names test/testprog_long_dim_names_fortran test/testprog_open
+TESTS = $(PARTESTS) test/testprog test/testprog_fortran test/testprog_long_dim_names test/testprog_long_dim_names_fortran test/testprog_open test/testprog_open_fortran
 TESTS_ENVIRONMENT = 
 
 # If the user has specified --enable-parallel
@@ -141,6 +144,7 @@ include/$(SDAT_WRITE_MOD): $(SDAT_WRITE_MOD)
 	cp $(SDAT_WRITE_MOD) include/.
 #simpledataio_write.o: include/$(SDAT_MOD) 
 test/testf.f90: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
+test/test_openf.f90: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
 test/test_parallelf.f90: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
 endif
 

@@ -116,7 +116,7 @@ end interface add_metadata
 
 contains 
 
-  !/* Open a new datafile for writing. fname is the name of the file 
+  !/* Initialise the sfile object. fname is the name of the file 
   !* The stuct sfile is used to store the state information
   !* of the file.*/
   subroutine sdatio_init(sfile, fname)
@@ -167,6 +167,7 @@ contains
 #endif
   end subroutine sdatio_free
 
+  !/* Open a new file for writing.*/
   subroutine create_file(sfile)
     type(sdatio_file), intent(out) :: sfile
 #ifdef ISO_C_BINDING
@@ -182,6 +183,26 @@ contains
 #endif
 #endif
   end subroutine create_file
+
+  !> /*Open an existing file to append to it 
+  !! All variables and dimensions are read into
+  !! the object and you can carry on as if the file
+  !! had never been closed.*/
+  subroutine open_file(sfile)
+    type(sdatio_file), intent(out) :: sfile
+#ifdef ISO_C_BINDING
+#ifdef FORTRAN_NETCDF
+    interface
+       subroutine sdatio_open_file(sfile) bind(c, name='sdatio_open_file')
+         use iso_c_binding
+         import sdatio_file
+         type(sdatio_file) :: sfile
+       end subroutine sdatio_open_file
+    end interface
+    call sdatio_open_file(sfile)
+#endif
+#endif
+  end subroutine open_file
 
 !#ifdef PARALLEL 
   subroutine set_parallel(sfile, comm)
