@@ -60,6 +60,33 @@ Here is the minium set of Fortran calls to do the same thing.
 
 	end program test
 
+Opening and continuing files
+----------------------------
+
+Simpledataio makes it incredibly easy to open existing netCDF files
+and continue writing to them as if you had never closed them:
+
+Here is an example in C (in which we open the file
+constructed in the previous example):
+
+
+	#include "include/simpledataio.h"
+
+	int main (int argc, char ** argv){
+		double phivar[3][2] = {{0.1,0.3}, {2.0, 4.0}, {-1.0, 3.6}};
+		struct sdatio_file sdatfile;
+		sdatio_init(&sdatfile, "testfile.cdf");
+		sdatio_open_file(&sdatfile); /* This is the important line */
+		sdatio_write_variable(&sdatfile, "phi", &phivar[0]);
+		sdatio_close(&sdatfile);
+		sdatio_free(&sdatfile);
+		return 0;
+	}
+
+For full examples, including
+variables with unlimited dimensions
+see these test cases in [C](test/test_open.c) and [Fortran](test/test_openf.f90).
+
 
 Installing
 ----------
