@@ -477,8 +477,11 @@ TESTS_ENVIRONMENT =
 #__top_builddir__test_testprog_fortran_parallel_LDFLAGS=-lmpi -lmpi_f90
 CLEANFILES = test.cdf testfile.cdf test_parallel.cdf $(SDAT_MOD) \
 	$(SDAT_WRITE_MOD) include/$(SDAT_MOD) \
-	include/$(SDAT_WRITE_MOD) src/simpledataio2.c \
-	src/simpledataiof2.F90 src/simpledataio_write2.F90
+	include/$(SDAT_WRITE_MOD) test/testdatatmp.cdf \
+	test/testdatftmp.cdf test_long_dim_namesf.cdf \
+	testfile_long_dim_names.cdf src/simpledataio_write.F90 \
+	src/simpledataio2.c src/simpledataiof2.F90 \
+	src/simpledataio_write2.F90
 
 #TEST_EXTENSIONS = .sh
 #SH_LOG_COMPILER = bash

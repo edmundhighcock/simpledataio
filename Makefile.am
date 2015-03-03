@@ -124,6 +124,9 @@ endif
 endif
 
 CLEANFILES=test.cdf testfile.cdf test_parallel.cdf $(SDAT_MOD) $(SDAT_WRITE_MOD) include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
+CLEANFILES+= test/testdatatmp.cdf test/testdatftmp.cdf test_long_dim_namesf.cdf testfile_long_dim_names.cdf
+
+CLEANFILES+= src/simpledataio_write.F90
 CLEANFILES+= src/simpledataio2.c src/simpledataiof2.F90 src/simpledataio_write2.F90
 
 
