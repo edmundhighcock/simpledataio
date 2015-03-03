@@ -15,6 +15,11 @@ void sdatio_set_parallel(struct sdatio_file * sfile, MPI_Comm * comm);
  * of the file.*/
 void sdatio_create_file(struct sdatio_file * sfile);
 
+/* Open an existing datafile for reading and/or appending data. fname is the name of the file 
+ * The struct sfile is used to store the state information
+ * of the file.*/
+void sdatio_open_file(struct sdatio_file * sfile);
+
 /* Write metadata to the file (as a netcdf global attribute)*/
 void sdatio_add_metadata(struct sdatio_file * sfile, const int metadata_type, const char * key, const void * value);
 

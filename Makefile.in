@@ -60,6 +60,7 @@ build_triplet = @build@
 host_triplet = @host@
 @ARCHIVEONLY_FALSE@bin_PROGRAMS =  \
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog$(EXEEXT) \
+@ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog_open$(EXEEXT) \
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog_fortran$(EXEEXT) \
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog_long_dim_names_fortran$(EXEEXT) \
 @ARCHIVEONLY_FALSE@	$(top_builddir)/test/testprog_long_dim_names$(EXEEXT) \
@@ -186,6 +187,14 @@ __top_builddir__test_testprog_long_dim_names_fortran_OBJECTS = $(am___top_buildd
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_long_dim_names_fortran_DEPENDENCIES =  \
 @ARCHIVEONLY_FALSE@	libsimpledataiof.$(LA) \
 @ARCHIVEONLY_FALSE@	libsimpledataio.$(LA)
+am____top_builddir__test_testprog_open_SOURCES_DIST =  \
+	test/test_open.c
+@ARCHIVEONLY_FALSE@am___top_builddir__test_testprog_open_OBJECTS =  \
+@ARCHIVEONLY_FALSE@	test_open.$(OBJEXT)
+__top_builddir__test_testprog_open_OBJECTS =  \
+	$(am___top_builddir__test_testprog_open_OBJECTS)
+@ARCHIVEONLY_FALSE@__top_builddir__test_testprog_open_DEPENDENCIES =  \
+@ARCHIVEONLY_FALSE@	libsimpledataio.$(LA)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -217,7 +226,8 @@ SOURCES = $(libsimpledataio_a_SOURCES) $(libsimpledataiof_a_SOURCES) \
 	$(__top_builddir__test_testprog_fortran_SOURCES) \
 	$(__top_builddir__test_testprog_fortran_parallel_SOURCES) \
 	$(__top_builddir__test_testprog_long_dim_names_SOURCES) \
-	$(__top_builddir__test_testprog_long_dim_names_fortran_SOURCES)
+	$(__top_builddir__test_testprog_long_dim_names_fortran_SOURCES) \
+	$(__top_builddir__test_testprog_open_SOURCES)
 DIST_SOURCES = $(am__libsimpledataio_a_SOURCES_DIST) \
 	$(am__libsimpledataiof_a_SOURCES_DIST) \
 	$(am__libsimpledataio_la_SOURCES_DIST) \
@@ -226,7 +236,8 @@ DIST_SOURCES = $(am__libsimpledataio_a_SOURCES_DIST) \
 	$(am____top_builddir__test_testprog_fortran_SOURCES_DIST) \
 	$(am____top_builddir__test_testprog_fortran_parallel_SOURCES_DIST) \
 	$(am____top_builddir__test_testprog_long_dim_names_SOURCES_DIST) \
-	$(am____top_builddir__test_testprog_long_dim_names_fortran_SOURCES_DIST)
+	$(am____top_builddir__test_testprog_long_dim_names_fortran_SOURCES_DIST) \
+	$(am____top_builddir__test_testprog_open_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -428,6 +439,8 @@ include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD)
 # Test program sources
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_SOURCES = test/test.c
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_LDADD = libsimpledataio.$(LA)
+@ARCHIVEONLY_FALSE@__top_builddir__test_testprog_open_SOURCES = test/test_open.c
+@ARCHIVEONLY_FALSE@__top_builddir__test_testprog_open_LDADD = libsimpledataio.$(LA)
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_long_dim_names_SOURCES = test/test_long_dim_names.c
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_long_dim_names_LDADD = libsimpledataio.$(LA)
 @ARCHIVEONLY_FALSE@__top_builddir__test_testprog_fortran_SOURCES = test/testf.f90
@@ -439,7 +452,8 @@ include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD)
 @FORCE_STATIC_TRUE@AM_LDFLAGS = -all-static
 
 # Serial tests for C and Fortran... invoked by make check
-TESTS = $(PARTESTS) test/testprog test/testprog_fortran test/testprog_long_dim_names test/testprog_long_dim_names_fortran
+#TESTS = $(PARTESTS) test/testprog test/testprog_fortran test/testprog_long_dim_names test/testprog_long_dim_names_fortran
+TESTS = test/testprog_open
 TESTS_ENVIRONMENT = 
 
 # If the user has specified --enable-parallel
@@ -634,6 +648,9 @@ $(top_builddir)/test/testprog_long_dim_names$(EXEEXT): $(__top_builddir__test_te
 $(top_builddir)/test/testprog_long_dim_names_fortran$(EXEEXT): $(__top_builddir__test_testprog_long_dim_names_fortran_OBJECTS) $(__top_builddir__test_testprog_long_dim_names_fortran_DEPENDENCIES) $(EXTRA___top_builddir__test_testprog_long_dim_names_fortran_DEPENDENCIES) $(top_builddir)/test/$(am__dirstamp)
 	@rm -f $(top_builddir)/test/testprog_long_dim_names_fortran$(EXEEXT)
 	$(FCLINK) $(__top_builddir__test_testprog_long_dim_names_fortran_OBJECTS) $(__top_builddir__test_testprog_long_dim_names_fortran_LDADD) $(LIBS)
+$(top_builddir)/test/testprog_open$(EXEEXT): $(__top_builddir__test_testprog_open_OBJECTS) $(__top_builddir__test_testprog_open_DEPENDENCIES) $(EXTRA___top_builddir__test_testprog_open_DEPENDENCIES) $(top_builddir)/test/$(am__dirstamp)
+	@rm -f $(top_builddir)/test/testprog_open$(EXEEXT)
+	$(LINK) $(__top_builddir__test_testprog_open_OBJECTS) $(__top_builddir__test_testprog_open_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -645,6 +662,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/simpledataio2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_long_dim_names.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_open.Po@am__quote@
 
 .F90.o:
 	$(PPFCCOMPILE) -c -o $@ $<
@@ -742,6 +760,20 @@ test_long_dim_names.obj: test/test_long_dim_names.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test/test_long_dim_names.c' object='test_long_dim_names.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_long_dim_names.obj `if test -f 'test/test_long_dim_names.c'; then $(CYGPATH_W) 'test/test_long_dim_names.c'; else $(CYGPATH_W) '$(srcdir)/test/test_long_dim_names.c'; fi`
+
+test_open.o: test/test_open.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT test_open.o -MD -MP -MF $(DEPDIR)/test_open.Tpo -c -o test_open.o `test -f 'test/test_open.c' || echo '$(srcdir)/'`test/test_open.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_open.Tpo $(DEPDIR)/test_open.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test/test_open.c' object='test_open.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_open.o `test -f 'test/test_open.c' || echo '$(srcdir)/'`test/test_open.c
+
+test_open.obj: test/test_open.c
+@am__fastdepCC_TRUE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT test_open.obj -MD -MP -MF $(DEPDIR)/test_open.Tpo -c -o test_open.obj `if test -f 'test/test_open.c'; then $(CYGPATH_W) 'test/test_open.c'; else $(CYGPATH_W) '$(srcdir)/test/test_open.c'; fi`
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/test_open.Tpo $(DEPDIR)/test_open.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='test/test_open.c' object='test_open.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o test_open.obj `if test -f 'test/test_open.c'; then $(CYGPATH_W) 'test/test_open.c'; else $(CYGPATH_W) '$(srcdir)/test/test_open.c'; fi`
 
 .f90.o:
 	$(FCCOMPILE) -c -o $@ $(FCFLAGS_f90) $<
