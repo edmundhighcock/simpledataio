@@ -1035,7 +1035,10 @@ void sdatio_open_file(struct sdatio_file * sfile )  {
     for(j=0; j<nunlimdims; j++) if (unlimdims[j] == i) is_unlimited = 1;
     if (is_unlimited) {
       sdim->size = SDATIO_UNLIMITED;
-      sdim->start = lengthp-1;
+      /* We choose the first write to unlimited variables to be a new
+       * record, so we set the length to be 1 greater than the current
+       * final record.*/
+      sdim->start = lengthp;
     }
     else {
       sdim->size = lengthp;
@@ -1062,6 +1065,9 @@ void sdatio_open_file(struct sdatio_file * sfile )  {
     vartypeint = vartype;
     vartypeint = sdatio_sdatio_variable_type(vartypeint);
     svar = (struct sdatio_variable *) malloc(sizeof(struct sdatio_variable));
+
+    /*Set variable id*/
+    svar->nc_id = i;
 
     /* Set variable name*/
     svar->name = (char *)malloc(sizeof(char)*(strlen(name_tmp)+1));

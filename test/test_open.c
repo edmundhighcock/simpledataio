@@ -15,7 +15,8 @@ int main (int argc, char ** argv){
 
 	sdatio_debug = 1;
 
-  sdatio_init(&sdatfile, "test/testdata.cdf");
+  system("cp test/testdata.cdf test/testdatatmp.cdf");
+  sdatio_init(&sdatfile, "test/testdatatmp.cdf");
 
 	sdatio_open_file(&sdatfile);
 
@@ -46,15 +47,15 @@ int main (int argc, char ** argv){
   /*sdatio_write_variable(&sdatfile, "phi", &phivar[0]);*/
   /*sdatio_write_variable(&sdatfile, "floatvar", &floatvar[0]);*/
 
-  /*for (i=0;i<6;i++){*/
-  /*t = 0.3 + i;*/
-  /*phi_tvar[0] = 4 + i/2.0;*/
-  /*phi_tvar[1] = 6 + i*3.0; */
-  /*sdatio_write_variable(&sdatfile, "t", &t);*/
-  /*sdatio_write_variable(&sdatfile, "phi_t", &phi_tvar);*/
-  /*sdatio_increment_start(&sdatfile, "t");*/
-  /**//*if (i>2) abort();*/
-  /*}*/
+  for (i=0;i<6;i++){
+    t = 0.3 + i;
+    phi_tvar[0] = 4 + i/2.0;
+    phi_tvar[1] = 6 + i*3.0; 
+    sdatio_write_variable(&sdatfile, "t", &t);
+    sdatio_write_variable(&sdatfile, "phi_t", &phi_tvar);
+    sdatio_increment_start(&sdatfile, "t");
+    /*if (i>2) abort();*/
+  }
 
   /*int idxs[2] = {j,1};*/
   /*int idxs2[2] = {2,1};*/
