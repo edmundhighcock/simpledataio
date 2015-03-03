@@ -452,8 +452,7 @@ include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD)
 @FORCE_STATIC_TRUE@AM_LDFLAGS = -all-static
 
 # Serial tests for C and Fortran... invoked by make check
-#TESTS = $(PARTESTS) test/testprog test/testprog_fortran test/testprog_long_dim_names test/testprog_long_dim_names_fortran
-TESTS = test/testprog_open
+TESTS = $(PARTESTS) test/testprog test/testprog_fortran test/testprog_long_dim_names test/testprog_long_dim_names_fortran test/testprog_open
 TESTS_ENVIRONMENT = 
 
 # If the user has specified --enable-parallel

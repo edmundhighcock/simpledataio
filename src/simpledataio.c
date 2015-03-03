@@ -412,6 +412,8 @@ void sdatio_get_dimension_list(struct sdatio_file * sfile, int * dimension_ids, 
         printf("ERROR: zero length dimension name in sdatio_open_file \n");
         abort();
       }
+      DEBUG_MESS("In sdatio_get_dimension_list, dim id %d, has name %s, with counter %d\n",
+          i, sdim->name, counter);
 
       /*dim_name[0] = dimension_list[i];*/
       /*dim_name[1] = dimension_list[ndims];*/
@@ -419,8 +421,10 @@ void sdatio_get_dimension_list(struct sdatio_file * sfile, int * dimension_ids, 
       /* Copy the name of the current dimension to the dimension_list*/
       if (loop==1) strncpy(dimension_list+counter, sdim->name, dim_name_length);
       counter = counter + dim_name_length;
-      if (loop==1 && sep_size==1) strncpy(dimension_list+counter, ",", dim_name_length);
-      counter = counter + sep_size;
+      if (i<(ndims-1)){
+        if (loop==1 && sep_size==1) strncpy(dimension_list+counter, ",", sep_size);
+        counter = counter + sep_size;
+      }
     }
   }
   dimension_list[counter] = '\0';
@@ -1054,6 +1058,7 @@ void sdatio_open_file(struct sdatio_file * sfile )  {
     strcpy(sdim->name, name_tmp);
     sdatio_append_dimension(sfile, sdim);
   }
+  DEBUG_MESS("Finished reading dimensions\n");
   /* Get the number of variables in the file*/
   if ((retval = nc_inq_nvars(sfile->nc_file_id, &nvars))) ERR(retval);
   /* Add each variable to the sfile object*/
@@ -1085,6 +1090,7 @@ void sdatio_open_file(struct sdatio_file * sfile )  {
     /*svar->dimension_ids = dimension_ids;*/
 
 
+    DEBUG_MESS("Setting type for variable %s\n", svar->name);
     switch (vartypeint){
       case SDATIO_INT:
         svar->type_size = sizeof(int);
@@ -1106,15 +1112,16 @@ void sdatio_open_file(struct sdatio_file * sfile )  {
     
     svar->type = vartypeint;
 
+    DEBUG_MESS("Allocating manual starts and counts for variable %s; ndims %d\n", svar->name, ndims);
     svar->manual_starts=(int*)malloc(sizeof(int)*ndims);
     svar->manual_counts=(int*)malloc(sizeof(int)*ndims);
     svar->manual_offsets=(int*)malloc(sizeof(int)*ndims);
-    int i;
 
-    for (i=0;i<ndims;i++){
-      svar->manual_starts[i]=-1;
-      svar->manual_counts[i]=-1;
-      svar->manual_offsets[i]=-1;
+    DEBUG_MESS("Setting manual starts and counts for variable %s\n", svar->name);
+    for (j=0;j<ndims;j++){
+      svar->manual_starts[j]=-1;
+      svar->manual_counts[j]=-1;
+      svar->manual_offsets[j]=-1;
     }
 
     DEBUG_MESS("Starting sdatio_append_variable\n");
@@ -1132,6 +1139,7 @@ void sdatio_open_file(struct sdatio_file * sfile )  {
 #endif
     /*vartypeint = */
   }
+  DEBUG_MESS("Finished reading variables\n");
   
   free(unlimdims);
   free(name_tmp);

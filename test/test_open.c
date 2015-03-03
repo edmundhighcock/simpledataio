@@ -3,6 +3,7 @@
 
 int main (int argc, char ** argv){
 	struct sdatio_file sdatfile;
+	struct sdatio_file sdatfile2;
 	double yvar[2] = {0.1,0.3};
 	float floatvar[2] = {0.1,0.3};
 	int iy[2] = {1,2};
@@ -81,8 +82,18 @@ int main (int argc, char ** argv){
 
 
 
-  /*sdatio_close(&sdatfile);*/
-  /*sdatio_free(&sdatfile);*/
+  sdatio_close(&sdatfile);
+  sdatio_free(&sdatfile);
+
+  sdatio_init(&sdatfile2, "test/testdat_long_dim_names.cdf");
+	sdatio_open_file(&sdatfile2);
+  sdatio_print_dimensions(&sdatfile2);
+  sdatio_print_variables(&sdatfile2);
+  sdatio_close(&sdatfile2);
+  sdatio_free(&sdatfile2);
+
+
+
 
 	printf("Success!\n");
 	return 0;
