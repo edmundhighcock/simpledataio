@@ -93,6 +93,10 @@ For full examples, including
 variables with unlimited dimensions
 see these test cases in [C](test/test_open.c) and [Fortran](test/test_openf.f90).
 
+Note that when you open an existing file, unlimited dimensions
+are set to the last existing record; to create a new record, call 
+the `sdatio_increment_start` function (`increment_start` in Fortran).
+
 
 Installing
 ----------

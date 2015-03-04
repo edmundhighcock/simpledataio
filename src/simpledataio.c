@@ -1037,10 +1037,10 @@ void sdatio_open_file(struct sdatio_file * sfile )  {
     for(j=0; j<nunlimdims; j++) if (unlimdims[j] == i) is_unlimited = 1;
     if (is_unlimited) {
       sdim->size = SDATIO_UNLIMITED;
-      /* We choose the first write to unlimited variables to be a new
-       * record, so we set the length to be 1 greater than the current
-       * final record.*/
-      sdim->start = lengthp;
+      /* We choose the first write to unlimited variables to be the last
+       * existing record. Users can easily move to the next by
+       * calling sdatio_increment_start before writing anything */
+      sdim->start = lengthp-1;
     }
     else {
       sdim->size = lengthp;
