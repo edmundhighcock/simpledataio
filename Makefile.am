@@ -41,27 +41,30 @@ if HAS_F90_MODULES
 if UPPER_CASE_MOD
 SDAT_MOD=SIMPLEDATAIO.mod
 SDAT_WRITE_MOD=SIMPLEDATAIO_WRITE.mod
+SDAT_READ_MOD=SIMPLEDATAIO_WRITE.mod
 else
 SDAT_MOD=simpledataio.mod
 SDAT_WRITE_MOD=simpledataio_write.mod
+SDAT_READ_MOD=simpledataio_read.mod
 endif
 # The Cray compiler, for example, stores the module information
 # in the object files, hence no modules are necessary
 else
 SDAT_MOD =
 SDAT_WRITE_MOD =
+SDAT_READ_MOD =
 endif
 
 # Public headers/fortran modules
-include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD)
+include_HEADERS = include/simpledataio.h $(SDAT_MOD) $(SDAT_WRITE_MOD) $(SDAT_READ_MOD)
 
 # Sources required
 if !ARCHIVEONLY
 libsimpledataio_la_SOURCES = src/simpledataio.c
-libsimpledataiof_la_SOURCES = src/simpledataiof.F90 src/simpledataio_write.F90
+libsimpledataiof_la_SOURCES = src/simpledataiof.F90 src/simpledataio_write.F90 src/simpledataio_read.F90
 else
 libsimpledataio_a_SOURCES = src/simpledataio2.c 
-libsimpledataiof_a_SOURCES = src/simpledataiof2.F90 src/simpledataio_write2.F90
+libsimpledataiof_a_SOURCES = src/simpledataiof2.F90 src/simpledataio_write2.F90 src/simpledataio_read2.F90
 endif
 
 if !ARCHIVEONLY
@@ -123,7 +126,7 @@ __top_builddir__test_testprog_fortran_parallel_LDADD=libsimpledataiof.$(LA) libs
 endif
 endif
 
-CLEANFILES=test.cdf testfile.cdf test_parallel.cdf $(SDAT_MOD) $(SDAT_WRITE_MOD) include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
+CLEANFILES=test.cdf testfile.cdf test_parallel.cdf $(SDAT_MOD) $(SDAT_WRITE_MOD) $(SDAT_READ_MOD) include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD) include/$(SDAT_READ_MOD)
 CLEANFILES+= test/testdatatmp.cdf test/testdatftmp.cdf test_long_dim_namesf.cdf testfile_long_dim_names.cdf
 
 CLEANFILES+= src/simpledataio_write.F90
@@ -143,12 +146,16 @@ $(SDAT_MOD): simpledataiof$(TWO).$(LO)
 include/$(SDAT_MOD): $(SDAT_MOD)
 	cp $(SDAT_MOD) include/.
 $(SDAT_WRITE_MOD): simpledataio_write$(TWO).$(LO)
+$(SDAT_READ_MOD): simpledataio_read$(TWO).$(LO)
 include/$(SDAT_WRITE_MOD): $(SDAT_WRITE_MOD)
 	cp $(SDAT_WRITE_MOD) include/.
+include/$(SDAT_READ_MOD): $(SDAT_READ_MOD)
+	cp $(SDAT_READ_MOD) include/.
 #simpledataio_write.o: include/$(SDAT_MOD) 
-test/testf.f90: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
-test/test_openf.f90: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
-test/test_parallelf.f90: include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD)
+INCLUDE_F90_MODS=include/$(SDAT_MOD) include/$(SDAT_WRITE_MOD) include/$(SDAT_READ_MOD)
+test/testf.f90: $(INCLUDE_F90_MODS)
+test/test_openf.f90: $(INCLUDE_F90_MODS)
+test/test_parallelf.f90: $(INCLUDE_F90_MODS)
 endif
 
 if ARCHIVEONLY
@@ -158,12 +165,16 @@ src/simpledataiof2.F90: src/simpledataiof.F90
 	cp $< $@
 src/simpledataio_write2.F90: src/simpledataio_write.F90
 	cp $< $@
+src/simpledataio_read2.F90: src/simpledataio_read.F90
+	cp $< $@
 endif
 
 
 
 # Need to generate the module file for simpledataiof before building simpledataio_write
 src/simpledataio_write.F90: src/generate_simpledataio_write.rb $(SDAT_MOD)
+	env ruby $< $@
+src/simpledataio_read.F90: src/generate_simpledataio_read.rb $(SDAT_MOD)
 	env ruby $< $@
 
 

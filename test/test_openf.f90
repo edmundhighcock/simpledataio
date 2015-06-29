@@ -1,6 +1,7 @@
 program test
   use simpledataio
   use simpledataio_write
+  use simpledataio_read
   implicit none
   type (sdatio_file) :: sdatfile
 !  type (sdatio_variable), pointer :: svar
@@ -62,6 +63,18 @@ program test
     call increment_start(sdatfile, "t");
     ! if (i>2) stop
   end do
+
+  call closefile(sdatfile)
+  call sdatio_free(sdatfile)
+
+  call sdatio_init(sdatfile, "test/testdatftmp.cdf")
+  call open_file(sdatfile)
+
+  phi_tvar(2) = -10.0
+  write (*,*) 'phi_tvar set is', phi_tvar(2), 6 + 6.0*3.0
+  call read_variable(sdatfile, "phi_t", phi_tvar)
+  write (*,*) 'phi_tvar read is', phi_tvar(2), 6 + 6.0*3.0
+  call read_variable(sdatfile, "t", t)
 
   call closefile(sdatfile)
   call sdatio_free(sdatfile)
