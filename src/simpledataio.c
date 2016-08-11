@@ -828,6 +828,11 @@ void sdatio_write_variable_private(struct sdatio_file * sfile, struct sdatio_var
     /*if ((retval = nc_put_var_double(sfile->nc_file_id, svar->nc_id, address))) ERR(retval);*/
     if ((retval = nc_put_vara_double(sfile->nc_file_id, svar->nc_id, starts, counts, address))) ERR(retval);
     break;
+  case (SDATIO_CHAR):
+    DEBUG_MESS("Writing a char\n");
+    /*if ((retval = nc_put_var_double(sfile->nc_file_id, svar->nc_id, address))) ERR(retval);*/
+    if ((retval = nc_put_vara_text(sfile->nc_file_id, svar->nc_id, starts, counts, address))) ERR(retval);
+    break;
   }
   
   /*}*/
