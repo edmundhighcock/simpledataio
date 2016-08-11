@@ -76,6 +76,10 @@ program test
   write (*,*) 'phi_tvar read is', phi_tvar(2), 6 + 6.0*3.0
   call read_variable(sdatfile, "t", t)
 
+  call set_dimension_start(sdatfile, "t", 3)
+
+  call write_variable(sdatfile, "t", t)
+
   call closefile(sdatfile)
   call sdatio_free(sdatfile)
 

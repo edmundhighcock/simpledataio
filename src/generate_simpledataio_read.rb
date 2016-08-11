@@ -89,8 +89,8 @@ EOF
         #{@dimsize == 0 && !complex ? "val = valarray(1)" : nil}"
   end
   def check_error
-    "if (.not. status .eq. 0) write (*,*) 'Error writing variable: ', &
-        variable_name, ', ',  nf90_strerror(status)"
+    "if (.not. status .eq. 0) write (*,*) 'Error reading variable: ', &
+        variable_name, ', ',  nf90_strerror(status), 'starts=', starts, 'counts=', counts"
   end
   def function_string
     _string = <<EOF
@@ -168,10 +168,10 @@ end
 
 string = <<EOF
 module simpledataio_read
+  use simpledataio_write, only: real_imaginary_dimension_name
   implicit none
   private
   public :: read_variable_with_offset, read_variable
-  public :: real_imaginary_dimension_name
 
 
   interface read_variable_with_offset
@@ -182,7 +182,6 @@ module simpledataio_read
 #{generators_no_offset.map{|g| "  "+g.interface_name}.join("\n")}
   end interface read_variable
 
-  character(len=100) :: real_imaginary_dimension_name = "r"
 
 contains
 

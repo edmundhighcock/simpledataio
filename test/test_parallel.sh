@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mpirun -np 2 test/testprog_fortran_parallel
+mpirun --tag-output -np 2 test/testprog_fortran_parallel
