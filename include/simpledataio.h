@@ -80,3 +80,8 @@ EXTERNC void sdatio_increment_start(struct sdatio_file * sfile, char * dimension
 /* Returns 1 if the given variable exists, 0 otherwise */
 EXTERNC int sdatio_variable_exists(struct sdatio_file * sfile, char * variable_name);
 
+/* Set the count of the given dimension for the given variable only. Overrides any default count*/
+EXTERNC void sdatio_set_count(struct sdatio_file * sfile, char * variable_name, char * dimension_name, int * count);
+
+/* Set the start of the given dimension for the given variable only. Overrides any default start*/
+EXTERNC void sdatio_set_start(struct sdatio_file * sfile, char * variable_name, char * dimension_name, int * start);
