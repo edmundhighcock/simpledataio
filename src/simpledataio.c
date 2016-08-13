@@ -665,8 +665,10 @@ void sdatio_get_counts_and_starts(struct sdatio_file * sfile, struct sdatio_vari
         if (svar->manual_starts[i] == -1) starts[i] = sdim->start;
         else starts[i] = svar->manual_starts[i];
         found = 1;
-        if (sdim->size == SDATIO_UNLIMITED) counts[i] = 1; 
-        else if (svar->manual_counts[i] == -1 ) counts[i] = sdim->size;
+        if (svar->manual_counts[i] == -1 ) {
+          if (sdim->size == SDATIO_UNLIMITED) counts[i] = 1; 
+          else counts[i] = sdim->size;
+        }
         else counts[i] = svar->manual_counts[i];
       }
     }
