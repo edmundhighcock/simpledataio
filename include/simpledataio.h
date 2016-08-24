@@ -85,3 +85,13 @@ EXTERNC void sdatio_set_count(struct sdatio_file * sfile, char * variable_name, 
 
 /* Set the start of the given dimension for the given variable only. Overrides any default start*/
 EXTERNC void sdatio_set_start(struct sdatio_file * sfile, char * variable_name, char * dimension_name, int * start);
+
+/* Set the start of the dimension; this affects the 
+ * default for all variables (but not variables which
+ * have been manually altered with sdatio_set_start */
+EXTERNC void sdatio_set_dimension_start(struct sdatio_file * sfile, char * dimension_name, int start);
+
+/* Find out the current extent of the specified dimension
+ * For an infinite dimension it interrogates the output file
+ * Otherwise it just returns the size stored in the metadata*/
+EXTERNC void sdatio_dimension_size(struct sdatio_file * sfile, char * dimension_name, int * n);
