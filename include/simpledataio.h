@@ -62,6 +62,8 @@ EXTERNC void sdatio_create_variable(struct sdatio_file * sfile,
 /* Write to the given variable. address should be the address of the start of the array */
 EXTERNC void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, void * address);
 
+EXTERNC void sdatio_read_variable(struct sdatio_file * sfile, char * variable_name, void * address);
+
 /* Write to the given variable. address should be the address of the start of the array. Indexes should be an array the same size as the number of dimensions of the variable. Using the second form is quicker as the first form requires a search for the variable at every write*/
 EXTERNC void sdatio_write_variable_at_index(struct sdatio_file * sfile, char * variable_name, int * indexes, void * address);
 EXTERNC void sdatio_write_variable_at_index_fast(struct sdatio_file * sfile, struct sdatio_variable * svar, int * indexes, void * address);
