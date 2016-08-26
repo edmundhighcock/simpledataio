@@ -165,6 +165,30 @@ where it is being written into the output file (this makes sense if you think ab
 set the offsets for a given variable and dimension using `set_offset` so that it can take data from a different index
 of a given dimension. 
 
+Performance Issues
+------------------
+
+simpledataio emphasises ease-of-use rather than performance. Nonetheless its peformance
+remains close to that of the underlying backend. 
+
+That being said, there are certain things to bear in mind when writing large amounts of data
+a little chunk at a time.
+
+First, in the `sdatio_write_variable` function, there is a call to `sdatio_sync`, forcing
+all data to be written to disk immediately. If you have many calls to `sdatio_write_variable`
+which each write a small amount of data, you will find performance is degraded. You can remove
+this call trivially by setting the autosync flag to 0.
+ 
+    sdatio_file sfile;
+    sfile.autosync = 0;
+
+Second, in the `sdatio_write_variable` function it first has to find the variable using the name
+of the variable and secondly determine the extent of each dimension. If you have to write data
+at a single index, it is best to use `sdatio_write_variable_at_index_fast`. Note that writing data
+index by index is inherently slow. You should always try to arrange your data into larger chunks in
+memory before calling any write function.
+
+
 Single Letter Dimension Names
 -----------------------------
 

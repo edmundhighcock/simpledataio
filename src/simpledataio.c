@@ -29,6 +29,7 @@ void sdatio_init(struct sdatio_file * sfile, char * fname){
   sfile->is_open = 0;
   sfile->is_parallel = 0;
   sfile->has_long_dim_names = 0;
+  sfile->autosync = 1;
   sfile->communicator = (MPI_Comm*)malloc(sizeof(MPI_Comm));
   sfile->name = (char*)malloc(sizeof(char)*(strlen(fname)+1));
   strcpy(sfile->name, fname);
@@ -973,7 +974,7 @@ void sdatio_write_variable(struct sdatio_file * sfile, char * variable_name, voi
 
   sdatio_write_variable_private(sfile, svar, counts, starts, address);
 
-  sdatio_sync(sfile);
+  if (sfile->autosync) sdatio_sync(sfile);
 
   free(counts);
   free(starts);

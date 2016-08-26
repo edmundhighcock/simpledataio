@@ -69,6 +69,7 @@ struct sdatio_file {
   int mode;
   char * name;
   int has_long_dim_names;
+  int autosync;
 };
 
 
